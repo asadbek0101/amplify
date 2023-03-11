@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BranchIcon from "../icons/BranchIcon";
-import LessonsIcon from "../icons/LessonsIcon";
 import PlanIcon from "../icons/PlanIcon";
 import RoleIcon from "../icons/RoleIcon";
 import TestIcon from "../icons/TestIcon";
@@ -9,9 +8,11 @@ import UserIcon from "../icons/UserIcon";
 import UsersIcon from "../icons/UsersIcon";
 import AppMenu from "./AppMenu";
 import SideBarItem from "./SideBarItem";
+import { SaveActiveItem } from "../../utils/SaveActiveItem";
 
 export default function SideBarMenu(){
-    const [tab, setTab] = useState("branch")
+    const location = useLocation();
+    const tab = useMemo(()=>SaveActiveItem("tab", location.pathname),[SaveActiveItem, location.pathname])
     const navigate = useNavigate();
 
     return (
@@ -19,7 +20,6 @@ export default function SideBarMenu(){
             activeTab={tab}
             onChangeTab={(value: string)=>{
                 navigate(`/app/${value}`)
-                setTab(value);
             }}
             >
             <SideBarItem

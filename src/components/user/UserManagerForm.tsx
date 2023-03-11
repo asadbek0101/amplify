@@ -86,10 +86,13 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
             {()=>(
                 <Form>
                     <div className="row">
-                        <div className="col-6">
-                        <GroupBox title="Person Info">
+                        <div className="col-4">
+
+                        </div>
+                        <div className="col-8">
+                        <GroupBox title="User Info">
                            <div className="row">
-                            <div className="col-6">
+                            <div className="col-6 my-1">
                             <InputField
                                 label="First Name"
                                 name="firstName"
@@ -97,7 +100,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                                 onChange={(event: any)=>onChangeFirstName(event)}
                                 />
                             </div>
-                            <div className="col-6">
+                            <div className="col-6 my-1">
                             <InputField
                                 label="Last Name"
                                 name="lastName"
@@ -105,7 +108,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                                 onChange={(event: any)=>onChangeLastName(event)}
                                 />
                             </div>
-                            <div className="col-12">
+                            <div className="col-6 my-1">
                             <InputField
                                 label="Email"
                                 name="email"
@@ -113,7 +116,15 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                                 onChange={(event: any)=>onChangeEmail(event)}
                                 />
                             </div>
-                            <div className="col-6">
+                            <div className="col-6 my-1">
+                            <InputField
+                                label="Username"
+                                name="userName"
+                                value={initialValues.userName}
+                                onChange={(event: any)=>onChangeUserName(event)}
+                                />
+                            </div>
+                            <div className="col-6 my-1">
                             <InputField
                                 label="Phone Number"
                                 name="phoneNumber"
@@ -121,7 +132,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                                 onChange={(event: any)=>onChangePhoneNumber(event)}
                                 />
                             </div>
-                            <div className="col-6">
+                            <div className="col-6 my-1">
                             <InputField
                                 label="Address"
                                 name="address"
@@ -132,35 +143,37 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                            </div>
                         </GroupBox>
                         </div>
-                        <div className="col-6">
-                        <GroupBox title="User Info">
-                           <div className="row">
-                            <div className="col-12">
-                            <InputField
-                                label="User Name"
-                                name="userName"
-                                value={initialValues.userName}
-                                onChange={(event: any)=>onChangeUserName(event)}
-                                />
-                            </div>
-                            <div className="col-12">
-                            <InputField
-                                label="Role Name"
-                                name="roleName"
-                                value={initialValues.roleName}
-                                onChange={(event: any)=>onChangeRoleName(event)}
-                                />
-                            </div>
-                            <div className="col-12">
-                            <InputField
-                                label="Password"
-                                name="passwordHash"
-                                value={initialValues.passwordHash}
-                                onChange={(event: any)=>onChangePassword(event)}
-                                />
-                            </div>
-                           </div>
-                        </GroupBox>
+                        <div className="col-12 mt-5">
+                            <GroupBox
+                                title="Some user details"
+                                >
+                                    <div className="row">
+                                        <div className="col-4 d-flex">
+                                        <InputField
+                                        label="User Password"
+                                        name="userName"
+                                        value={initialValues.userName}
+                                        onChange={(event: any)=>onChangeUserName(event)}
+                                         />
+                                        </div>
+                                        <div className="col-4 d-flex">
+                                        <InputField
+                                        label="User Roles"
+                                        name="userName"
+                                        value={initialValues.userName}
+                                        onChange={(event: any)=>onChangeUserName(event)}
+                                         />
+                                        </div>
+                                        <div className="col-4 d-flex">
+                                        <InputField
+                                        label="User Claims"
+                                        name="userName"
+                                        value={initialValues.userName}
+                                        onChange={(event: any)=>onChangeUserName(event)}
+                                         />
+                                        </div>
+                                    </div>
+                            </GroupBox>
                         </div>
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
