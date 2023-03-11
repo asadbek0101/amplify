@@ -13,12 +13,14 @@ interface AppMenuProps{
 export default function AppMenu({onChangeTab, activeTab, children, className}:AppMenuProps){
 
     const menu = useSelector((state: any)=>state.data.menuStatus)
+    
+    const profile = useSelector((state: any) =>state.data.profile)
 
     return (
         <div className={`menu-item-list-container app-menu w-100 h-100 ${className}`} style={{ backgroundColor: '#2e5c87'}}>
             <div className="name-title d-flex justify-content-center align-items-center py-3">
                 {menu != "Opened" && (
-                    <span className="name-title-span fs-4 fw-bold text-light">Super Admin</span>
+                    <span className="name-title-span fs-5 fw-bold text-light">{profile.unique_name}</span>
                 )}
             </div>
         {Children.map(children, (child)=>{

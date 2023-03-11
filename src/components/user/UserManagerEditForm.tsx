@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import { Form, Formik } from "formik";
-import { number, object, string } from "yup";
+import { object, string } from "yup";
 import GroupBox from "../app/GroupBox";
 import InputField from "../form/InputField";
 import { update } from "immupdate";
@@ -19,11 +19,9 @@ const validationSchema = object({
     email: string().required("Required!"),
     phoneNumber: string().required("Required!"),
     address: string().required("Required!"),
-    roleName: string().required("Required!"),
-    passwordHash: string().required("Required!")
 })
 
-export default function UserManagerForm({initialValues, setInitialValues, submit}:UserManagerFormProps){
+export default function UserManagerEditForm({initialValues, setInitialValues, submit}:UserManagerFormProps){
 
     const onChangeFirstName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
@@ -49,19 +47,9 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
         }))
     },[setInitialValues])
 
-    //
-
-    console.log("select value ", initialValues)
-
     const onChangeUserName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
             userName: value.target.value
-        }))
-    },[setInitialValues])
-
-    const onChangeRoleName = useCallback((value: any)=>{
-        setInitialValues((prev: any)=>update(prev, {
-            roleName: value.target.value
         }))
     },[setInitialValues])
 
@@ -70,19 +58,6 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
             address: value.target.value
         }))
     },[setInitialValues])
-
-    const onChangePassword = useCallback((value: any)=>{
-        setInitialValues((prev: any)=>update(prev, {
-            passwordHash: value.target.value
-        }))
-    },[setInitialValues])
-
-    const onChangeClaim = useCallback((value: any)=>{
-        setInitialValues((prev: any)=>update(prev, {
-            claim: value.target.value
-        }))
-    },[setInitialValues])
-
 
 
     return (
@@ -96,7 +71,6 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                 <Form>
                     <div className="row">
                         <div className="col-4">
-
                         </div>
                         <div className="col-8">
                         <GroupBox title="User Info">
@@ -152,39 +126,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                            </div>
                         </GroupBox>
                         </div>
-                        <div className="col-12 mt-5">
-                            <GroupBox
-                                title="Some user details"
-                                >
-                                    <div className="row">
-                                        <div className="col-4 d-flex">
-                                        <InputField
-                                        label="User Password"
-                                        name="passwordHash"
-                                        value={initialValues.passwordHash}
-                                        onChange={(event: any)=>onChangePassword(event)}
-                                         />
-                                        </div>
-                                        <div className="col-4 d-flex">
-                                        <InputField
-                                        label="User Roles"
-                                        name="roleName"
-                                        value={initialValues.roleName}
-                                        onChange={(event: any)=>onChangeRoleName(event)}
-                                         />
-                                        </div>
-                                        <div className="col-4 d-flex">
-                                        <InputField
-                                        label="User Claims"
-                                        name="claim"
-                                        value={initialValues.claim}
-                                        onChange={(event: any)=>onChangeClaim(event)}
-                                         />
-                                        </div>
-                                    </div>
-                            </GroupBox>
-                        </div>
-                        <div className="col-12 mt-3">
+                        <div className="col-12 mt-3 d-flex justify-content-end">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
                                 Submit
                             </Button>

@@ -9,9 +9,6 @@ export default function BranchContainer(){
     const { tab = "table" } = useParams();
     const [ value, setValue ] = useState(null);
     const navigate = useNavigate();
-    const profile = useSelector((state: any) =>state.data.profile)
-
-    console.log("profile ", profile)
 
     return (
         <ContainerLayout>

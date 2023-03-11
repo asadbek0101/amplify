@@ -8,54 +8,24 @@ import UserManagerForm from "./UserManagerForm";
 
 interface UserManagerFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
-// "firstName": "string",
-// "lastName": "string",
-// "userName": "string",
-// "email": "string",
-// "phoneNumber": "string",
-// "address": "string",
-// "roleName": "string",
-// "passwordHash": "string"
-
-export default function UserManagerFormWrapper({back, selectValue}:UserManagerFormWrapperProps){
+export default function UserManagerFormWrapper({back}:UserManagerFormWrapperProps){
 
     const navigation = useNavigate();
 
     const [initialValues, setInitialValues] = useState({
         firstName: "",
-        userName: "",
         lastName: "",
         email: "",
+        userName: "",
         phoneNumber: "",
         address: "",
         roleName: "",
         passwordHash: "",
+        claim: ""
     })
-
-    useEffect(()=>{
-        if(Boolean(selectValue)){
-            setInitialValues(selectValue)
-        }
-    },[setInitialValues, selectValue])
-
     const submit = useCallback((value: any)=>{
-       if(Boolean(selectValue)){
-        const data = {
-            ...value,
-            id: selectValue.id
-        }
-        request.put("/UserManager", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
-                toast.success("Updated!")
-                navigation('/app/role-manager/table')
-            }).catch((err: any)=>toast.error("Fail!"))
-       }else{
         const data = {
             ...value,
             cost: Number(value.cost)
@@ -68,7 +38,6 @@ export default function UserManagerFormWrapper({back, selectValue}:UserManagerFo
                 toast.success("Added!")
                 navigation('/app/user-manager/table')
             }).catch((err: any)=>toast.error("Fail!"))
-            }
     },[request])
 
     return (
