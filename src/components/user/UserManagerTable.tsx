@@ -43,8 +43,8 @@ export default function UserManagerTable({data, editRow, deleteRow}:UserManagerT
             width: 80,
             ceil: (row: any) => {
                return row.userRoles.map((item:any, index: number)=>{
-                   return <div className="bg-success text-light rounded ps-2 py-1 my-1">
-                   - {item.role.name}
+                   return <div className="text-success fw-bold rounded ps-2 py-1 mb-1">
+                   {item.role.name}
                    </div>
                 })
             }

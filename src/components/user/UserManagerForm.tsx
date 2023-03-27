@@ -50,9 +50,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
     },[setInitialValues])
 
     //
-
-    console.log("select value ", initialValues)
-
+    
     const onChangeUserName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
             userName: value.target.value

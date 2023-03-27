@@ -4,6 +4,7 @@ import { set_menu_status } from "../../redux/action";
 import Header from "../header/Header";
 import "./assets/app-layout.scss";
 import SideBarMenu from "./SideBarMenu";
+import SideBarMenuWrapper from "./SideBarMenuWrapper";
 
 interface AppLayoutProps{
     readonly children: ReactNode;
@@ -16,7 +17,7 @@ export default function AppLayout({children}:AppLayoutProps){
     return (
         <div className="app-layout">
             <div className={`side-bar-menu ${menu == "Opened"? 'side-bar-menu-close': ''}`}>
-                    <SideBarMenu/>
+                    <SideBarMenuWrapper/>
             </div>
             <div className={`page-container ${menu == "Opened"? 'page-container-close':''}`}>
             <div className="header">

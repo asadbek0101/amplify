@@ -2,6 +2,7 @@ import React, { Children, ReactElement } from "react";
 import { SideBarItemProps } from "./SideBarItem";
 import "./assets/app-menu.scss";
 import { useSelector } from "react-redux";
+import ActiveItemIcon from "../icons/ActiveItemIcon";
 
 interface AppMenuProps{
     readonly onChangeTab: (value: string) => void;
@@ -14,15 +15,9 @@ export default function AppMenu({onChangeTab, activeTab, children, className}:Ap
 
     const menu = useSelector((state: any)=>state.data.menuStatus)
     
-    const profile = useSelector((state: any) =>state.data.profile)
-
     return (
-        <div className={`menu-item-list-container app-menu w-100 h-100 ${className}`} style={{ backgroundColor: '#2e5c87'}}>
-            <div className="name-title d-flex justify-content-center align-items-center py-3">
-                {menu != "Opened" && (
-                    <span className="name-title-span fs-5 fw-bold text-light">{profile.unique_name}</span>
-                )}
-            </div>
+        <div className={`menu-item-list-container app-menu w-100 ${className}`}>
+           
         {Children.map(children, (child)=>{
             return (
                 <div className="item-container w-100">
@@ -34,11 +29,9 @@ export default function AppMenu({onChangeTab, activeTab, children, className}:Ap
                         {menu != "Opened" && (
                             <span className={`${menu == "Opened"? "opasity" :""}`}>{child.props.children}</span>
                         )}                            
-                        </div>  
+                        </div>      
                         { child.props.responsiveContent && (
-                        <span>
-                            bor
-                        </span>
+                        <ActiveItemIcon color="white" active={activeTab == child.key} size={15}/>
                         )}
                         </div>
                      { child.props.responsiveContent && activeTab == child.key && (

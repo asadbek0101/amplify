@@ -16,7 +16,6 @@ const validationSchema = object({
     firstName: string().required("Required!"),
     lastName: string().required("Required!"),
     userName: string().required("Required!"),
-    email: string().required("Required!"),
     phoneNumber: string().required("Required!"),
     address: string().required("Required!"),
 })
@@ -32,12 +31,6 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
     const onChangeLastName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
             lastName: value.target.value
-        }))
-    },[setInitialValues])
-
-    const onChangeEmail = useCallback((value: any)=>{
-        setInitialValues((prev: any)=>update(prev, {
-            email: value.target.value
         }))
     },[setInitialValues])
 
@@ -93,14 +86,6 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Email"
-                                name="email"
-                                value={initialValues.email}
-                                onChange={(event: any)=>onChangeEmail(event)}
-                                />
-                            </div>
-                            <div className="col-6 my-1">
-                            <InputField
                                 label="Username"
                                 name="userName"
                                 value={initialValues.userName}
@@ -115,7 +100,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                                 onChange={(event: any)=>onChangePhoneNumber(event)}
                                 />
                             </div>
-                            <div className="col-6 my-1">
+                            <div className="col-12 my-1">
                             <InputField
                                 label="Address"
                                 name="address"

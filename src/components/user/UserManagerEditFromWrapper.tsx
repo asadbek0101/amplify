@@ -7,9 +7,7 @@ import TabPage from "../tabs/TabPage";
 import UserManagerEditClaimForm from "./UserManagerEditClaim";
 import UserManagerEditForm from "./UserManagerEditForm";
 import UserManagerEditPasswordForm from "./UserManagerEditPassword";
-import UserManagerEditPaForm from "./UserManagerEditPassword";
 import UserManagerEditRoleForm from "./UserManagerEditRole";
-import UserManagerForm from "./UserManagerForm";
 
 interface UserManagerFormWrapperProps{
     readonly back: () => void
@@ -28,11 +26,12 @@ interface UserManagerFormWrapperProps{
 export default function UserManagerEditFormWrapper({back, selectValue}:UserManagerFormWrapperProps){
 
     const navigation = useNavigate();
-
+    const [claims, setClaims] = useState<any>([]);
+    const [roles, setRoles] = useState<any>([]);
+   
     const [initialValues, setInitialValues] = useState({
         firstName: "",
         lastName: "",
-        email: "",
         userName: "",
         phoneNumber: "",
         address: "",
@@ -54,21 +53,23 @@ export default function UserManagerEditFormWrapper({back, selectValue}:UserManag
         if(Boolean(selectValue)){
                 request.get(`/UserManager/${selectValue.id}`,{
                   headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-                }).then((respon: any)=>setInitialValues(respon.data)).catch((error)=>toast.error(error.message))
+                }).then((respon: any)=>{
+                    setInitialValues(respon.data)
+                    setClaims(respon.data.userClaim);
+                    setRoles(respon.data.userRoles)
+                }).catch((error)=>toast.error(error.message))
                 
         }
-    },[setInitialValues,selectValue, selectValue, request, toast])
+    },[setInitialValues,selectValue, selectValue, request, toast, setClaims])
 
     const submit = useCallback((value: any)=>{
         const data = {
-            id: selectValue.id,
+            id: Number(selectValue.id),
             firstName: value.firstName,
             lastName: value.lastName,
-            email: value.email,
             address: value.address,
             phoneNumber: value.phoneNumber,
         }
-        console.log("Data ", data)
         request.put("/UserManager", 
         data,
             {

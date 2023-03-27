@@ -12,6 +12,7 @@ import PlanContainer from "./PlanContainer";
 import AccountContainer from "./AccountContainer";
 import RoleManagerContainer from "./RoleManagerContainer";
 import UserManagerContainer from "./UserManagerContainer";
+import AddParcelContainer from "./AddParcelContainer";
 
 
 export default function RootContainer(){
@@ -54,6 +55,8 @@ export default function RootContainer(){
                 <Route path="account/:tab?" element={<AccountContainer/>}/>
                 <Route path="role-manager/:tab?" element={<RoleManagerContainer/>}/>
                 <Route path="user-manager/:tab?" element={<UserManagerContainer/>}/>
+                <Route path="parcel/:tab?" element={<UserManagerContainer/>}/>
+                <Route path="add-parcel/:tab?" element={<AddParcelContainer/>}/>
         </Route>
       </Routes>
 )
