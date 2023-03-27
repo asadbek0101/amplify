@@ -66,47 +66,54 @@ export default function SideBarMenu(){
             <SideBarItem
                 key="status"
                 icon={
-                    <TestIcon color="white"/>
+                    <UserIcon color="white"/>  
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab="users"
+                        onChangeTab={(value: any)=>console.log(value)}
+                        >
+                    <SideBarItem
+                        key="role-manager"
+                        >
+                        Role Manager
+                    </SideBarItem>    
+                    <SideBarItem
+                        key="plan"
+                        >
+                        Plan
+                    </SideBarItem> 
+                    <SideBarItem
+                        key="status"
+                        >
+                        Status
+                    </SideBarItem> 
+                    <SideBarItem
+                        key="branch"
+                        >
+                        Branches
+                    </SideBarItem>    
+                    </AppMenu>
                 }
                 >
-                Status
-            </SideBarItem>
-            <SideBarItem
-                key="branch"
-                icon={
-                    <BranchIcon color="white"/>
-                }
-                >
-                Branch
-            </SideBarItem>
-            <SideBarItem
-                key="plan"
-                icon={
-                    <PlanIcon color="white"/>
-                }
-                >
-                Plan
-            </SideBarItem>
-            <SideBarItem
-                key="role-manager"
-                icon={
-                    <RoleIcon color="white"/>
-                }
-                >
-                Role Manager
-            </SideBarItem>
-            <SideBarItem
-                key="user-manager"
-                icon={
-                    <UsersIcon color="white"/>
-                }
-                >
-                User Manager
+                Users
             </SideBarItem>
             <SideBarItem
                 key="parcel"
                 icon={
                     <BoxsIcon color="white"/>
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab="users"
+                        onChangeTab={(value: any)=>console.log(value)}
+                        >
+                    <SideBarItem
+                        key="role-manager"
+                        >
+                        All Parcels
+                    </SideBarItem>     
+                    </AppMenu>
                 }
                 >
                 Parcels
