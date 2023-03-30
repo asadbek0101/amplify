@@ -4,6 +4,7 @@ import { object } from "yup";
 import GroupBox from "../app/GroupBox";
 import InputField from "../form/InputField";
 import SelectPicker from "../form/SelectPicker";
+import SelectVirtualizedPricek from "../form/SelectVirtualizedPricek";
 
 interface AddParcelFormProps{
     readonly initialValues: any;
@@ -11,13 +12,14 @@ interface AddParcelFormProps{
     readonly plans: any[];
     readonly branchs: any[];
     readonly costInfo: any[];
+    readonly handleScroll: (value: any) => void;
 }
 
 const validationSchema = object({
 
 })
 
-export default function AddParcelForm({initialValues, users, costInfo, branchs, plans}:AddParcelFormProps){
+export default function AddParcelForm({initialValues, handleScroll, users, costInfo, branchs, plans}:AddParcelFormProps){
 
     console.log(users)
 
@@ -30,11 +32,11 @@ export default function AddParcelForm({initialValues, users, costInfo, branchs, 
                 >
                 {()=>(
                    <div className="row">
-                    <div className="col-12 mt-4 px-4">
+                    <div className="col-6 mt-4 px-4">
                             <GroupBox title="New Parcel">
                                 <Form>
-                                    <SelectPicker name="senderId" options={users} label="Sender"/>
-                                    <SelectPicker name="recepientId" options={users} label="Recepient"/>
+                                    <SelectVirtualizedPricek name="senderId" options={users} onChage={(value: any)=>console.log(value)} handleScroll={handleScroll} label={"Sender"}/>
+                                    <SelectVirtualizedPricek name="recepientId" options={users} onChage={(value: any)=>console.log(value)} handleScroll={handleScroll} label={"Recipent"}/>
                                     <SelectPicker name="parcelBranchFromId" options={branchs} label="From"/>
                                     <SelectPicker name="parcelBranchToId" options={branchs} label="To"/>
                                     <SelectPicker name="weight" label="Weight"/>

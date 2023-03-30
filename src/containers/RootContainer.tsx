@@ -6,13 +6,13 @@ import { set_user_profile } from "../redux/action";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AppContainer from "./AppContainer";
 import AuthContainer from "./AuthContainer";
-import BranchContainer from "./BranchContainer";
-import StatusContainer from "./StatusContainer";
-import PlanContainer from "./PlanContainer";
+import BranchContainer from "../components/administrator/BranchTab";
 import AccountContainer from "./AccountContainer";
-import RoleManagerContainer from "./RoleManagerContainer";
 import UserManagerContainer from "./UserManagerContainer";
 import AddParcelContainer from "./AddParcelContainer";
+import AdministratorContainer from "./AdministratorContainer";
+import UsersContainer from "./UsersContainer";
+import ParcelContainer from "./ParcelContainer";
 
 
 export default function RootContainer(){
@@ -49,13 +49,11 @@ export default function RootContainer(){
       <Routes>
         <Route path="/" element={<AuthContainer onsubmit={(value:any)=>onSubmit(value)}/>}/>
         <Route path="/app" element={<AppContainer/>}>
-                <Route path="branch/:tab?" element={<BranchContainer/>}/>
-                <Route path="status/:tab?" element={<StatusContainer/>}/>
-                <Route path="plan/:tab?" element={<PlanContainer/>}/>
+                <Route path="administrator/:tab?" element={<AdministratorContainer/>}/>
+                <Route path="users/:tab?" element={<UsersContainer/>}/>
                 <Route path="account/:tab?" element={<AccountContainer/>}/>
-                <Route path="role-manager/:tab?" element={<RoleManagerContainer/>}/>
                 <Route path="user-manager/:tab?" element={<UserManagerContainer/>}/>
-                <Route path="parcel/:tab?" element={<UserManagerContainer/>}/>
+                <Route path="parcel/:tab?" element={<ParcelContainer/>}/>
                 <Route path="add-parcel/:tab?" element={<AddParcelContainer/>}/>
         </Route>
       </Routes>

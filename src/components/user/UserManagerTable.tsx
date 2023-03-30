@@ -13,6 +13,11 @@ interface UserManagerTableProps{
 export default function UserManagerTable({data, editRow, deleteRow}:UserManagerTableProps){
     const headers:any = [
         {
+            header: 'ID',
+            access: 'id',
+            width: 40
+        },
+         {
             header: 'First Name',
             access: 'firstName',
             width: 100

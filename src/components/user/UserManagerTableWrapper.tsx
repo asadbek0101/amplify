@@ -24,7 +24,7 @@ export default function UserManagerTableWrapper({create, editRow}:UserManagerTab
     const pageCount = searchParams.get("pageCount") || 1;
 
   useEffect(()=>{
-      request.get(`/UserManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}`,{
+      request.get(`/UserManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}&role=Curier`,{
         headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
       }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
       

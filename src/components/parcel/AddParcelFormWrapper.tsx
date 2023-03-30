@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import AddParcelForm from "./AddParcelForm";
 
@@ -9,23 +10,22 @@ export default function AddParcelFormWrapper(){
     const [initialValues, setInitialValues] = useState({
 
     })
-
-    const [users, setUsers] = useState<any>([]);
+    const [users, setUsers] = useState<any[]>([])
     const [branches, setBranches] = useState<any>([]);
     const [costInfoList, setCostInfoList] = useState<any>([]);
     const [plans, setPlans] = useState<any>([]);
+
+    const [scrollTop, setScrollTop] = useState(1);
+  
+    const handleScroll = (event:any) => {
+        setScrollTop(scrollTop + 1);
+    };
+  
 
     useEffect(()=>{
         request.get('/Parcel/GetInfoParcel',{
           headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
         }).then((respon: any)=>{
-            respon.data.users.customers.map((item: any)=>{
-                const data = {
-                    label: `${item.firstName} ${item.lastName} ${item.phone}`,
-                    value: item.id
-                }
-                setUsers((user: any)=>[...user, data])
-            })
 
             respon.data.plan.plans.map((item: any)=>{
                 const data = {
@@ -54,7 +54,23 @@ export default function AddParcelFormWrapper(){
             
         }).catch((error)=>console.log(error.message))
         
-    },[request, setUsers, setCostInfoList, setBranches, setPlans])  
+    },[request, setCostInfoList, setBranches, setPlans]) 
+    
+    useEffect(()=>{
+        request.get(`/UserManager/WithPagination?pageNumber=${scrollTop}&pageSize=${50}`,{
+          headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+        }).then((respon: any)=>{
+            respon.data.items.map((item: any)=>{
+                const data = {
+                    label: `${item.firstName} ${item.lastName} ${item.phone}`,
+                    value: item.id
+                }
+                setUsers((prev: any)=>[...prev, data])
+            })
+        }).catch((error)=>toast.error(error.message))
+        
+    },[request, toast, setUsers, scrollTop])
+  
 
-    return (<AddParcelForm initialValues={initialValues} users={users} plans={plans} branchs={branches} costInfo={costInfoList}/>)
+    return (<AddParcelForm handleScroll={handleScroll} users={users} initialValues={initialValues}  plans={plans} branchs={branches} costInfo={costInfoList}/>)
 }

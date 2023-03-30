@@ -1,17 +1,16 @@
 import React, { useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ContainerLayout from "../components/app/ContainerLayout";
-import RoleFormWrapper from "../components/role/RoleManagerFormWrapper";
-import RoleTableWrapper from "../components/role/RoleManagerTableWrapper";
+import ContainerLayout from "../app/ContainerLayout";
+import RoleManagerFormWrapper from "../role/RoleManagerFormWrapper";
+import RoleManagerTableWrapper from "../role/RoleManagerTableWrapper";
 
-export default function RoleManagerContainer(){
+export default function RoleManagerTab(){
     const { tab = "table" } = useParams();
     const [ value, setValue ] = useState(null);
     const navigate = useNavigate();
     return (
         <ContainerLayout>
-           {tab === "table" && (
-             <RoleTableWrapper editRow={(value: any)=>{
+             <RoleManagerTableWrapper editRow={(value: any)=>{
               setValue(value)
               navigate('/app/role-manager/form')
              }} 
@@ -19,10 +18,6 @@ export default function RoleManagerContainer(){
               setValue(null)
               navigate(`/app/role-manager/${"form"}`)
              }}/>
-           )}
-           {tab === "form" && (
-             <RoleFormWrapper selectValue={value} back={()=>navigate(`/app/role-manager/${'table'}`)}/>
-           )}
         </ContainerLayout>
     )
 }

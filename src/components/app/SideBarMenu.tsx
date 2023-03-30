@@ -13,30 +13,36 @@ import { useSelector } from "react-redux";
 import "./assets/app-menu.scss";
 import AddIcon from "../icons/AddIcon";
 import BoxsIcon from "../icons/BoxsIcon";
+import EditIcon from "../icons/EditIcon";
 
 export default function SideBarMenu(){
     const location = useLocation();
     const tab = useMemo(()=>SaveActiveItem("tab", location.pathname),[SaveActiveItem, location.pathname])
+    const childTab = useMemo(()=>SaveActiveItem("childTab", location.pathname),[SaveActiveItem, location.pathname])
     const navigate = useNavigate();
     const menu = useSelector((state: any)=>state.data.menuStatus)
     const profile = useSelector((state: any) =>state.data.profile)
 
+    console.log("child Tab ", childTab)
+
     return (
         <AppMenu
             activeTab={tab}
+            defaultTab="administrator"
             onChangeTab={(value: string)=>{
                 navigate(`/app/${value}`)
             }}
             >
             <SideBarItem
-                key="account"
+                key="administrator"
                 icon={
                     <UserIcon color="white"/>  
                 }
                 responsiveContent={
                     <AppMenu
-                        activeTab="app"
-                        onChangeTab={(value: any)=>console.log(value)}
+                        defaultTab="role-manager"
+                        activeTab={childTab}
+                        onChangeTab={(value: any)=>navigate(`/app/administrator/${value}`)}
                         >
                     <SideBarItem
                         key="role-manager"
@@ -64,34 +70,35 @@ export default function SideBarMenu(){
                 Administrator
             </SideBarItem>
             <SideBarItem
-                key="status"
+                key="users"
                 icon={
                     <UserIcon color="white"/>  
                 }
                 responsiveContent={
                     <AppMenu
-                        activeTab="users"
-                        onChangeTab={(value: any)=>console.log(value)}
+                        activeTab={childTab}
+                        defaultTab="add-user"
+                        onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
                         >
                     <SideBarItem
-                        key="role-manager"
+                        key="add-user"
                         >
-                        Role Manager
+                        Add User
                     </SideBarItem>    
                     <SideBarItem
-                        key="plan"
+                        key="all-users"
                         >
-                        Plan
+                        All Users
                     </SideBarItem> 
                     <SideBarItem
-                        key="status"
+                        key="managers"
                         >
-                        Status
+                        Managers
                     </SideBarItem> 
                     <SideBarItem
-                        key="branch"
+                        key="curiers"
                         >
-                        Branches
+                        Curiers
                     </SideBarItem>    
                     </AppMenu>
                 }
@@ -105,14 +112,15 @@ export default function SideBarMenu(){
                 }
                 responsiveContent={
                     <AppMenu
-                        activeTab="users"
-                        onChangeTab={(value: any)=>console.log(value)}
+                        activeTab={childTab}
+                        defaultTab="all-parcels"
+                        onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
                         >
-                    <SideBarItem
-                        key="role-manager"
-                        >
-                        All Parcels
-                    </SideBarItem>     
+                        <SideBarItem
+                            key="all-parcels"
+                            >
+                            All Parcels
+                        </SideBarItem>     
                     </AppMenu>
                 }
                 >
@@ -125,6 +133,14 @@ export default function SideBarMenu(){
                 }
                 >
                 Add Parcel
+            </SideBarItem>
+            <SideBarItem
+                key="edit-parcel"
+                icon={
+                    <EditIcon color="white"/>
+                }
+                >
+                Edit Parcel
             </SideBarItem>
         </AppMenu>
     )

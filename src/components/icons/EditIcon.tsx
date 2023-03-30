@@ -5,7 +5,7 @@ interface Props{
     readonly size?: any;
 }
 
-export default function EditIcon({color, size = 20}:Props){
+export default function EditIcon({color, size = 15}:Props){
     return (
    
         <svg xmlns="http://www.w3.org/2000/svg" fill={color} width={size} height={size} viewBox="0 0 448 512">
