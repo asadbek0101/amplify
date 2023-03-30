@@ -37,7 +37,7 @@ export default function RootContainer(){
                     localStorage.setItem("token", response.data.token)
                     dispatch(set_user_profile(response.data.token))
                     toast.success(response.data.message[0])
-                    navigate('/app/branch')
+                    navigate('/app/administrator')
                 }else{
                     alert(response.data.message[0])
                 }
