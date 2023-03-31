@@ -4,20 +4,19 @@ import "./assets/test.scss";
 interface Props{
     readonly placeholder?: string;
     readonly options: any[];
-    readonly onChage: (value: any) => void;
+    readonly onChange: (value: any) => void;
     readonly handleScroll?: (event: any) => void;
     readonly name?: string;
     readonly label?: string;
 }
 
-export default function SelectVirtualizedPricek({placeholder = "Select...", label, onChage, options, handleScroll, name}:Props){
+export default function SelectVirtualizedPricek({placeholder = "Select...", label, onChange, options, handleScroll, name}:Props){
     const [isOptions, setIsOptions] = useState("closed");
     const [optionList, setOptionList] = useState<any[]>([])
     const [value, setValue] = useState<any>("");
     const [active, setActive] = useState<any>("");
 
     window.onclick = function(event: any) {
-        console.log(event.target.matches("#select-input"))
            if(!event.target.matches("#select-input")){
                 setIsOptions("closed")
            }
@@ -39,10 +38,10 @@ export default function SelectVirtualizedPricek({placeholder = "Select...", labe
 
     const onChangeOption = useCallback((value: any)=>{
         setIsOptions("closed");
-        onChage(value);
+        onChange(value);
         setValue(value.label);
         setActive(value.value);
-    },[setIsOptions, onChage, setActive, setValue]);
+    },[setIsOptions, onChange, setActive, setValue]);
 
     
     return (

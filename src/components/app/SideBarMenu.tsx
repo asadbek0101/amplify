@@ -23,8 +23,6 @@ export default function SideBarMenu(){
     const menu = useSelector((state: any)=>state.data.menuStatus)
     const profile = useSelector((state: any) =>state.data.profile)
 
-    console.log("child Tab ", childTab)
-
     return (
         <AppMenu
             activeTab={tab}

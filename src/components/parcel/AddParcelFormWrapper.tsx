@@ -8,12 +8,26 @@ import AddParcelForm from "./AddParcelForm";
 export default function AddParcelFormWrapper(){
     
     const [initialValues, setInitialValues] = useState({
-
+        senderId: "",
+        recepientId: "",
+        parcelBranchFromId: "",
+        parcelBranchToId: "",
+        weight: "",
+        numberOfPoint: "",
+        parcelPlanId: "",
+        costDeliveryToBranch: "",
+        costDeliveryToPoint: "",
+        costPickingUp: "",
+        paymentMethod: "",
+        senderCourierId: "",
+        recepientCourierId: "",
     })
     const [users, setUsers] = useState<any[]>([])
     const [branches, setBranches] = useState<any>([]);
     const [costInfoList, setCostInfoList] = useState<any>([]);
     const [plans, setPlans] = useState<any>([]);
+    const [couriers, setCouriers] = useState<any>([]);
+    const [paymentMethods, setPaymentMethods] = useState<any[]>([])
 
     const [scrollTop, setScrollTop] = useState(1);
   
@@ -43,13 +57,7 @@ export default function AddParcelFormWrapper(){
             setBranches((user: any)=>[...user, data])
             })  
 
-            respon.data.costInfoList.map((item: any)=>{
-                const data = {
-                    label: `${item.firstName} ${item.lastName} ${item.phone}`,
-                    value: item.id
-            }
-            setCostInfoList((user: any)=>[...user, data])
-    })
+            setCostInfoList(respon.data.costInfoList)
       
             
         }).catch((error)=>console.log(error.message))
@@ -71,6 +79,49 @@ export default function AddParcelFormWrapper(){
         
     },[request, toast, setUsers, scrollTop])
   
+    useEffect(()=>{
+        request.get(`/UserManager/GetAll?RoleId=4`,{
+          headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+        }).then((respon: any)=>{
+            respon.data.customers.map((item: any)=>{
+                const data = {
+                    label: `${item.firstName} ${item.lastName} ${item.phone}`,
+                    value: item.id
+                }
+                setCouriers((prev: any)=>[...prev, data])
+            })
+        }).catch((error)=>toast.error(error.message))
+        
+    },[request, toast, setCouriers, scrollTop])
 
-    return (<AddParcelForm handleScroll={handleScroll} users={users} initialValues={initialValues}  plans={plans} branchs={branches} costInfo={costInfoList}/>)
+    useEffect(()=>{
+        request.get(`/PaymentMethod`,{
+          headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+        }).then((respon: any)=>{
+            respon.data.paymentMethods.map((item: any)=>{
+                const data = {
+                    label: item.name,
+                    value: item.id
+                }
+                setPaymentMethods((prev: any)=>[...prev, data])
+            })
+        }).catch((error)=>toast.error(error.message))
+        
+    },[request, toast, setPaymentMethods, scrollTop])
+  
+
+  
+
+    return (
+    <AddParcelForm 
+        paymentMethods={paymentMethods} 
+        customers={couriers} 
+        handleScroll={handleScroll} 
+        users={users} 
+        initialValues={initialValues} 
+        setInitialValues={setInitialValues} 
+        plans={plans} 
+        branchs={branches} 
+        costInfo={costInfoList}
+    />)
 }
