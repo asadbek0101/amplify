@@ -7,7 +7,7 @@ import TabPage from "../tabs/TabPage";
 import UserManagerForm from "./UserManagerForm";
 
 interface UserManagerFormWrapperProps{
-    readonly back: () => void
+    readonly back?: () => void
 }
 
 export default function UserManagerFormWrapper({back}:UserManagerFormWrapperProps){
@@ -42,13 +42,7 @@ export default function UserManagerFormWrapper({back}:UserManagerFormWrapperProp
 
     return (
     <TabPage 
-        childrenClassName="p-3 pt-4"
-        headerComponent={
-            <Button onClick={back} className="bg-gold text-light mb-2 px-2 py-1">
-                Back
-            </Button>
-        }
-        >
+        childrenClassName="p-3 pt-4">
         <UserManagerForm 
             initialValues={initialValues} 
             setInitialValues={setInitialValues} 

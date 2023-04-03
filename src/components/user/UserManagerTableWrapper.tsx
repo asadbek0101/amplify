@@ -12,9 +12,10 @@ import UserManagerTable from "./UserManagerTable";
 interface UserManagerTableWrapperProps{
     readonly create: () => void;
     readonly editRow: (value: any) => void;
+    readonly roleId: number;
 }
 
-export default function UserManagerTableWrapper({create, editRow}:UserManagerTableWrapperProps){
+export default function UserManagerTableWrapper({create, editRow, roleId}:UserManagerTableWrapperProps){
 
     const [data, setData] = useState<any>({});
     const [id, setId] = useState(null)
@@ -24,11 +25,11 @@ export default function UserManagerTableWrapper({create, editRow}:UserManagerTab
     const pageCount = searchParams.get("pageCount") || 1;
 
   useEffect(()=>{
-      request.get(`/UserManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}&role=Courier`,{
+      request.get(`/UserManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}&RoleId=${roleId}`,{
         headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
       }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
       
-  },[request, toast, pageCount, pageSize])
+  },[request, toast, pageCount, pageSize, roleId])
 
   const deleteRow = useCallback((id: any)=>{
         request.delete(`/UserManager/${id}`, {
@@ -46,22 +47,8 @@ export default function UserManagerTableWrapper({create, editRow}:UserManagerTab
     return (
         <TabPage
             childrenClassName="p-2"
-            headerComponent={
-                <Button onClick={()=>create()} className="mb-2 text-light px-2 py-1 bg-gold">
-                    Create
-                </Button>
-            }
             footerComponent={
                 <div className="d-flex justify-content-end my-3">
-                {/* <Button className="bg-danger px-2 py-2" onClick={()=>{
-                    if(ids.length === 0){
-                        toast.error("Please choose branch")
-                    }else{
-                        setIsDelModal(true)}}
-                    }
-                    >
-                    <DeleteIcon color="white" size={16}/>
-                </Button> */}
                 <Pagination 
                     pageNumber={data.pageNumber} 
                     totalCount={data.totalCount} 

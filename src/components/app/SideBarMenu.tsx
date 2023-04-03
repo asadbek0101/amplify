@@ -82,11 +82,21 @@ export default function SideBarMenu(){
                         key="add-user"
                         >
                         Add User
-                    </SideBarItem>    
+                    </SideBarItem> 
                     <SideBarItem
                         key="all-users"
                         >
                         All Users
+                    </SideBarItem> 
+                    <SideBarItem
+                        key="customers"
+                        >
+                        Customers
+                    </SideBarItem>    
+                    <SideBarItem
+                        key="staff"
+                        >
+                        Staff
                     </SideBarItem> 
                     <SideBarItem
                         key="managers"

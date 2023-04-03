@@ -6,9 +6,5 @@ interface AuthContainerProps{
 }
 
 export default function AuthContainer({onsubmit}:AuthContainerProps){
-    return (
-        <div>
-            <AuthFormWrapper submit={onsubmit}/>
-        </div>
-    )
+    return (<AuthFormWrapper submit={onsubmit}/>)
 }

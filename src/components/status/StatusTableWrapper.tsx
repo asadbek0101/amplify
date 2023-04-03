@@ -9,6 +9,7 @@ import Modal from "../modal/Modal";
 import { useSearchParams } from "react-router-dom";
 import YesOrNoModal from "../app/YesOrNoModal";
 import StatusTable from "./StatusTable";
+import { useStatusApiContext } from "../../api/status/StatusApiContext";
 
 interface StatusTableWrapperProps{
     readonly create: () => void;
@@ -17,34 +18,31 @@ interface StatusTableWrapperProps{
 
 export default function StatusTableWrapper({create, selectRow}:StatusTableWrapperProps){
 
+    const { StatusApi } = useStatusApiContext();
     const [data, setData] = useState<any>({})
     const [ids, setIds] = useState([])
     const [isDelModal, setIsDelModal] = useState<boolean>(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const pageSize = searchParams.get("pageSize") || 25;
-    const pageCount = searchParams.get("pageCount") || 1;
+    const pageSize = Number(searchParams.get("pageSize") || 25);
+    const pageCount = Number(searchParams.get("pageCount") || 1);
 
   useEffect(()=>{
-      request.get(`/Status/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}`,{
-        headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-      }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+      StatusApi.getAllStatus({pageNumber: pageCount, pageSize: pageSize}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
       
-  },[request, toast, pageCount, pageSize])
+  },[StatusApi, toast, pageCount, pageSize])
 
   const deletePost = useCallback(()=>{
         const del = {
             id: ids
         }
-        request.post('/Status/DeleteStatuses', del, {
-            headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`}
-        }).then((response: any)=>{
+        StatusApi.deleteStatus(del).then(()=>{
             toast.success("Deleted!");
             setIsDelModal(false);
             window.location.reload();
-        }).catch((error: any)=>{
+        }).catch(()=>{
             toast.error("Faild!")
         })
-  },[ids, setIsDelModal])
+  },[ids, setIsDelModal, StatusApi])
 
     return (
         <TabPage

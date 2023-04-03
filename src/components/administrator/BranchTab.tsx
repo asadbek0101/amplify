@@ -1,27 +1,26 @@
-import React, { useState} from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useMemo} from "react";
+import { useSearchParams } from "react-router-dom";
 import ContainerLayout from "../app/ContainerLayout";
 import BranchFormWrapper from "../branch/BranchFormWrapper";
 import BranchTableWrapper from "../branch/BranchTableWrapper";
 
 export default function BranchTab(){
-    const { tab = "table" } = useParams();
-    const [ value, setValue ] = useState(null);
-    const navigate = useNavigate();
+  const [search, setSearch] = useSearchParams();
+  const tab = useMemo(()=>search.get("pageType")? search.get("pageType") : 'table',[search])
+
 
     return (
         <ContainerLayout>
-             <BranchTableWrapper selectRow={(value: any)=>{
-              setValue(value)
-              navigate('/app/branch/form')
-             }} 
-             create={()=>{
-              setValue(null)
-              navigate(`/app/branch/${"form"}`)
-             }}/>
+            {tab === "table" && (
+              <BranchTableWrapper selectRow={(value: any)=>{
+                setSearch({pageType: "form", branchId: value.id})
+              }} 
+              create={()=>{
+                setSearch({pageType: "form"})
+              }}/>
+            )}
            {tab === "form" && (
-             <BranchFormWrapper selectValue={value} back={()=>navigate(`/app/branch/${'table'}`)}/>
+             <BranchFormWrapper back={()=>setSearch({pageType: "table"})}/>
            )}
         </ContainerLayout>
     )

@@ -1,64 +1,53 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { request } from "../../api/request";
 import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import StatusForm from "./StatusForm";
+import { useStatusApiContext } from "../../api/status/StatusApiContext";
 
 interface StatusFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
-export default function StatusFormWrapper({back, selectValue}:StatusFormWrapperProps){
+export default function StatusFormWrapper({back}:StatusFormWrapperProps){
 
-    const navigation = useNavigate();
+    const { StatusApi } = useStatusApiContext();
     const [search, setSearch] = useSearchParams();
+    const id = useMemo(()=>search.get("statusId"),[search]);
 
     const [initialValues, setInitialValues] = useState({
         name: "",
-        cost: "",
         description: ""
     })
 
     useEffect(()=>{
-        if(Boolean(selectValue)){
-            setInitialValues(selectValue)
-        }else if(!Boolean(selectValue)){
-            navigation("/app/status/table")
+        if(id){
+            StatusApi.getStatusById({id: Number(id)}).then((response:any)=>setInitialValues(response.data)).catch((err:any)=>toast.error(err.message))
         }
-    },[setInitialValues, selectValue, navigation])
+    },[id, toast, setInitialValues, StatusApi])
 
     const submit = useCallback((value: any)=>{
-       if(Boolean(selectValue)){
+        console.log(value)
+       if(id){
         const data = {
             ...value,
-            id: selectValue.id
+            id: id
         }
-        request.put("/Status", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        StatusApi.updateStatus(data).then(()=>{
                 toast.success("Updated!")
-                navigation('/app/status/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+                setSearch({pageType: "table"})
+            }).catch(()=>toast.error("Fail!"))
        }else{
         const data = {
             ...value,
-            cost: Number(value.cost)
         }
-        request.post("/Status", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        StatusApi.createStatus(data).then(()=>{
                 toast.success("Added!")
-                navigation('/app/status/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+                setSearch({pageType: "table"})
+            }).catch(()=>toast.error("Fail!"))
             }
-    },[request])
+    },[StatusApi, setSearch, toast])
 
     return (
     <TabPage 

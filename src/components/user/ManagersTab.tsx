@@ -15,7 +15,7 @@ export default function ManagersTab(){
 
     return (
         <ContainerLayout>
-             <UserManagerTableWrapper editRow={(value: any)=>{
+             <UserManagerTableWrapper roleId={2} editRow={(value: any)=>{
               setValue(value)
               navigate('/app/user-manager/edit-form')
              }} 

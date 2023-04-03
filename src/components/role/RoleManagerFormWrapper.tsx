@@ -1,60 +1,53 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { request } from "../../api/request";
 import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import RoleForm from "./RoleManagerForm";
+import { useRoleApiContext } from "../../api/role/RoleApiContext";
 
 interface RoleManagerFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
-export default function RoleManagerFormWrapper({back, selectValue}:RoleManagerFormWrapperProps){
-
-    const navigation = useNavigate();
+export default function RoleManagerFormWrapper({back}:RoleManagerFormWrapperProps){
+    
+    const [searchParams, setSearchParams] = useSearchParams();
+    const id = Number(searchParams.get("roleId"));
+    const { RoleApi } = useRoleApiContext();
 
     const [initialValues, setInitialValues] = useState({
         name: "",
     })
 
     useEffect(()=>{
-        if(Boolean(selectValue)){
-            setInitialValues(selectValue)
+        if(id){
+            RoleApi.getRoleById({id: id}).then((resp: any)=>setInitialValues(resp.data)).catch((err: any)=>console.log(err))
         }
-    },[setInitialValues, selectValue])
+    },[RoleApi, id])
 
     const submit = useCallback((value: any)=>{
-       if(Boolean(selectValue)){
+       if(id){
         const data = {
             ...value,
-            id: selectValue.id
+            id: id
         }
-        request.put("/RoleManager", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
-                toast.success("Updated!")
-                navigation('/app/role-manager/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+        RoleApi.updateRole(data).then(()=>{
+                toast.success("Updated!");
+                setSearchParams({pageType: "table"})
+            }).catch(()=>toast.error("Fail!"))
        }else{
         const data = {
             ...value,
             cost: Number(value.cost)
         }
-        request.post("/RoleManager", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        RoleApi.createRole(data).then(()=>{
+                setSearchParams({pageType: "table"})
                 toast.success("Added!")
-                navigation('/app/role-manager/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+            }).catch(()=>toast.error("Fail!"))
             }
-    },[request])
-
+    },[RoleApi, toast, searchParams, id])
+    
     return (
     <TabPage 
         childrenClassName="p-3 pt-4"

@@ -9,6 +9,7 @@ import Modal from "../modal/Modal";
 import { useSearchParams } from "react-router-dom";
 import YesOrNoModal from "../app/YesOrNoModal";
 import PlanTable from "./PlanTable";
+import { usePlanApiContext } from "../../api/plan/PlanApiContext";
 
 interface BranchTableWrapperProps{
     readonly create: () => void;
@@ -17,34 +18,30 @@ interface BranchTableWrapperProps{
 
 export default function PlanTableWrapper({create, selectRow}:BranchTableWrapperProps){
 
+    const { PlanApi } = usePlanApiContext();
     const [data, setData] = useState<any>({})
     const [ids, setIds] = useState([])
     const [isDelModal, setIsDelModal] = useState<boolean>(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const pageSize = searchParams.get("pageSize") || 25;
-    const pageCount = searchParams.get("pageCount") || 1;
+    const pageSize = Number(searchParams.get("pageSize") || 25);
+    const pageCount = Number(searchParams.get("pageCount") || 1);
 
   useEffect(()=>{
-      request.get(`/Plan/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}`,{
-        headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-      }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
-      
-  },[request, toast, pageCount, pageSize])
+     PlanApi.getAllPlan({pageNumber: pageCount, pageSize: pageSize}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+  },[PlanApi, toast, pageCount, pageSize])
 
   const deletePost = useCallback(()=>{
         const del = {
             id: ids
         }
-        request.post('/Plan/DeletePlans', del, {
-            headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`}
-        }).then((response: any)=>{
+        PlanApi.deletePlan({del: del}).then(()=>{
             toast.success("Deleted!");
             setIsDelModal(false);
             window.location.reload();
-        }).catch((error: any)=>{
+        }).catch(()=>{
             toast.error("Faild!")
         })
-  },[ids, setIsDelModal])
+  },[ids, setIsDelModal, PlanApi])
 
     return (
         <TabPage

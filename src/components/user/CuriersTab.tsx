@@ -15,7 +15,7 @@ export default function CuriersTab(){
 
     return (
         <ContainerLayout>
-             <UserManagerTableWrapper editRow={(value: any)=>{
+             <UserManagerTableWrapper roleId={4} editRow={(value: any)=>{
               setValue(value)
               navigate('/app/user-manager/edit-form')
              }} 

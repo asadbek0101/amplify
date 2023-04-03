@@ -3,12 +3,12 @@ import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import Pagination from "../pagination/Pagination";
 import Button from "../button/Button";
-import DeleteIcon from "../icons/DeleteIcon";
 import TabPage from "../tabs/TabPage";
 import Modal from "../modal/Modal";
 import { useSearchParams } from "react-router-dom";
 import YesOrNoModal from "../app/YesOrNoModal";
 import RoleTable from "./RoleManagerTable";
+import { useRoleApiContext } from "../../api/role/RoleApiContext";
 
 interface RoleManagerTableWrapperProps{
     readonly create: () => void;
@@ -16,25 +16,20 @@ interface RoleManagerTableWrapperProps{
 }
 
 export default function RoleManagerTableWrapper({create, editRow}:RoleManagerTableWrapperProps){
-
+    const { RoleApi } = useRoleApiContext();
     const [data, setData] = useState<any>({});
     const [id, setId] = useState(null)
     const [isDelModal, setIsDelModal] = useState<boolean>(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const pageSize = searchParams.get("pageSize") || 25;
-    const pageCount = searchParams.get("pageCount") || 1;
+    const pageSize = Number(searchParams.get("pageSize") || 25);
+    const pageCount = Number(searchParams.get("pageCount") || 1);
 
   useEffect(()=>{
-      request.get(`/RoleManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}`,{
-        headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-      }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
-      
-  },[request, toast, pageCount, pageSize])
+    RoleApi.getAllRole({pageNumber : pageCount, pageSize: pageSize}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+  },[RoleApi, toast, pageCount, pageSize])
 
   const deleteRow = useCallback((id: any)=>{
-        request.delete(`/RoleManager/${id}`, {
-            headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`}
-        }).then((response: any)=>{
+        RoleApi.deleteRole({id : id}).then((response: any)=>{
             toast.success("Deleted!");
             setIsDelModal(false);
             window.location.reload();
@@ -42,7 +37,7 @@ export default function RoleManagerTableWrapper({create, editRow}:RoleManagerTab
             toast.error("Faild!")
         })
         setId(null);
-  },[ setIsDelModal, setId])
+  },[ setIsDelModal, setId, RoleApi])
 
     return (
         <TabPage
@@ -54,15 +49,6 @@ export default function RoleManagerTableWrapper({create, editRow}:RoleManagerTab
             }
             footerComponent={
                 <div className="d-flex justify-content-end my-3">
-                {/* <Button className="bg-danger px-2 py-2" onClick={()=>{
-                    if(ids.length === 0){
-                        toast.error("Please choose branch")
-                    }else{
-                        setIsDelModal(true)}}
-                    }
-                    >
-                    <DeleteIcon color="white" size={16}/>
-                </Button> */}
                 <Pagination 
                     pageNumber={data.pageNumber} 
                     totalCount={data.totalCount} 

@@ -1,26 +1,27 @@
-import React, { useState} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import ContainerLayout from "../app/ContainerLayout";
 import PlanFormWrapper from "../plan/PlanFormWrapper";
 import PlanTableWrapper from "../plan/PlanTableWrapper";
 
 export default function PlanTab(){
-    const { tab = "table" } = useParams();
-    const [ value, setValue ] = useState(null);
-    const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = useMemo(()=>searchParams.get("pageType")? searchParams.get("pageType") : "table",[searchParams])
+
     return (
         <ContainerLayout>
-             <PlanTableWrapper selectRow={(value: any)=>{
-              setValue(value)
-              navigate('/app/plan/form')
-             }} 
-             create={()=>{
-              setValue(null)
-              navigate(`/app/plan/${"form"}`)
-             }}/>
-           {tab === "form" && (
-             <PlanFormWrapper selectValue={value} back={()=>navigate(`/app/plan/${'table'}`)}/>
-           )}
+          {page === "table" && (
+            <PlanTableWrapper 
+                    selectRow={(value: any)=>{
+                    setSearchParams({ pageType: "form", planId: value.id})
+                    }} 
+                    create={()=>{
+                    setSearchParams({pageType: "form"})
+                    }}/>
+                     )}
+          {page === "form" && (
+                <PlanFormWrapper back={()=>setSearchParams({pageType: "table"})}/>
+          )}
         </ContainerLayout>
     )
 }

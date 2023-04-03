@@ -24,7 +24,7 @@ export default function RootContainer(){
         if(!localStorage.getItem("token")){
             navigate('/')
         }
-    },[navigate])
+    },[navigate, localStorage])
 
     const onSubmit = useCallback((value: any)=>{
         request.post("/Authentication/Login", { 
@@ -43,7 +43,6 @@ export default function RootContainer(){
                 }
           }).catch((erro: any)=>toast.error(erro.response.data.message[0]))
         },[request])
-
 
     return (
       <Routes>

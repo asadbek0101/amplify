@@ -1,14 +1,9 @@
-import React, { useState} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ContainerLayout from "../components/app/ContainerLayout";
-import AllParcelsTab from "../components/parcel/AllParcelsTab";
-import PlanFormWrapper from "../components/plan/PlanFormWrapper";
-import PlanTableWrapper from "../components/plan/PlanTableWrapper";
+import AllParcelsTab from "../components/parcel/ParcelsTab";
 
 export default function ParcelContainer(){
-    const { tab = "table" } = useParams();
-    const [ value, setValue ] = useState(null);
-    const navigate = useNavigate();
+    const { tab = "all-parcels" } = useParams();
     return (
         <ContainerLayout>
            {tab === "all-parcels" && (

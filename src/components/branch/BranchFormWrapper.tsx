@@ -1,19 +1,24 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import BranchForm from "./BranchForm";
+import { useBranchApiContext } from "../../api/branch/BranchApiContext";
 
 interface BranchFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
-export default function BranchFormWrapper({back, selectValue}:BranchFormWrapperProps){
+export default function BranchFormWrapper({back}:BranchFormWrapperProps){
 
-    const navigation = useNavigate();
+    const { BranchApi } = useBranchApiContext();
+
+    const [search, setSearch] = useSearchParams();
+
+    const id = useMemo(()=>search.get("branchId"),[search])
+
 
     const [initialValues, setInitialValues] = useState({
         name: "",
@@ -26,36 +31,29 @@ export default function BranchFormWrapper({back, selectValue}:BranchFormWrapperP
     })
 
     useEffect(()=>{
-        if(Boolean(selectValue)){
-            setInitialValues(selectValue)
+        if(id){
+            BranchApi.getBranchById({id: Number(id)}).then((response: any)=>setInitialValues(response.data)).catch((err: any)=>toast.error(err.message))
         }
-    },[setInitialValues, selectValue])
+    },[setInitialValues, id, BranchApi])
 
     const submit = useCallback((value: any)=>{
-       if(Boolean(selectValue)){
+       if(id){
         const data = {
             ...value,
-            id: selectValue.id
+            id: id
         }
-        request.put("/Branch", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        BranchApi.updateBranch(data).then(()=>{
                 toast.success("Updated!")
-                navigation('/app/branch/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+            }).catch(()=>toast.error("Fail!"))
        }else{
-        request.post("/Branch", 
-        value,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        const data = {
+            ...value,
+        }
+        BranchApi.createBranch(data).then(()=>{
                 toast.success("Added!")
-                navigation('/app/branch/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+            }).catch(()=>toast.error("Fail!"))
             }
-    },[request])
+    },[BranchApi, toast])
 
     return (
     <TabPage 

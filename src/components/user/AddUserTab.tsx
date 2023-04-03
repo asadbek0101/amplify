@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ContainerLayout from "../app/ContainerLayout";
 import StatusFormWrapper from "../status/StatusFormWrapper";
 import StatusTableWrapper from "../status/StatusTableWrapper";
+import UserManagerFormWrapper from "./UserManagerFormWrapper";
 
 export default function AddUserTab(){
     // const { tab = "table" } = useParams();
@@ -20,7 +21,7 @@ export default function AddUserTab(){
 
     return (
         <ContainerLayout>
-           <h1>Add User Tab</h1>
+            <UserManagerFormWrapper/>
         </ContainerLayout>
     )
 }

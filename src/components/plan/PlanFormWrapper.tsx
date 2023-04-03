@@ -1,19 +1,21 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
-import { request } from "../../api/request";
 import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import PlanForm from "./PlanForm";
+import { usePlanApiContext } from "../../api/plan/PlanApiContext";
+import { useSearchParams } from "react-router-dom";
 
 interface BranchFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
-export default function PlanFormWrapper({back, selectValue}:BranchFormWrapperProps){
+export default function PlanFormWrapper({back}:BranchFormWrapperProps){
 
-    const navigation = useNavigate();
+    const { PlanApi } = usePlanApiContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const id = useMemo(()=>searchParams.get("planId"),[searchParams]);
 
     const [initialValues, setInitialValues] = useState({
         name: "",
@@ -22,40 +24,34 @@ export default function PlanFormWrapper({back, selectValue}:BranchFormWrapperPro
     })
 
     useEffect(()=>{
-        if(Boolean(selectValue)){
-            setInitialValues(selectValue)
-        }
-    },[setInitialValues, selectValue])
+        if(id){
+            PlanApi.getPlanById({id: Number(id)}).then((response: any)=>setInitialValues(response.data)).catch(()=>toast.error("Faild!"))
+  
+        }        
+    },[PlanApi, setInitialValues, toast, id])
 
     const submit = useCallback((value: any)=>{
-       if(Boolean(selectValue)){
+        console.log('id ', id)
+       if(id){
         const data = {
             ...value,
-            id: selectValue.id
+            id: id
         }
-        request.put("/Plan", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        PlanApi.updatePlan(data).then((response: any)=>{
                 toast.success("Updated!")
-                navigation('/app/plan/table')
-            }).catch((err: any)=>toast.error("Fail!"))
+                setSearchParams({pageType: "table"});
+            }).catch((err: any)=>toast.error("Fail!"));
        }else{
         const data = {
             ...value,
             cost: Number(value.cost)
         }
-        request.post("/Plan", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        PlanApi.createPlan(data).then((response: any)=>{
                 toast.success("Added!")
-                navigation('/app/plan/table')
+                setSearchParams({pageType: "table"});
             }).catch((err: any)=>toast.error("Fail!"))
             }
-    },[request])
+    },[PlanApi, toast])
 
     return (
     <TabPage 

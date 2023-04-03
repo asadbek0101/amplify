@@ -14,7 +14,6 @@ interface StatusFormProps{
 
 const validationSchema = object({
     name: string().required("Required!"),
-    cost: number().required("Required!"),
     description: string().required("Required!")
 })
 
@@ -23,12 +22,6 @@ export default function StatusForm({initialValues, setInitialValues, submit}:Sta
     const onChangeName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
             name: value.target.value
-        }))
-    },[setInitialValues])
-
-    const onChangeCost = useCallback((value: any)=>{
-        setInitialValues((prev: any)=>update(prev, {
-            cost: value.target.value
         }))
     },[setInitialValues])
 
@@ -59,14 +52,6 @@ export default function StatusForm({initialValues, setInitialValues, submit}:Sta
                                 name="name"
                                 value={initialValues.name}
                                 onChange={(event: any)=>onChangeName(event)}
-                                />
-                            </div>
-                            <div className="col-12">
-                            <InputField
-                                label="Cost"
-                                name="cost"
-                                value={initialValues.cost}
-                                onChange={(event: any)=>onChangeCost(event)}
                                 />
                             </div>
                             <div className="col-12">

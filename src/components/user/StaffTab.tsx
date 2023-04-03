@@ -1,22 +1,20 @@
 import React, { useState} from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import ContainerLayout from "../components/app/ContainerLayout";
-import UserManagerEditFormWrapper from "../components/user/UserManagerEditFromWrapper";
-import UserManagerFormWrapper from "../components/user/UserManagerFormWrapper";
-import UserManagerTableWrapper from "../components/user/UserManagerTableWrapper";
+import ContainerLayout from "../app/ContainerLayout";
+import UserManagerEditFormWrapper from "./UserManagerEditFromWrapper";
+import UserManagerFormWrapper from "./UserManagerFormWrapper";
+import UserManagerTableWrapper from "./UserManagerTableWrapper";
 
-export default function UserManagerContainer(){
+export default function StaffTab(){
     const { tab = "table" } = useParams();
     const [ value, setValue ] = useState(null);
     const navigate = useNavigate();
     const profile = useSelector((state: any) =>state.data.profile)
 
-
     return (
         <ContainerLayout>
-           {tab === "table" && (
-             <UserManagerTableWrapper roleId={10} editRow={(value: any)=>{
+             <UserManagerTableWrapper roleId={3} editRow={(value: any)=>{
               setValue(value)
               navigate('/app/user-manager/edit-form')
              }} 
@@ -24,7 +22,6 @@ export default function UserManagerContainer(){
               setValue(null)
               navigate(`/app/user-manager/${"create-form"}`)
              }}/>
-           )}
            {tab === "create-form" && (
              <UserManagerFormWrapper back={()=>navigate(`/app/user-manager/${'table'}`)}/>
            )}
