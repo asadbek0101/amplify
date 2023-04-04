@@ -7,9 +7,10 @@ interface Props{
     readonly rightLabel?: string;
     readonly className?: string;
     readonly checkboxClassName?: string;
+    readonly style?:  any;
 }
 
-export default function CheckBox({name, leftLabel, rightLabel, className, checkboxClassName}:Props){
+export default function CheckBox({name, leftLabel, rightLabel, className, checkboxClassName, style}:Props){
     return (
         <div className={`${className} checkbox-container`}>
            {leftLabel && (

@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import AddParcelForm from "./AddParcelForm";
+import AddParcelUploadImage from "./AddParcelUploadImage";
+import AddParcelMessages from "./AddParcelMessages";
+import AddParcelCommentares from "./AddParcelCommentares";
 
 
 export default function AddParcelFormWrapper(){
@@ -27,7 +30,8 @@ export default function AddParcelFormWrapper(){
     const [costInfoList, setCostInfoList] = useState<any>([]);
     const [plans, setPlans] = useState<any>([]);
     const [couriers, setCouriers] = useState<any>([]);
-    const [paymentMethods, setPaymentMethods] = useState<any[]>([])
+    const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
+    const [searchValue, setSearchValue] = useState("")
 
     const [scrollTop, setScrollTop] = useState(1);
   
@@ -65,7 +69,7 @@ export default function AddParcelFormWrapper(){
     },[request, setCostInfoList, setBranches, setPlans]) 
     
     useEffect(()=>{
-        request.get(`/UserManager/WithPagination?pageNumber=${scrollTop}&pageSize=${50}`,{
+        request.get(`/UserManager/SearchUserWithPagination?pageNumber=${scrollTop}&pageSize=${50}&searchText=${searchValue}`,{
           headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
         }).then((respon: any)=>{
             respon.data.items.map((item: any)=>{
@@ -77,7 +81,7 @@ export default function AddParcelFormWrapper(){
             })
         }).catch((error)=>toast.error(error.message))
         
-    },[request, toast, setUsers, scrollTop])
+    },[request, toast, setUsers, scrollTop, searchValue])
   
     useEffect(()=>{
         request.get(`/UserManager/GetAll?RoleId=4`,{
@@ -108,20 +112,24 @@ export default function AddParcelFormWrapper(){
         }).catch((error)=>toast.error(error.message))
         
     },[request, toast, setPaymentMethods, scrollTop])
-  
-
-  
 
     return (
-    <AddParcelForm 
-        paymentMethods={paymentMethods} 
-        customers={couriers} 
-        handleScroll={handleScroll} 
-        users={users} 
-        initialValues={initialValues} 
-        setInitialValues={setInitialValues} 
-        plans={plans} 
-        branchs={branches} 
-        costInfo={costInfoList}
-    />)
+        <>
+         <AddParcelForm 
+                paymentMethods={paymentMethods} 
+                customers={couriers} 
+                handleScroll={handleScroll} 
+                users={users} 
+                initialValues={initialValues} 
+                setInitialValues={setInitialValues} 
+                plans={plans} 
+                branchs={branches} 
+                costInfo={costInfoList}
+                setSearch={setSearchValue}
+                />
+        <AddParcelUploadImage/>
+        <AddParcelMessages/>
+        {/* <AddParcelCommentares/> */}
+        </>
+        )
 }

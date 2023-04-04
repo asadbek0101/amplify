@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { request } from "../../api/request";
-import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import UserManagerForm from "./UserManagerForm";
+import { useUserApiContext } from "../../api/user/UserApiContext";
 
 interface UserManagerFormWrapperProps{
     readonly back?: () => void
@@ -12,7 +11,8 @@ interface UserManagerFormWrapperProps{
 
 export default function UserManagerFormWrapper({back}:UserManagerFormWrapperProps){
 
-    const navigation = useNavigate();
+    const { UserApi } = useUserApiContext();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [initialValues, setInitialValues] = useState({
         firstName: "",
@@ -28,17 +28,12 @@ export default function UserManagerFormWrapper({back}:UserManagerFormWrapperProp
     const submit = useCallback((value: any)=>{
         const data = {
             ...value,
-            cost: Number(value.cost)
         }
-        request.post("/UserManager", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        UserApi.createUser(data).then(()=>{
                 toast.success("Added!")
-                navigation('/app/user-manager/table')
-            }).catch((err: any)=>toast.error("Fail!"))
-    },[request])
+                setSearchParams({pageType: "table"})
+            }).catch(()=>toast.error("Fail!"))
+    },[UserApi, setSearchParams, toast])
 
     return (
     <TabPage 

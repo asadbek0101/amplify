@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import RootContainer from './containers/RootContainer';
 
 export  default function App(){
-  const i: any = useMemo( ()=> localStorage.getItem('Image'),[localStorage]);
 
   return (
     <>

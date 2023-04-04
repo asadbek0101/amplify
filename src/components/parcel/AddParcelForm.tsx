@@ -20,6 +20,7 @@ interface AddParcelFormProps{
     readonly costInfo: any[];
     readonly paymentMethods: any[];
     readonly handleScroll: (value: any) => void;
+    readonly setSearch: (value: any) => void;
 }
 
 const validationSchema = object({
@@ -47,7 +48,8 @@ export default function AddParcelForm({
     plans, 
     customers, 
     paymentMethods, 
-    setInitialValues
+    setInitialValues,
+    setSearch
 }:AddParcelFormProps){
 
     const [sum, setSum] = useState(0);
@@ -136,7 +138,7 @@ export default function AddParcelForm({
                             <GroupBox title="Sender">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <SelectVirtualizedPricek name="senderId" options={users} onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
+                                        <SelectVirtualizedPricek setSearch={setSearch} name="senderId" options={users} onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
                                     </div>
                                     <div className="col-12 mt-2">
                                     <SelectPicker name="parcelBranchFromId" options={branchs} onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
@@ -148,7 +150,7 @@ export default function AddParcelForm({
                             <GroupBox title="Recipent">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <SelectVirtualizedPricek name="recepientId" options={users} onChange={(value: any)=>onChangeRecepientId(value)} handleScroll={handleScroll} label={"Recipent"}/>
+                                        <SelectVirtualizedPricek setSearch={setSearch} name="recepientId" options={users} onChange={(value: any)=>onChangeRecepientId(value)} handleScroll={handleScroll} label={"Recipent"}/>
                                     </div>
                                     <div className="col-12 mt-2">
                                     <SelectPicker name="parcelBranchToId" options={branchs} onChange={(value: any)=>onChangeParcelBranchToId(value)} label="To"/>                                    </div>

@@ -2,43 +2,38 @@ import React , {useState, useEffect, useCallback} from "react";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import Pagination from "../pagination/Pagination";
-import Button from "../button/Button";
 import TabPage from "../tabs/TabPage";
 import Modal from "../modal/Modal";
 import { useSearchParams } from "react-router-dom";
 import YesOrNoModal from "../app/YesOrNoModal";
 import UserManagerTable from "./UserManagerTable";
+import { useUserApiContext } from "../../api/user/UserApiContext";
 
 interface UserManagerTableWrapperProps{
-    readonly create: () => void;
     readonly editRow: (value: any) => void;
     readonly roleId: number;
 }
 
-export default function UserManagerTableWrapper({create, editRow, roleId}:UserManagerTableWrapperProps){
+export default function UserManagerTableWrapper({editRow, roleId}:UserManagerTableWrapperProps){
 
+    const { UserApi } = useUserApiContext();
     const [data, setData] = useState<any>({});
     const [id, setId] = useState(null)
     const [isDelModal, setIsDelModal] = useState<boolean>(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const pageSize = searchParams.get("pageSize") || 25;
-    const pageCount = searchParams.get("pageCount") || 1;
+    const pageSize = Number(searchParams.get("pageSize") || 25);
+    const pageCount = Number(searchParams.get("pageCount") || 1);
 
   useEffect(()=>{
-      request.get(`/UserManager/WithPagination?pageNumber=${Number(pageCount)}&pageSize=${Number(pageSize)}&RoleId=${roleId}`,{
-        headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-      }).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
-      
-  },[request, toast, pageCount, pageSize, roleId])
+    UserApi.getAllUsers({pageNumber: pageCount, pageSize: pageSize, roleId: roleId}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+  },[UserApi, toast, pageCount, pageSize, roleId])
 
   const deleteRow = useCallback((id: any)=>{
-        request.delete(`/UserManager/${id}`, {
-            headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`}
-        }).then((response: any)=>{
+        UserApi.deleteUser(id).then(()=>{
             toast.success("Deleted!");
             setIsDelModal(false);
             window.location.reload();
-        }).catch((error: any)=>{
+        }).catch(()=>{
             toast.error("Faild!")
         })
         setId(null);

@@ -1,5 +1,6 @@
 import React, { useCallback, useState, ReactNode, useEffect } from "react";
 import Loading from "../loading/Loading";
+import "./assets/table.scss";
 
 interface HeaderProps{
     readonly width?: number; 

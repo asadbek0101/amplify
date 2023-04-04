@@ -8,9 +8,10 @@ interface Props{
     readonly handleScroll?: (event: any) => void;
     readonly name?: string;
     readonly label?: string;
+    readonly setSearch: (value: any) => void;
 }
 
-export default function SelectVirtualizedPricek({placeholder = "Select...", label, onChange, options, handleScroll, name}:Props){
+export default function SelectVirtualizedPricek({placeholder = "Select...", label, onChange, options, handleScroll, name, setSearch}:Props){
     const [isOptions, setIsOptions] = useState("closed");
     const [optionList, setOptionList] = useState<any[]>([])
     const [value, setValue] = useState<any>("");
@@ -21,6 +22,10 @@ export default function SelectVirtualizedPricek({placeholder = "Select...", labe
                 setIsOptions("closed")
            }
     }
+
+    useEffect(()=>{
+        setSearch(value);
+    },[setSearch, value])
 
     useEffect(()=>{
         const filteredData : any = options?.filter((el: any) => {

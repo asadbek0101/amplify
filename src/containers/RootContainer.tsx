@@ -8,7 +8,6 @@ import AppContainer from "./AppContainer";
 import AuthContainer from "./AuthContainer";
 import BranchContainer from "../components/administrator/BranchTab";
 import AccountContainer from "./AccountContainer";
-import UserManagerContainer from "./UserManagerContainer";
 import AddParcelContainer from "./AddParcelContainer";
 import AdministratorContainer from "./AdministratorContainer";
 import UsersContainer from "./UsersContainer";
@@ -51,7 +50,6 @@ export default function RootContainer(){
                 <Route path="administrator/:tab?" element={<AdministratorContainer/>}/>
                 <Route path="users/:tab?" element={<UsersContainer/>}/>
                 <Route path="account/:tab?" element={<AccountContainer/>}/>
-                <Route path="user-manager/:tab?" element={<UserManagerContainer/>}/>
                 <Route path="parcel/:tab?" element={<ParcelContainer/>}/>
                 <Route path="add-parcel/:tab?" element={<AddParcelContainer/>}/>
         </Route>

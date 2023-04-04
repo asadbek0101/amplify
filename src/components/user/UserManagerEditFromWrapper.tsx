@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import Button from "../button/Button";
@@ -8,10 +8,10 @@ import UserManagerEditClaimForm from "./UserManagerEditClaim";
 import UserManagerEditForm from "./UserManagerEditForm";
 import UserManagerEditPasswordForm from "./UserManagerEditPassword";
 import UserManagerEditRoleForm from "./UserManagerEditRole";
+import { useUserApiContext } from "../../api/user/UserApiContext";
 
 interface UserManagerFormWrapperProps{
     readonly back: () => void
-    readonly selectValue: any;
 }
 
 // "firstName": "string",
@@ -23,11 +23,14 @@ interface UserManagerFormWrapperProps{
 // "roleName": "string",
 // "passwordHash": "string"
 
-export default function UserManagerEditFormWrapper({back, selectValue}:UserManagerFormWrapperProps){
+export default function UserManagerEditFormWrapper({back}:UserManagerFormWrapperProps){
 
+    const { UserApi } = useUserApiContext();
     const navigation = useNavigate();
     const [claims, setClaims] = useState<any>([]);
     const [roles, setRoles] = useState<any>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const id = searchParams.get("userId");
    
     const [initialValues, setInitialValues] = useState({
         firstName: "",
@@ -50,35 +53,28 @@ export default function UserManagerEditFormWrapper({back, selectValue}:UserManag
     })
 
     useEffect(()=>{
-        if(Boolean(selectValue)){
-                request.get(`/UserManager/${selectValue.id}`,{
-                  headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-                }).then((respon: any)=>{
+        if(id){
+               UserApi.getUserById({id: Number(id)}).then((respon: any)=>{
                     setInitialValues(respon.data)
                     setClaims(respon.data.userClaim);
                     setRoles(respon.data.userRoles)
                 }).catch((error)=>toast.error(error.message))
-                
         }
-    },[setInitialValues,selectValue, selectValue, request, toast, setClaims])
+    },[setInitialValues, UserApi, toast, setClaims, id])
 
     const submit = useCallback((value: any)=>{
         const data = {
-            id: Number(selectValue.id),
+            id: Number(),
             firstName: value.firstName,
             lastName: value.lastName,
             address: value.address,
             phoneNumber: value.phoneNumber,
         }
-        request.put("/UserManager", 
-        data,
-            {
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-            }).then((response: any)=>{
+        UserApi.updateUser(data).then(()=>{
                 toast.success("Updated!")
-                navigation('/app/user-manager/table')
-            }).catch((err: any)=>toast.error("Fail!"))
-    },[request])
+                setSearchParams({pageType: "table"})
+            }).catch(()=>toast.error("Fail!"))
+    },[UserApi, searchParams, setInitialValues,])
 
     return (
     <TabPage 

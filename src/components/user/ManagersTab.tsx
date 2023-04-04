@@ -1,33 +1,24 @@
-import React, { useState} from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import ContainerLayout from "../app/ContainerLayout";
 import UserManagerEditFormWrapper from "./UserManagerEditFromWrapper";
 import UserManagerFormWrapper from "./UserManagerFormWrapper";
 import UserManagerTableWrapper from "./UserManagerTableWrapper";
 
 export default function ManagersTab(){
-    const { tab = "table" } = useParams();
-    const [ value, setValue ] = useState(null);
-    const navigate = useNavigate();
-    const profile = useSelector((state: any) =>state.data.profile)
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = useMemo(()=>searchParams.get("pageType")? searchParams.get("pageType") : "table",[searchParams])
 
     return (
         <ContainerLayout>
+          {page === "table" && (
              <UserManagerTableWrapper roleId={2} editRow={(value: any)=>{
-              setValue(value)
-              navigate('/app/user-manager/edit-form')
+              setSearchParams({pageType: "form", userId: value.id})
              }} 
-             create={()=>{
-              setValue(null)
-              navigate(`/app/user-manager/${"create-form"}`)
-             }}/>
-           {tab === "create-form" && (
-             <UserManagerFormWrapper back={()=>navigate(`/app/user-manager/${'table'}`)}/>
-           )}
-            {tab === "edit-form" && (
-             <UserManagerEditFormWrapper selectValue={value} back={()=>navigate(`/app/user-manager/${'table'}`)}/>
+             />
+            )}
+            {page === "form" && (
+             <UserManagerEditFormWrapper back={()=>setSearchParams({pageType: "table"})}/>
            )}
         </ContainerLayout>
     )
