@@ -109,11 +109,13 @@ export default function AddParcelForm({
         let WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
         
         if(found && found.commonCost != 0){
+
             if(found.firstCost == 0){
                 OVERAL_SUM = WEIGHT * found.commonCost
             }else if(found.firstCost != 0){
                 OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
             }
+            
         }else{
             toast.error("Bunday jarayon bizda yo'q!")
         }
@@ -124,7 +126,7 @@ export default function AddParcelForm({
                 costDeliveryToBranch: OVERAL_SUM,
             })
         )
-    },[setInitialValues, initialValues, costInfo, initialValues, costInfo, sum, setSum])
+    },[setInitialValues, initialValues, costInfo, initialValues, costInfo])
 
     return (
         <Formik
