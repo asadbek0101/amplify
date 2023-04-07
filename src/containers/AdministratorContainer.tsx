@@ -5,22 +5,29 @@ import RoleManagerTab from "../components/administrator/RoleManagerTab";
 import StatusTab from "../components/administrator/StatusTab";
 import ContainerLayout from "../components/app/ContainerLayout";
 
+export enum AdministratorTabs{
+  RoleManagerTab = "role-manager",
+  PlanTab = "plan",
+  StatusTab = "status",
+  BranchesTab = "branches",
+}
+
 export default function AdministratorContainer(){
   
-    const { tab = "role-manager" } = useParams();
+    const { tab = AdministratorTabs.RoleManagerTab } = useParams();
 
     return (
         <ContainerLayout>
-              {tab === "role-manager" && (
+              {tab === AdministratorTabs.RoleManagerTab && (
                 <RoleManagerTab/>
               )}   
-               {tab === "plan" && (
+               {tab === AdministratorTabs.PlanTab && (
                 <PlanTab/>
               )} 
-               {tab === "status" && (
+               {tab === AdministratorTabs.StatusTab && (
                 <StatusTab/>
               )} 
-               {tab === "branch" && (
+               {tab === AdministratorTabs.BranchesTab && (
                 <BranchTab/>
               )}           
         </ContainerLayout>

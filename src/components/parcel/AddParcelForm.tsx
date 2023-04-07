@@ -9,6 +9,7 @@ import CheckBox from "../form/CheckBox";
 import InputField from "../form/InputField";
 import SelectPicker from "../form/SelectPicker";
 import SelectVirtualizedPricek from "../form/SelectVirtualizedPricek";
+import { toast } from "react-toastify";
 
 interface AddParcelFormProps{
     readonly initialValues: any;
@@ -103,27 +104,27 @@ export default function AddParcelForm({
     },[setInitialValues])
 
     const onChangeParcelPlanId = useCallback((value: any)=>{
+        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch == initialValues.parcelBranchFromId && x.toBranch == initialValues.parcelBranchToId && x.planName == value.label))];
+        let OVERAL_SUM: Number;
+        let WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
+        
+        if(found && found.commonCost != 0){
+            if(found.firstCost == 0){
+                OVERAL_SUM = WEIGHT * found.commonCost
+            }else if(found.firstCost != 0){
+                OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
+            }
+        }else{
+            toast.error("Bunday jarayon bizda yo'q!")
+        }
+        
         setInitialValues((prev: any)=>
             update(prev, {
-                parcelPlanId: value.label
+                parcelPlanId: value.label,
+                costDeliveryToBranch: OVERAL_SUM,
             })
         )
-    },[setInitialValues, initialValues])
-
-
-    const findCost = useCallback(()=>{
-        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch == initialValues.parcelBranchFromId && x.toBranch == initialValues.parcelBranchToId && x.planName == initialValues.parcelPlanId))];
-        if(found.minimumWeight < Number(initialValues.weight)){
-            let a = Number(found.cost) * Number(initialValues.weight);
-            setSum(a);
-        }else {
-            let a = Number(found.cost) * Number(found.minimumWeight);
-            setSum(a); 
-        }
-    },[initialValues, costInfo, sum, setSum])
-
-    console.log("sum ", sum)
-
+    },[setInitialValues, initialValues, costInfo, initialValues, costInfo, sum, setSum])
 
     return (
         <Formik
@@ -173,13 +174,6 @@ export default function AddParcelForm({
                                 </div>
                             </GroupBox>
                         </div>
-
-                        <div className="col-12 d-flex justify-content-end mt-3">
-                            <Button className="bg-gold text-light px-2 py-1" onClick={()=>findCost()}>
-                                Submit
-                            </Button>
-                        </div>
-
                         <div className="col-12 mt-4">
                             <GroupBox title="Courier And Cost">
                                 <div className="row mt-2">
@@ -187,7 +181,7 @@ export default function AddParcelForm({
                                         <InputGroup label="Cost For Delivery To Branch">
                                             <InputField disabled inputClassName="border-0" value={"Has the shipping cost been paid?"} name="costDeliveryToBranch"/>
                                             <CheckBox name="name"/>
-                                            <InputField value={0} type="number"  inputClassName="rounded-0 border-0 h-100" name="costDeliveryToBranch"/>
+                                            <InputField value={initialValues.costDeliveryToBranch} type="number"  inputClassName="rounded-0 border-0 h-100" name="costDeliveryToBranch"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6">

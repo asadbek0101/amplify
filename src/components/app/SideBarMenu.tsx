@@ -1,64 +1,60 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import BranchIcon from "../icons/BranchIcon";
-import PlanIcon from "../icons/PlanIcon";
-import RoleIcon from "../icons/RoleIcon";
-import TestIcon from "../icons/TestIcon";
 import UserIcon from "../icons/UserIcon";
-import UsersIcon from "../icons/UsersIcon";
 import AppMenu from "./AppMenu";
 import SideBarItem from "./SideBarItem";
 import { SaveActiveItem } from "../../utils/SaveActiveItem";
-import { useSelector } from "react-redux";
 import "./assets/app-menu.scss";
 import AddIcon from "../icons/AddIcon";
 import BoxsIcon from "../icons/BoxsIcon";
 import EditIcon from "../icons/EditIcon";
+import { RouteContainerTabs } from "../../constents/Routes";
+import { AdministratorTabs } from "../../containers/AdministratorContainer";
+import { UserTabs } from "../../containers/UsersContainer";
 
 export default function SideBarMenu(){
+
     const location = useLocation();
     const tab = useMemo(()=>SaveActiveItem("tab", location.pathname),[SaveActiveItem, location.pathname])
     const childTab = useMemo(()=>SaveActiveItem("childTab", location.pathname),[SaveActiveItem, location.pathname])
     const navigate = useNavigate();
-    const menu = useSelector((state: any)=>state.data.menuStatus)
-    const profile = useSelector((state: any) =>state.data.profile)
 
     return (
         <AppMenu
             activeTab={tab}
-            defaultTab="administrator"
+            defaultTab={RouteContainerTabs.Administrator}
             onChangeTab={(value: string)=>{
                 navigate(`/app/${value}`)
             }}
             >
             <SideBarItem
-                key="administrator"
+                key={RouteContainerTabs.Administrator}
                 icon={
                     <UserIcon color="white"/>  
                 }
                 responsiveContent={
                     <AppMenu
-                        defaultTab="role-manager"
+                        defaultTab={AdministratorTabs.RoleManagerTab}
                         activeTab={childTab}
                         onChangeTab={(value: any)=>navigate(`/app/administrator/${value}`)}
                         >
                     <SideBarItem
-                        key="role-manager"
+                        key={AdministratorTabs.RoleManagerTab}
                         >
                         Role Manager
                     </SideBarItem>    
                     <SideBarItem
-                        key="plan"
+                        key={AdministratorTabs.PlanTab}
                         >
                         Plan
                     </SideBarItem> 
                     <SideBarItem
-                        key="status"
+                        key={AdministratorTabs.StatusTab}
                         >
                         Status
                     </SideBarItem> 
                     <SideBarItem
-                        key="branch"
+                        key={AdministratorTabs.BranchesTab}
                         >
                         Branches
                     </SideBarItem>    
@@ -68,7 +64,7 @@ export default function SideBarMenu(){
                 Administrator
             </SideBarItem>
             <SideBarItem
-                key="users"
+                key={RouteContainerTabs.Users}
                 icon={
                     <UserIcon color="white"/>  
                 }
@@ -79,34 +75,34 @@ export default function SideBarMenu(){
                         onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
                         >
                     <SideBarItem
-                        key="add-user"
+                        key={UserTabs.AddUser}
                         >
                         Add User
                     </SideBarItem> 
                     <SideBarItem
-                        key="all-users"
+                        key={UserTabs.AllUsers}
                         >
                         All Users
                     </SideBarItem> 
                     <SideBarItem
-                        key="customers"
+                        key={UserTabs.Customers}
                         >
                         Customers
                     </SideBarItem>    
                     <SideBarItem
-                        key="staff"
+                        key={UserTabs.Staff}
                         >
                         Staff
                     </SideBarItem> 
                     <SideBarItem
-                        key="managers"
+                        key={UserTabs.Managers}
                         >
                         Managers
                     </SideBarItem> 
                     <SideBarItem
-                        key="curiers"
+                        key={UserTabs.Couriers}
                         >
-                        Curiers
+                        Couriers
                     </SideBarItem>    
                     </AppMenu>
                 }
@@ -114,7 +110,7 @@ export default function SideBarMenu(){
                 Users
             </SideBarItem>
             <SideBarItem
-                key="parcel"
+                key={RouteContainerTabs.Parcels}
                 icon={
                     <BoxsIcon color="white"/>
                 }

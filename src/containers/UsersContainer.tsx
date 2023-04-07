@@ -7,26 +7,35 @@ import ManagersTab from "../components/user/ManagersTab";
 import CustomersTab from "../components/user/Customers";
 import StaffTab from "../components/user/StaffTab";
 
+export enum UserTabs{
+  AddUser = "add-user",
+  AllUsers = "all-users",
+  Customers = "customers",
+  Staff = "staff",
+  Managers = "managers",
+  Couriers = "couriers",
+}
+
 export default function UsersContainer(){
-    const { tab = "add-user" } = useParams();
+    const { tab = UserTabs.AddUser } = useParams();
     return (
         <ContainerLayout>
-          {tab == "add-user" && (
+          {tab == UserTabs.AddUser && (
             <AddUserTab/>
           )}
-           {tab == "all-users" && (
+           {tab == UserTabs.AllUsers && (
             <AllUserTab/>
           )}
-          {tab == "customers" && (
+          {tab == UserTabs.Customers && (
             <CustomersTab/>
           )}
-          {tab == "staff" && (
+          {tab == UserTabs.Staff && (
             <StaffTab/>
           )}
-           {tab == "managers" && (
+           {tab == UserTabs.Managers && (
             <ManagersTab/>
           )}
-           {tab == "curiers" && (
+           {tab == UserTabs.Couriers && (
             <CuriersTab/>
           )}
         </ContainerLayout>
