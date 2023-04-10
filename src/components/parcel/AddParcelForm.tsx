@@ -10,6 +10,9 @@ import InputField from "../form/InputField";
 import SelectPicker from "../form/SelectPicker";
 import SelectVirtualizedPricek from "../form/SelectVirtualizedPricek";
 import { toast } from "react-toastify";
+import ImgUpload from "../app/ImgUpload";
+import AddParcelShowImages from "./AddParcelShowImages";
+import TextAreaField from "../form/TextAreaField";
 
 interface AddParcelFormProps{
     readonly initialValues: any;
@@ -22,6 +25,8 @@ interface AddParcelFormProps{
     readonly paymentMethods: any[];
     readonly handleScroll: (value: any) => void;
     readonly setSearch: (value: any) => void;
+    readonly setRundomCode: (value: any) => void;
+    readonly onSubmit: (value: any) => void;
 }
 
 const validationSchema = object({
@@ -50,10 +55,13 @@ export default function AddParcelForm({
     customers, 
     paymentMethods, 
     setInitialValues,
-    setSearch
+    setSearch,
+    setRundomCode,
+    onSubmit
 }:AddParcelFormProps){
 
-    const [sum, setSum] = useState(0);
+    const [randomNum, setRandomNum] = useState<number>();
+    const [ imgUrls, setImgUrls ] = useState<any>([])
 
     const onChangeSenderId = useCallback((value: any)=>{
         setInitialValues((prev: any)=>
@@ -72,50 +80,99 @@ export default function AddParcelForm({
     },[setInitialValues])
 
     const onChangeParcelBranchFromId = useCallback((value: any)=>{
+
+        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch === value.label && x.toBranch === initialValues.parcelBranchToId && x.planName === initialValues.parcelPlanId))];
+        let WEIGHT, OVERAL_SUM: Number = 0;
+        
+        if(found && found.commonCost !== 0){
+
+            WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
+
+            if(found.firstCost === 0){
+                OVERAL_SUM = WEIGHT * found.commonCost
+            }else if(found.firstCost !== 0){
+                OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
+            }
+        }
+
         setInitialValues((prev: any)=>
             update(prev, {
-                parcelBranchFromId: value.label
+                parcelBranchFromId: value.label,
+                costDeliveryToBranch: OVERAL_SUM,
             })
         )
-    },[setInitialValues])
+    },[setInitialValues, initialValues, costInfo])
 
     const onChangeParcelBranchToId = useCallback((value: any)=>{
+
+        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch === initialValues.parcelBranchFromId && x.toBranch === value.label && x.planName === initialValues.parcelPlanId))];
+        let WEIGHT, OVERAL_SUM: Number = 0;
+
+        if(found && found.commonCost !== 0){
+            
+            WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
+
+            if(found.firstCost === 0){
+                OVERAL_SUM = WEIGHT * found.commonCost
+            }else if(found.firstCost !== 0){
+                OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
+            }
+        }
+
         setInitialValues((prev: any)=>
             update(prev, {
-                parcelBranchToId: value.label
+                parcelBranchToId: value.label,
+                costDeliveryToBranch: OVERAL_SUM,
             })
         )
-    },[setInitialValues])
+    },[setInitialValues, initialValues, costInfo])
 
     const onChangeWeight = useCallback((value: any)=>{
+
+        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch === initialValues.parcelBranchFromId && x.toBranch === initialValues.parcelBranchToId && x.planName === initialValues.parcelPlanId))];
+        let WEIGHT, OVERAL_SUM: Number = 0;
+        
+        if(found && found.commonCost !== 0 && value){
+            
+            WEIGHT = Number(value) < found.minimumWeight ? found.minimumWeight : Number(value);
+
+            if(found.firstCost === 0){
+                OVERAL_SUM = WEIGHT * found.commonCost
+            }else if(found.firstCost !== 0){
+                OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
+            }
+        }
+
         setInitialValues((prev: any)=>
             update(prev, {
-                weight: value
+                weight: value,
+                costDeliveryToBranch: OVERAL_SUM,
             })
         )
-    },[setInitialValues])
+    },[setInitialValues, initialValues, costInfo])
 
     const onChangeNumberOfPoint = useCallback((value: any)=>{
         setInitialValues((prev: any)=>
             update(prev, {
-                numberOfPoint: value
+                numberOfPoint: value,
             })
         )
     },[setInitialValues])
 
     const onChangeParcelPlanId = useCallback((value: any)=>{
-        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch == initialValues.parcelBranchFromId && x.toBranch == initialValues.parcelBranchToId && x.planName == value.label))];
-        let OVERAL_SUM: Number;
-        let WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
-        
-        if(found && found.commonCost != 0){
+        const found = costInfo[costInfo.findIndex(x =>(x.fromBranch === initialValues.parcelBranchFromId && x.toBranch === initialValues.parcelBranchToId && x.planName === value.label))];
+        let WEIGHT, OVERAL_SUM: Number = 0;
+     
+        if(found && found.commonCost !== 0){
 
-            if(found.firstCost == 0){
+            WEIGHT = initialValues.weight < found.minimumWeight ? found.minimumWeight : initialValues.weight;
+
+            if(found.firstCost === 0){
                 OVERAL_SUM = WEIGHT * found.commonCost
-            }else if(found.firstCost != 0){
+            }else if(found.firstCost !== 0){
                 OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
             }
-            
+
         }else{
             toast.error("Bunday jarayon bizda yo'q!")
         }
@@ -125,18 +182,24 @@ export default function AddParcelForm({
                 parcelPlanId: value.label,
                 costDeliveryToBranch: OVERAL_SUM,
             })
-        )
-    },[setInitialValues, initialValues, costInfo, initialValues, costInfo])
+        );
+        setRandomNum(Math.floor(Math.random() * (8999999999 + 1) + 1000000000));
+    },[setInitialValues, initialValues, costInfo, setRandomNum])
 
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={()=>console.log("Formik is working...")}
+            onSubmit={()=>onSubmit(initialValues)}
             enableReinitialize={true}
-            validationSchema={validationSchema}
-                >
+            validationSchema={validationSchema}>
                 {()=>(<Form>
                     <div className="row p-3 mt-3">
+                        <div className="col-12 mb-3 d-flex justify-content-between align-item-center">
+                            <div className="d-flex gap-2 align-item-center">
+                                <span>New Parcel</span><span> { randomNum} </span>
+                            </div>
+                        </div>
+                        
                         <div className="col-6">
                             <GroupBox title="Sender">
                                 <div className="row mt-2">
@@ -144,11 +207,12 @@ export default function AddParcelForm({
                                         <SelectVirtualizedPricek setSearch={setSearch} name="senderId" options={users} onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
                                     </div>
                                     <div className="col-12 mt-2">
-                                    <SelectPicker name="parcelBranchFromId" options={branchs} onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
+                                        <SelectPicker name="parcelBranchFromId" options={branchs} onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
                                     </div>
                                  </div>
                              </GroupBox>
                         </div>
+                        
                         <div className="col-6">
                             <GroupBox title="Recipent">
                                 <div className="row mt-2">
@@ -160,7 +224,7 @@ export default function AddParcelForm({
                                 </div>
                              </GroupBox>
                         </div>
-
+                        
                         <div className="col-12 mt-4">
                             <GroupBox>
                                 <div className="row">
@@ -176,6 +240,7 @@ export default function AddParcelForm({
                                 </div>
                             </GroupBox>
                         </div>
+                        
                         <div className="col-12 mt-4">
                             <GroupBox title="Courier And Cost">
                                 <div className="row mt-2">
@@ -220,9 +285,60 @@ export default function AddParcelForm({
                                 </div>
                             </GroupBox>
                         </div>
-                        
+
+                <div className="col-12 mt-3">
+                        <ImgUpload className="mb-3" setImage={(value: any)=>setImgUrls((prev: any)=>[...prev, {imgUrl: value}])}/>
+                        <AddParcelShowImages data={imgUrls}/>
+                </div>
+
+                <div className="col-12 mt-3">
+                    <GroupBox title="Messages">
+                        <div className="row">
+                            <div className="col-4 d-flex">
+                                <CheckBox className="bg-transparent w-100" name="telegram" rightLabel="Telegram"/>
+                            </div>
+                            <div className="col-4">
+                                <CheckBox className="bg-transparent w-100" name="sms-sender" rightLabel="Sms Sender"/>
+                            </div>
+                            <div className="col-4 d-flex">
+                                <CheckBox className="bg-transparent w-100" name="sms-receipent" rightLabel="Sms-Reseipent"/>
+                            </div>
                         </div>
-                    </Form>)}
+                    </GroupBox>
+                </div>
+
+                <div className="col-12 mt-4">
+                        <GroupBox title="Pickup and Delivery address">
+                            <div className="row">
+                                <div className="col-12 mt-2">
+                                    <TextAreaField label="Comment" name="comment"/>
+                                </div>
+                                <div className="col-12 mt-2">
+                                    <TextAreaField label="Pickup address" name="pickupAddress"/>
+                                </div>
+                                <div className="col-12 mt-2">
+                                    <TextAreaField label="Delivery address" name="deliveryAddress"/>
+                                </div>
+                            </div>
+                        </GroupBox>
+                    </div>
+                    <div className="col-12 mt-3 d-flex gap-3">
+                        <Button className="bg-gold text-light px-3 py-1" type="submit">
+                            Submit
+                        </Button>
+
+                        <Button className="text-light bg-green px-3 py-1" onClick={() => {
+                                if(randomNum){
+                                    setRundomCode(randomNum)
+                                }else{
+                                    toast.error("Parcel Number Is Not Found")
+                                }
+                            }}>
+                                Print
+                    </Button>
+                    </div>
+                </div>
+            </Form>)}
         </Formik>
     )
 }

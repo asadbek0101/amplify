@@ -1,31 +1,19 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 const App = () => {
 
-  let logOut = () => {
-    localStorage.clear();
-  }
+  const [randomNum, setRandomNum] = useState(5);
 
-  useEffect(() => {
-    const handleTabClose = (event: any) => {
-      event.preventDefault();
-
-      console.log('beforeunload event triggered');
-
-      return (event.returnValue = 'Are you sure you want to exit?');
-    };
-
-    window.addEventListener('beforeunload', handleTabClose);
-
-    return () => {
-    logOut()
-      window.removeEventListener('beforeunload', handleTabClose);
-    };
-  }, []);
+  const handleRandomNum = () => {
+    setRandomNum(Math.floor(Math.random() * (89999999 + 1) + 10000000));
+  };
 
   return (
     <div>
-      <h2>hello world</h2>
+      <button onClick={handleRandomNum}>
+        Randow
+      </button>
+      {randomNum}
     </div>
   );
 };

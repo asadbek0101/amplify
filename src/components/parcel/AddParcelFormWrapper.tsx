@@ -1,12 +1,7 @@
-import { resolve } from "path";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import AddParcelForm from "./AddParcelForm";
-import AddParcelUploadImage from "./AddParcelUploadImage";
-import AddParcelMessages from "./AddParcelMessages";
-import AddParcelCommentares from "./AddParcelCommentares";
-
 
 export default function AddParcelFormWrapper(){
     
@@ -111,7 +106,76 @@ export default function AddParcelFormWrapper(){
             })
         }).catch((error)=>toast.error(error.message))
         
-    },[request, toast, setPaymentMethods, scrollTop])
+    },[request, toast, setPaymentMethods, scrollTop]);
+
+
+    const onSumbit = useCallback((value: any)=>{
+        const data = {
+            parcelCost: {
+                StateDeliveryToBranch: true,
+                StatePickingUp: true,
+                StateDeliveryToPoint: true,
+                StateBuyout: true,
+                costPickingUp: 10,
+                costDeliveryToPoint: 10,
+                costDeliveryToBranch: 12,
+                costBuyout: 10,
+                currencyId: 1
+            },
+            senderId: "1",
+            recepientId: "2",
+            recepientStaffId: "3",
+            senderStaffId: "1",
+            recepientCourierId: "1",
+            senderCourierId: "1",
+            parcelPlanId: 1,
+            parcelBranchFromId: 1,
+            parcelBranchToId: 2,
+            parcelSize: {
+                weight: 10,
+                numberOfPoint: 1
+            },
+            parcelItem: [
+                {
+                    name: "Asadbek",
+                    cost: 10000,
+                    currencyId: 1,
+                    description: "asdasdasd"
+                }
+            ],
+            parcelStatusId: 1,
+            parcelImage: [
+                {
+                    imageName: "parcel1.jpg",
+                    imageBytes: "",
+                },
+                {
+                    imageName: "parcel2.jpg",
+                    imageBytes: "",
+                }
+            ],
+            parcelSound: [
+                {
+                    id: 0,
+                    soundName: "sound.ogg",
+                    soundBytes: "",
+                },
+                {
+                    "id": 0,
+                    soundName: "sound.ogg",
+                    soundBytes: "",
+                }
+            ],
+            parcelDescription: {
+                description: "Create Parcell uchun birinchi urunish"
+            }
+        }
+        request.post("/Parcel",{
+                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
+                data 
+            }).then((response: any)=>console.log(response)).catch((err: any)=>console.log(err))
+    },[request])
+
 
     return (
         <>
@@ -126,10 +190,9 @@ export default function AddParcelFormWrapper(){
                 branchs={branches} 
                 costInfo={costInfoList}
                 setSearch={setSearchValue}
+                setRundomCode={(value:any)=>console.log(value)}
+                onSubmit={(value)=>onSumbit(value)}
                 />
-        <AddParcelUploadImage/>
-        <AddParcelMessages/>
-        {/* <AddParcelCommentares/> */}
-        </>
-        )
+          </>
+     )
 }
