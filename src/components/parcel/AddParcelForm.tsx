@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import { update } from "immupdate";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { object, string } from "yup";
 import GroupBox from "../app/GroupBox";
 import InputGroup from "../app/InputGroup";

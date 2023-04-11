@@ -132,7 +132,7 @@ export default function AddParcelFormWrapper(){
             parcelBranchFromId: 1,
             parcelBranchToId: 2,
             parcelSize: {
-                weight: 10,
+                weight: 10000,
                 numberOfPoint: 1
             },
             parcelItem: [
@@ -170,11 +170,10 @@ export default function AddParcelFormWrapper(){
                 description: "Create Parcell uchun birinchi urunish"
             }
         }
-        request.post("/Parcel",{
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`},
-                data 
-            }).then((response: any)=>console.log(response)).catch((err: any)=>console.log(err))
-    },[request])
+        request.post("/Parcel", data ,{
+                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
+            }).then(()=>toast.success("Added!")).catch((err: any)=>toast.error(err.message))
+    },[request, toast])
 
 
     return (
