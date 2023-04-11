@@ -11,58 +11,260 @@ import EditIcon from "../icons/EditIcon";
 import { RouteContainerTabs } from "../../constents/Routes";
 import { AdministratorTabs } from "../../containers/AdministratorContainer";
 import { UserTabs } from "../../containers/UsersContainer";
+import { useSelector } from "react-redux";
 
 export default function SideBarMenu(){
 
     const location = useLocation();
     const tab = useMemo(()=>SaveActiveItem("tab", location.pathname),[SaveActiveItem, location.pathname])
     const childTab = useMemo(()=>SaveActiveItem("childTab", location.pathname),[SaveActiveItem, location.pathname])
+    const account = useSelector((state: any) =>state.data.profile);
+
+    const Administrator = account.role.filter((item:any)=>item === "Administrator")
+    const Manager = account.role.filter((item:any)=>item === "Manager")
+    const Staff = account.role.filter((item:any)=>item === "Staff")
+    const Customer = account.role.filter((item:any)=>item === "Customer")
+    const Courier = account.role.filter((item:any)=>item === "Courier");
+
     const navigate = useNavigate();
 
     return (
-        <AppMenu
+        <>
+        {/* Administrator */}
+        {Administrator.length !== 0 && Manager.length === 0 && Staff.length === 0 && Courier.length === 0 && Customer.length === 0 && (
+                <AppMenu
+                activeTab={tab}
+                defaultTab={RouteContainerTabs.Administrator}
+                onChangeTab={(value: string)=>{
+                    navigate(`/app/${value}`)
+                }}
+                >
+                <SideBarItem
+                    key={RouteContainerTabs.Administrator}
+                    icon={
+                        <UserIcon color="white"/>  
+                    }
+                    responsiveContent={
+                        <AppMenu
+                            defaultTab={AdministratorTabs.RoleManagerTab}
+                            activeTab={childTab}
+                            onChangeTab={(value: any)=>navigate(`/app/administrator/${value}`)}
+                            >
+                        <SideBarItem
+                            key={AdministratorTabs.RoleManagerTab}
+                            >
+                            Role Manager
+                        </SideBarItem>    
+                        <SideBarItem
+                            key={AdministratorTabs.PlanTab}
+                            >
+                            Plan
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={AdministratorTabs.StatusTab}
+                            >
+                            Status
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={AdministratorTabs.BranchesTab}
+                            >
+                            Branches
+                        </SideBarItem>    
+                        </AppMenu>
+                    }
+                    >
+                    Administrator
+                </SideBarItem>
+                <SideBarItem
+                    key={RouteContainerTabs.Users}
+                    icon={
+                        <UserIcon color="white"/>  
+                    }
+                    responsiveContent={
+                        <AppMenu
+                            activeTab={childTab}
+                            defaultTab="add-user"
+                            onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
+                            >
+                        <SideBarItem
+                            key={UserTabs.AddUser}
+                            >
+                            Add User
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.AllUsers}
+                            >
+                            All Users
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Customers}
+                            >
+                            Customers
+                        </SideBarItem>    
+                        <SideBarItem
+                            key={UserTabs.Staff}
+                            >
+                            Staff
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Managers}
+                            >
+                            Managers
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Couriers}
+                            >
+                            Couriers
+                        </SideBarItem>    
+                        </AppMenu>
+                    }
+                    >
+                    Users
+                </SideBarItem>
+                <SideBarItem
+                    key={RouteContainerTabs.Parcels}
+                    icon={
+                        <BoxsIcon color="white"/>
+                    }
+                    responsiveContent={
+                        <AppMenu
+                            activeTab={childTab}
+                            defaultTab="all-parcels"
+                            onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
+                            >
+                            <SideBarItem
+                                key="all-parcels"
+                                >
+                                All Parcels
+                            </SideBarItem>     
+                        </AppMenu>
+                    }
+                    >
+                    Parcels
+                </SideBarItem>
+                <SideBarItem
+                    key="add-parcel"
+                    icon={
+                        <AddIcon color="white"/>
+                    }
+                    >
+                    Add Parcel
+                </SideBarItem>
+                <SideBarItem
+                    key="edit-parcel"
+                    icon={
+                        <EditIcon color="white"/>
+                    }
+                    >
+                    Edit Parcel
+                </SideBarItem>
+                </AppMenu>
+        )}
+
+        {/* Manager */}
+        {Administrator.length === 0 && Manager.length !== 0 && Staff.length === 0 && Courier.length === 0 && Customer.length === 0 && (
+                <AppMenu
+                activeTab={tab}
+                defaultTab={RouteContainerTabs.Administrator}
+                onChangeTab={(value: string)=>{
+                    navigate(`/app/${value}`)
+                }}
+                >
+                <SideBarItem
+                    key={RouteContainerTabs.Users}
+                    icon={
+                        <UserIcon color="white"/>  
+                    }
+                    responsiveContent={
+                        <AppMenu
+                            activeTab={childTab}
+                            defaultTab="add-user"
+                            onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
+                            >
+                        <SideBarItem
+                            key={UserTabs.AddUser}
+                            >
+                            Add User
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.AllUsers}
+                            >
+                            All Users
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Customers}
+                            >
+                            Customers
+                        </SideBarItem>    
+                        <SideBarItem
+                            key={UserTabs.Staff}
+                            >
+                            Staff
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Managers}
+                            >
+                            Managers
+                        </SideBarItem> 
+                        <SideBarItem
+                            key={UserTabs.Couriers}
+                            >
+                            Couriers
+                        </SideBarItem>    
+                        </AppMenu>
+                    }
+                    >
+                    Users
+                </SideBarItem>
+                <SideBarItem
+                    key={RouteContainerTabs.Parcels}
+                    icon={
+                        <BoxsIcon color="white"/>
+                    }
+                    responsiveContent={
+                        <AppMenu
+                            activeTab={childTab}
+                            defaultTab="all-parcels"
+                            onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
+                            >
+                            <SideBarItem
+                                key="all-parcels"
+                                >
+                                All Parcels
+                            </SideBarItem>     
+                        </AppMenu>
+                    }
+                    >
+                    Parcels
+                </SideBarItem>
+                <SideBarItem
+                    key="add-parcel"
+                    icon={
+                        <AddIcon color="white"/>
+                    }
+                    >
+                    Add Parcel
+                </SideBarItem>
+                <SideBarItem
+                    key="edit-parcel"
+                    icon={
+                        <EditIcon color="white"/>
+                    }
+                    >
+                    Edit Parcel
+                </SideBarItem>
+                </AppMenu>
+        )}
+
+        {/* Staff */}
+        {Administrator.length === 0 && Manager.length === 0 && Staff.length !== 0 && Courier.length === 0 && Customer.length === 0 && (
+            <AppMenu
             activeTab={tab}
             defaultTab={RouteContainerTabs.Administrator}
             onChangeTab={(value: string)=>{
                 navigate(`/app/${value}`)
             }}
             >
-            <SideBarItem
-                key={RouteContainerTabs.Administrator}
-                icon={
-                    <UserIcon color="white"/>  
-                }
-                responsiveContent={
-                    <AppMenu
-                        defaultTab={AdministratorTabs.RoleManagerTab}
-                        activeTab={childTab}
-                        onChangeTab={(value: any)=>navigate(`/app/administrator/${value}`)}
-                        >
-                    <SideBarItem
-                        key={AdministratorTabs.RoleManagerTab}
-                        >
-                        Role Manager
-                    </SideBarItem>    
-                    <SideBarItem
-                        key={AdministratorTabs.PlanTab}
-                        >
-                        Plan
-                    </SideBarItem> 
-                    <SideBarItem
-                        key={AdministratorTabs.StatusTab}
-                        >
-                        Status
-                    </SideBarItem> 
-                    <SideBarItem
-                        key={AdministratorTabs.BranchesTab}
-                        >
-                        Branches
-                    </SideBarItem>    
-                    </AppMenu>
-                }
-                >
-                Administrator
-            </SideBarItem>
             <SideBarItem
                 key={RouteContainerTabs.Users}
                 icon={
@@ -89,11 +291,11 @@ export default function SideBarMenu(){
                         >
                         Customers
                     </SideBarItem>    
-                    <SideBarItem
+                    {/* <SideBarItem
                         key={UserTabs.Staff}
                         >
                         Staff
-                    </SideBarItem> 
+                    </SideBarItem>  */}
                     <SideBarItem
                         key={UserTabs.Managers}
                         >
@@ -146,6 +348,198 @@ export default function SideBarMenu(){
                 >
                 Edit Parcel
             </SideBarItem>
-        </AppMenu>
+            </AppMenu>
+        )}
+
+        {/* Courier */}
+        {Administrator.length === 0 && Manager.length === 0 && Staff.length === 0 && Courier.length !== 0 && Customer.length === 0 && (
+            <AppMenu
+            activeTab={tab}
+            defaultTab={RouteContainerTabs.Administrator}
+            onChangeTab={(value: string)=>{
+                navigate(`/app/${value}`)
+            }}
+            >
+            <SideBarItem
+                key={RouteContainerTabs.Users}
+                icon={
+                    <UserIcon color="white"/>  
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab={childTab}
+                        defaultTab="add-user"
+                        onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
+                        >
+                    <SideBarItem
+                        key={UserTabs.AddUser}
+                        >
+                        Add User
+                    </SideBarItem> 
+                    <SideBarItem
+                        key={UserTabs.AllUsers}
+                        >
+                        All Users
+                    </SideBarItem> 
+                    {/* <SideBarItem
+                        key={UserTabs.Customers}
+                        >
+                        Customers
+                    </SideBarItem>     */}
+                    {/* <SideBarItem
+                        key={UserTabs.Staff}
+                        >
+                        Staff
+                    </SideBarItem>  */}
+                    {/* <SideBarItem
+                        key={UserTabs.Managers}
+                        >
+                        Managers
+                    </SideBarItem>  */}
+                    {/* <SideBarItem
+                        key={UserTabs.Couriers}
+                        >
+                        Couriers
+                    </SideBarItem>     */}
+                    </AppMenu>
+                }
+                >
+                Users
+            </SideBarItem>
+            <SideBarItem
+                key={RouteContainerTabs.Parcels}
+                icon={
+                    <BoxsIcon color="white"/>
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab={childTab}
+                        defaultTab="all-parcels"
+                        onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
+                        >
+                        <SideBarItem
+                            key="all-parcels"
+                            >
+                            All Parcels
+                        </SideBarItem>     
+                    </AppMenu>
+                }
+                >
+                Parcels
+            </SideBarItem>
+            <SideBarItem
+                key="add-parcel"
+                icon={
+                    <AddIcon color="white"/>
+                }
+                >
+                Add Parcel
+            </SideBarItem>
+            <SideBarItem
+                key="edit-parcel"
+                icon={
+                    <EditIcon color="white"/>
+                }
+                >
+                Edit Parcel
+            </SideBarItem>
+            </AppMenu>
+        )}
+
+        {/* Customer */}
+        {Administrator.length === 0 && Manager.length === 0 && Staff.length === 0 && Courier.length === 0 && Customer.length !== 0 && (
+            <AppMenu
+            activeTab={tab}
+            defaultTab={RouteContainerTabs.Administrator}
+            onChangeTab={(value: string)=>{
+                navigate(`/app/${value}`)
+            }}
+            >
+            <SideBarItem
+                key={RouteContainerTabs.Users}
+                icon={
+                    <UserIcon color="white"/>  
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab={childTab}
+                        defaultTab="add-user"
+                        onChangeTab={(value: any)=>navigate(`/app/users/${value}`)}
+                        >
+                    <SideBarItem
+                        key={UserTabs.AddUser}
+                        >
+                        Add User
+                    </SideBarItem> 
+                    <SideBarItem
+                        key={UserTabs.AllUsers}
+                        >
+                        All Users
+                    </SideBarItem> 
+                    {/* <SideBarItem
+                        key={UserTabs.Customers}
+                        >
+                        Customers
+                    </SideBarItem>     */}
+                    {/* <SideBarItem
+                        key={UserTabs.Staff}
+                        >
+                        Staff
+                    </SideBarItem>  */}
+                    {/* <SideBarItem
+                        key={UserTabs.Managers}
+                        >
+                        Managers
+                    </SideBarItem>  */}
+                    {/* <SideBarItem
+                        key={UserTabs.Couriers}
+                        >
+                        Couriers
+                    </SideBarItem>     */}
+                    </AppMenu>
+                }
+                >
+                Users
+            </SideBarItem>
+            <SideBarItem
+                key={RouteContainerTabs.Parcels}
+                icon={
+                    <BoxsIcon color="white"/>
+                }
+                responsiveContent={
+                    <AppMenu
+                        activeTab={childTab}
+                        defaultTab="all-parcels"
+                        onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
+                        >
+                        <SideBarItem
+                            key="all-parcels"
+                            >
+                            All Parcels
+                        </SideBarItem>     
+                    </AppMenu>
+                }
+                >
+                Parcels
+            </SideBarItem>
+            <SideBarItem
+                key="add-parcel"
+                icon={
+                    <AddIcon color="white"/>
+                }
+                >
+                Add Parcel
+            </SideBarItem>
+            <SideBarItem
+                key="edit-parcel"
+                icon={
+                    <EditIcon color="white"/>
+                }
+                >
+                Edit Parcel
+            </SideBarItem>
+            </AppMenu>
+        )}
+        </>
     )
 }

@@ -13,12 +13,18 @@ export default function AddParcelFormWrapper(){
         weight: "",
         numberOfPoint: "",
         parcelPlanId: "",
+        parcelPlanIdForApi: "",
         costDeliveryToBranch: "",
         costDeliveryToPoint: "",
         costPickingUp: "",
         paymentMethod: "",
         senderCourierId: "",
         recepientCourierId: "",
+        StateDeliveryToBranch: "",
+        StatePickingUp: "",
+        StateDeliveryToPoint: "",
+        parcelBranchFromIdForApi: "",
+        parcelBranchToIdForApi: "",
     })
     const [users, setUsers] = useState<any[]>([])
     const [branches, setBranches] = useState<any>([]);
@@ -112,28 +118,28 @@ export default function AddParcelFormWrapper(){
     const onSumbit = useCallback((value: any)=>{
         const data = {
             parcelCost: {
-                StateDeliveryToBranch: true,
-                StatePickingUp: true,
-                StateDeliveryToPoint: true,
+                StateDeliveryToBranch: value.StateDeliveryToBranch,
+                StatePickingUp: value.StatePickingUp,
+                StateDeliveryToPoint: value.StateDeliveryToPoint,
                 StateBuyout: true,
-                costPickingUp: 10,
-                costDeliveryToPoint: 10,
-                costDeliveryToBranch: 12,
+                costPickingUp: Number(value.costPickingUp),
+                costDeliveryToPoint: Number(value.costDeliveryToPoint),
+                costDeliveryToBranch: Number(value.costDeliveryToBranch),
                 costBuyout: 10,
                 currencyId: 1
             },
-            senderId: "1",
-            recepientId: "2",
+            senderId: value.senderId,
+            recepientId: value.recepientId,
             recepientStaffId: "3",
             senderStaffId: "1",
             recepientCourierId: "1",
             senderCourierId: "1",
-            parcelPlanId: 1,
-            parcelBranchFromId: 1,
-            parcelBranchToId: 2,
+            parcelPlanId: value.parcelPlanIdForApi,
+            parcelBranchFromId: value.parcelBranchFromIdForApi,
+            parcelBranchToId: value.parcelBranchToIdForApi,
             parcelSize: {
-                weight: 10000,
-                numberOfPoint: 1
+                weight: value.weight,
+                numberOfPoint: value.numberOfPoint
             },
             parcelItem: [
                 {
@@ -144,28 +150,8 @@ export default function AddParcelFormWrapper(){
                 }
             ],
             parcelStatusId: 1,
-            parcelImage: [
-                {
-                    imageName: "parcel1.jpg",
-                    imageBytes: "",
-                },
-                {
-                    imageName: "parcel2.jpg",
-                    imageBytes: "",
-                }
-            ],
-            parcelSound: [
-                {
-                    id: 0,
-                    soundName: "sound.ogg",
-                    soundBytes: "",
-                },
-                {
-                    "id": 0,
-                    soundName: "sound.ogg",
-                    soundBytes: "",
-                }
-            ],
+            parcelImage: [],
+            parcelSound: [],
             parcelDescription: {
                 description: "Create Parcell uchun birinchi urunish"
             }

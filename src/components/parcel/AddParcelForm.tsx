@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { update } from "immupdate";
 import { useCallback, useState } from "react";
-import { object, string } from "yup";
+import { bool, object, string } from "yup";
 import GroupBox from "../app/GroupBox";
 import InputGroup from "../app/InputGroup";
 import Button from "../button/Button";
@@ -43,6 +43,9 @@ const validationSchema = object({
     paymentMethod: string(),
     senderCourierId: string(),
     recepientCourierId: string(),
+    StateDeliveryToBranch: bool(),
+    StatePickingUp: bool(),
+    StateDeliveryToPoint: bool(),
 })
 
 export default function AddParcelForm({
@@ -98,6 +101,7 @@ export default function AddParcelForm({
         setInitialValues((prev: any)=>
             update(prev, {
                 parcelBranchFromId: value.label,
+                parcelBranchFromIdForApi: Number(value.value),
                 costDeliveryToBranch: OVERAL_SUM,
             })
         )
@@ -122,6 +126,7 @@ export default function AddParcelForm({
         setInitialValues((prev: any)=>
             update(prev, {
                 parcelBranchToId: value.label,
+                parcelBranchToIdForApi: value.value,
                 costDeliveryToBranch: OVERAL_SUM,
             })
         )
@@ -173,6 +178,8 @@ export default function AddParcelForm({
                 OVERAL_SUM = found.firstCost + found.commonCost*(WEIGHT - 1);
             }
 
+            setRandomNum(Math.floor(Math.random() * (8999999999 + 1) + 1000000000));
+
         }else{
             toast.error("Bunday jarayon bizda yo'q!")
         }
@@ -180,11 +187,65 @@ export default function AddParcelForm({
         setInitialValues((prev: any)=>
             update(prev, {
                 parcelPlanId: value.label,
+                parcelPlanIdForApi: Number(value.value),
                 costDeliveryToBranch: OVERAL_SUM,
             })
         );
-        setRandomNum(Math.floor(Math.random() * (8999999999 + 1) + 1000000000));
+        
     },[setInitialValues, initialValues, costInfo, setRandomNum])
+
+
+    const onChangeCostDeliveryToBranch = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                costDeliveryToBranch: value.target.value
+            })
+        )
+    },[setInitialValues])
+
+    const onChangeCostDeliveryToPoint = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                costDeliveryToPoint: value.target.value
+            })
+        )
+    },[setInitialValues])
+
+    const onChangeCostPickingUp = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                costPickingUp: value.target.value
+            })
+        )
+    },[setInitialValues])
+    
+    
+    const onChangeStateDeliveryToBranch = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                StateDeliveryToBranch: value
+            })
+        )
+    },[setInitialValues])
+
+
+    const onChangeStateDeliveryToPoint = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                StateDeliveryToPoint: value
+            })
+        )
+    },[setInitialValues])
+
+
+    const onChangeStatePickingUp = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                StatePickingUp: value
+            })
+        )
+    },[setInitialValues])
+
 
     return (
         <Formik
@@ -247,22 +308,22 @@ export default function AddParcelForm({
                                     <div className="col-6">
                                         <InputGroup label="Cost For Delivery To Branch">
                                             <InputField disabled inputClassName="border-0" value={"Has the shipping cost been paid?"} name="costDeliveryToBranch"/>
-                                            <CheckBox name="name"/>
-                                            <InputField value={initialValues.costDeliveryToBranch} type="number"  inputClassName="rounded-0 border-0 h-100" name="costDeliveryToBranch"/>
+                                            <CheckBox onChange={(event)=>onChangeStateDeliveryToBranch(event)} value={initialValues.StateDeliveryToBranch} name="name"/>
+                                            <InputField value={initialValues.costDeliveryToBranch} type="number" onChange={(event: any)=>onChangeCostDeliveryToBranch(event)}  inputClassName="rounded-0 border-0 h-100" name="costDeliveryToBranch"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6">
                                          <InputGroup label="Cost For Delivery To Point">
                                             <InputField disabled inputClassName="border-0" value={"Shipping cost paid?"} name="costDeliveryToBranch"/>
-                                            <CheckBox name="name"/>
-                                            <InputField value={0} type="number" inputClassName="rounded-0 border-0 h-100" name="costDeliveryToPoint"/>
+                                            <CheckBox onChange={(event)=>onChangeStateDeliveryToPoint(event)} value={initialValues.StateDeliveryToPoint} name="name"/>
+                                            <InputField type="number" value={initialValues.costDeliveryToPoint} onChange={(event: any)=>onChangeCostDeliveryToPoint(event)} inputClassName="rounded-0 border-0 h-100" name="costDeliveryToPoint"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Cost For Delivery To Pickingup">
                                             <InputField disabled inputClassName="border-0" value={"Has the cost of the fence been paid?"} name="costDeliveryToBranch"/>
-                                            <CheckBox name="name"/>
-                                            <InputField  value={0} type="number" inputClassName="rounded-0 border-0 h-100" name="costPickingUp"/>
+                                            <CheckBox onChange={(event)=>onChangeStatePickingUp(event)} value={initialValues.StatePickingUp} name="name"/>
+                                            <InputField  value={initialValues.costPickingUp} onChange={(event: any)=>onChangeCostPickingUp(event)} type="number" inputClassName="rounded-0 border-0 h-100" name="costPickingUp"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
@@ -271,14 +332,14 @@ export default function AddParcelForm({
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Courier For Pickingup">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
-                                            <CheckBox name="name"/>
+                                            <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
                                             <SelectPicker options={customers} isBgColor={false} isBorder={false} name="senderCourierId"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Courier For Delivery">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
-                                            <CheckBox name="name"/>
+                                            <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
                                             <SelectPicker options={customers} isBgColor={false} isBorder={false} name="recepientCourierId"/>
                                         </InputGroup>
                                     </div>
@@ -295,13 +356,13 @@ export default function AddParcelForm({
                     <GroupBox title="Messages">
                         <div className="row">
                             <div className="col-4 d-flex">
-                                <CheckBox className="bg-transparent w-100" name="telegram" rightLabel="Telegram"/>
+                                <CheckBox onChange={()=>console.log("Asadbek")} className="bg-transparent w-100" name="telegram" rightLabel="Telegram"/>
                             </div>
                             <div className="col-4">
-                                <CheckBox className="bg-transparent w-100" name="sms-sender" rightLabel="Sms Sender"/>
+                                <CheckBox onChange={()=>console.log("Asadbek")} className="bg-transparent w-100" name="sms-sender" rightLabel="Sms Sender"/>
                             </div>
                             <div className="col-4 d-flex">
-                                <CheckBox className="bg-transparent w-100" name="sms-receipent" rightLabel="Sms-Reseipent"/>
+                                <CheckBox onChange={()=>console.log("Asadbek")} className="bg-transparent w-100" name="sms-receipent" rightLabel="Sms-Reseipent"/>
                             </div>
                         </div>
                     </GroupBox>

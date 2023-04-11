@@ -5,12 +5,14 @@ interface Props{
     readonly name: string;
     readonly leftLabel?: string;
     readonly rightLabel?: string;
+    readonly value?: any;
     readonly className?: string;
     readonly checkboxClassName?: string;
     readonly style?:  any;
+    readonly onChange: (event: any) => void;
 }
 
-export default function CheckBox({name, leftLabel, rightLabel, className, checkboxClassName, style}:Props){
+export default function CheckBox({name, leftLabel, rightLabel, className, value, checkboxClassName, style, onChange}:Props){
     return (
         <div className={`${className} checkbox-container`}>
            {leftLabel && (
@@ -18,7 +20,7 @@ export default function CheckBox({name, leftLabel, rightLabel, className, checkb
                 <label htmlFor={name}>{leftLabel}</label>
             </div>
            )}
-                <input className={`${checkboxClassName}`} type="checkbox" id={name}/>
+                <input className={`${checkboxClassName}`} checked={value} type="checkbox" id={name} onChange={(event)=>onChange(event.target.checked)}/>
            {rightLabel && (
             <div className="right-label">
                  <label htmlFor={name}>{rightLabel}</label>
