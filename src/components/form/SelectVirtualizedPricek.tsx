@@ -18,9 +18,7 @@ export default function SelectVirtualizedPricek({placeholder = "Select...", labe
     const [active, setActive] = useState<any>("");
 
     window.onclick = function(event: any) {
-           if(!event.target.matches("#select-input")){
-                setIsOptions("closed")
-           }
+        
     }
 
     useEffect(()=>{
@@ -56,7 +54,13 @@ export default function SelectVirtualizedPricek({placeholder = "Select...", labe
         </div>
          <div className="select-container">
             <div id="select" className="select" onClick={()=>setIsOptions(isOptions == "opened"? "closed":"opened")}>
-                <input id="select-input" type="text" placeholder={placeholder} value={value} onChange={(event)=>setValue(event.target.value)}/>
+                <input 
+                    id="select-input" 
+                    type="text" 
+                    placeholder={placeholder} 
+                    value={value} 
+                    autoComplete="off"
+                    onChange={(event)=>setValue(event.target.value)}/>
             </div>
            {options && isOptions == "opened" && (
              <div className="options" onScroll={handleScroll}>

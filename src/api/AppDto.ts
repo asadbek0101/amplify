@@ -1,3 +1,4 @@
+import React from "react";
 
 export interface TableHeaderProps{
     readonly header: string;
@@ -9,3 +10,8 @@ export interface TableHeaderProps{
 export interface IdProps{
     readonly id: number;
 }
+
+export type InputProps = React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+    >;

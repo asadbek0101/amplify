@@ -23,4 +23,8 @@ export class RoleApi extends ApiContext{
    public createRole(body: any){
         return this.post("/RoleManager", body)
    }
+
+   public getRoles(){
+    return this.get("RoleManager")
+   }
 }

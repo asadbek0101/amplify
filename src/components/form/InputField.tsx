@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import React, { useCallback, useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import "./assets/input.scss";
 
 
@@ -17,25 +17,27 @@ interface InputFieldProps{
     readonly placeholder?: string;
 }
 
-export default function InputField({name, id, value, onChange, label, type = "text", required, className, disabled=false, inputClassName, placeholder}:InputFieldProps){
+export default function InputField({name, id, onChange, label, type = "text", required, className, disabled=false, inputClassName, placeholder, ...inputProps}:InputFieldProps){
     const [field, meta] = useField(name);
-    const [req, setReq] = useState<boolean>(false)
-    const showError = useMemo(()=>Boolean(meta.error && meta.touched), [meta])
-    const onBlur = useCallback((value: any)=>{
-        if(!value.target.value){
-            setReq(true)
-        }else{
-            setReq(false)
-        }
-    },[setReq])
+    const showError = useMemo(()=>Boolean(meta.touched && meta.error), [meta])
+
     return (
         <div className={`input-container w-100 ${className}`}>
             {label &&(
                 <label className="w-100" htmlFor={id}>{label}</label>
             )}
-            <input disabled={disabled} placeholder={placeholder} className={`w-100 ${(showError && req)? 'show-error':''} ${inputClassName}`} type={type} id={id} name={name} required={required} value={value} onChange={onChange} onBlur={onBlur}/>
-            {(showError && req) && (
-                <span className="text-danger req-title">Required</span>
+            <input 
+            {...inputProps} {...field} 
+                autoComplete="off"
+                disabled={disabled} 
+                placeholder={placeholder} 
+                className={`w-100 ${(showError)? 'show-error':''} ${inputClassName}`} 
+                type={type} 
+                id={id} 
+                name={name} 
+                required={required}/>
+            {(showError) && (
+                <span className="text-danger req-title">{meta.error}</span>
             )}
         </div>
     )

@@ -1,13 +1,15 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useRef} from "react";
 import { Form, Formik } from "formik";
 import { number, object, string } from "yup";
 import GroupBox from "../app/GroupBox";
 import InputField from "../form/InputField";
 import { update } from "immupdate";
 import Button from "../button/Button";
+import SelectPicker from "../form/SelectPicker";
 
 interface UserManagerFormProps{
     readonly initialValues: any;
+    readonly roles: any;
     readonly setInitialValues: (value: any) => void;
     readonly submit: (value: any) => void;
 }
@@ -19,11 +21,13 @@ const validationSchema = object({
     email: string().required("Required!"),
     phoneNumber: string().required("Required!"),
     address: string().required("Required!"),
-    roleName: string().required("Required!"),
-    passwordHash: string().required("Required!")
+    passwordHash: string().required("Required!"),
+    // roleName: object(),
 })
 
-export default function UserManagerForm({initialValues, setInitialValues, submit}:UserManagerFormProps){
+export default function UserManagerForm({initialValues, roles, setInitialValues, submit}:UserManagerFormProps){
+
+    const inqFormRef = useRef<any>(null);
 
     const onChangeFirstName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
@@ -59,7 +63,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
 
     const onChangeRoleName = useCallback((value: any)=>{
         setInitialValues((prev: any)=>update(prev, {
-            roleName: value.target.value
+            roleName: value
         }))
     },[setInitialValues])
 
@@ -81,7 +85,13 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
         }))
     },[setInitialValues])
 
+    const inqFormRefHandler = useCallback((instance: any)=>{
+        if(instance){
+            inqFormRef.current = instance
+        }
+    },[inqFormRef])
 
+    console.log("init ", initialValues)
 
     return (
         <Formik
@@ -89,6 +99,7 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
             validationSchema={validationSchema}
             enableReinitialize={true}
             onSubmit={submit}
+            innerRef={inqFormRefHandler}
             >
             {()=>(
                 <Form>
@@ -163,22 +174,16 @@ export default function UserManagerForm({initialValues, setInitialValues, submit
                                         onChange={(event: any)=>onChangePassword(event)}
                                          />
                                         </div>
-                                        <div className="col-4 d-flex">
-                                        <InputField
-                                        label="User Roles"
-                                        name="roleName"
-                                        value={initialValues.roleName}
-                                        onChange={(event: any)=>onChangeRoleName(event)}
+                                        <div className="col-8 d-flex">
+                                        <SelectPicker
+                                            label="User Roles"
+                                            name="roleName"
+                                            options={roles}
+                                            isMulti
+                                            onChange={(event: any)=>onChangeRoleName(event)}
                                          />
                                         </div>
-                                        <div className="col-4 d-flex">
-                                        <InputField
-                                        label="User Claims"
-                                        name="claim"
-                                        value={initialValues.claim}
-                                        onChange={(event: any)=>onChangeClaim(event)}
-                                         />
-                                        </div>
+                                        
                                     </div>
                             </GroupBox>
                         </div>

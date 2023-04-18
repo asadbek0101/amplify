@@ -36,7 +36,7 @@ export default function AddParcelFormWrapper(){
 
     const [scrollTop, setScrollTop] = useState(1);
   
-    const handleScroll = (event:any) => {
+    const handleScroll = () => {
         setScrollTop(scrollTop + 1);
     };
   
@@ -63,7 +63,6 @@ export default function AddParcelFormWrapper(){
             })  
 
             setCostInfoList(respon.data.costInfoList)
-      
             
         }).catch((error)=>console.log(error.message))
         
@@ -73,13 +72,15 @@ export default function AddParcelFormWrapper(){
         request.get(`/UserManager/SearchUserWithPagination?pageNumber=${scrollTop}&pageSize=${50}&searchText=${searchValue}`,{
           headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
         }).then((respon: any)=>{
+            let array: any = []
             respon.data.items.map((item: any)=>{
                 const data = {
                     label: `${item.firstName} ${item.lastName} ${item.phone}`,
                     value: item.id
                 }
-                setUsers((prev: any)=>[...prev, data])
+                array.push(data);
             })
+            setUsers(array)
         }).catch((error)=>toast.error(error.message))
         
     },[request, toast, setUsers, scrollTop, searchValue])
@@ -132,8 +133,8 @@ export default function AddParcelFormWrapper(){
             recepientId: value.recepientId,
             recepientStaffId: "3",
             senderStaffId: "1",
-            recepientCourierId: "1",
-            senderCourierId: "1",
+            recepientCourierId: value.recepientCourierId,
+            senderCourierId: value.senderCourierId,
             parcelPlanId: value.parcelPlanIdForApi,
             parcelBranchFromId: value.parcelBranchFromIdForApi,
             parcelBranchToId: value.parcelBranchToIdForApi,

@@ -12,7 +12,6 @@ export default function SideBarMenuLayout({children}:SideBarMenuLayoutProps){
     
     const profile = useSelector((state: any) =>state.data.profile)
 
-    console.log(profile)
     return (
         <div className="h-100 sidebar-menu">
             <div className="name-title d-flex justify-content-center align-items-center py-3">

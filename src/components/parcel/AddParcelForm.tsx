@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import ImgUpload from "../app/ImgUpload";
 import AddParcelShowImages from "./AddParcelShowImages";
 import TextAreaField from "../form/TextAreaField";
+import Dropdown from "../form/DropdownSelect";
 
 interface AddParcelFormProps{
     readonly initialValues: any;
@@ -23,7 +24,7 @@ interface AddParcelFormProps{
     readonly branchs: any[];
     readonly costInfo: any[];
     readonly paymentMethods: any[];
-    readonly handleScroll: (value: any) => void;
+    readonly handleScroll: () => void;
     readonly setSearch: (value: any) => void;
     readonly setRundomCode: (value: any) => void;
     readonly onSubmit: (value: any) => void;
@@ -238,6 +239,24 @@ export default function AddParcelForm({
     },[setInitialValues])
 
 
+    const onChangeSenderCourierId = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                senderCourierId: value.value
+            })
+        )
+    },[setInitialValues])
+
+
+    const onChangeRecepientCourierId = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                recepientCourierId: value.value
+            })
+        )
+    },[setInitialValues])
+
+
     const onChangeStatePickingUp = useCallback((value: any)=>{
         setInitialValues((prev: any)=>
             update(prev, {
@@ -265,7 +284,11 @@ export default function AddParcelForm({
                             <GroupBox title="Sender">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <SelectVirtualizedPricek setSearch={setSearch} name="senderId" options={users} onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
+                                        <SelectVirtualizedPricek 
+                                            setSearch={setSearch} 
+                                            name="senderId" 
+                                            options={users} 
+                                            onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
                                     </div>
                                     <div className="col-12 mt-2">
                                         <SelectPicker name="parcelBranchFromId" options={branchs} onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
@@ -278,7 +301,13 @@ export default function AddParcelForm({
                             <GroupBox title="Recipent">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <SelectVirtualizedPricek setSearch={setSearch} name="recepientId" options={users} onChange={(value: any)=>onChangeRecepientId(value)} handleScroll={handleScroll} label={"Recipent"}/>
+                                        <Dropdown 
+                                            options={users} 
+                                            onChange={(value: any)=>onChangeRecepientId(value)} 
+                                            onScroll={handleScroll} 
+                                            isSearchable
+                                            setSearch={setSearch}
+                                            />
                                     </div>
                                     <div className="col-12 mt-2">
                                     <SelectPicker name="parcelBranchToId" options={branchs} onChange={(value: any)=>onChangeParcelBranchToId(value)} label="To"/>                                    </div>
@@ -333,14 +362,14 @@ export default function AddParcelForm({
                                         <InputGroup label="Courier For Pickingup">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
                                             <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
-                                            <SelectPicker options={customers} isBgColor={false} isBorder={false} name="senderCourierId"/>
+                                            <SelectPicker options={customers}  isBgColor={false} isBorder={false} onChange={(value)=>onChangeSenderCourierId(value)} name="senderCourierId"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Courier For Delivery">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
                                             <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
-                                            <SelectPicker options={customers} isBgColor={false} isBorder={false} name="recepientCourierId"/>
+                                            <SelectPicker options={customers} isBgColor={false} isBorder={false} onChange={(value)=>onChangeRecepientCourierId(value)} name="recepientCourierId"/>
                                         </InputGroup>
                                     </div>
                                 </div>
