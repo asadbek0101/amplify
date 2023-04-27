@@ -10,7 +10,7 @@ import AddParcelContainer from "./AddParcelContainer";
 import AdministratorContainer from "./AdministratorContainer";
 import UsersContainer from "./UsersContainer";
 import ParcelContainer from "./ParcelContainer";
-import { Pages, RouteContainerTabs } from "../constents/Routes";
+import { Pages, RouteContainerTabs } from "../constants/Routes";
 
 
 export default function RootContainer(){

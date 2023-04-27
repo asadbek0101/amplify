@@ -8,7 +8,7 @@ import "./assets/app-menu.scss";
 import AddIcon from "../icons/AddIcon";
 import BoxsIcon from "../icons/BoxsIcon";
 import EditIcon from "../icons/EditIcon";
-import { RouteContainerTabs } from "../../constents/Routes";
+import { RouteContainerTabs } from "../../constants/Routes";
 import { AdministratorTabs } from "../../containers/AdministratorContainer";
 import { UserTabs } from "../../containers/UsersContainer";
 import { useSelector } from "react-redux";

@@ -7,8 +7,8 @@ export  default function App(){
 
   return (
     <>
-    <RootContainer/>
-    <ToastContainer />
+      <RootContainer/>
+      <ToastContainer />
     </>
   );
 }
