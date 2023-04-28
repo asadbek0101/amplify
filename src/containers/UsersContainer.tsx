@@ -20,22 +20,22 @@ export default function UsersContainer(){
     const { tab = UserTabs.AddUser } = useParams();
     return (
         <ContainerLayout>
-          {tab == UserTabs.AddUser && (
+          {tab === UserTabs.AddUser && (
             <AddUserTab/>
           )}
-           {tab == UserTabs.AllUsers && (
+          {tab === UserTabs.AllUsers && (
             <AllUserTab/>
           )}
-          {tab == UserTabs.Customers && (
+          {tab === UserTabs.Customers && (
             <CustomersTab/>
           )}
-          {tab == UserTabs.Staff && (
+          {tab === UserTabs.Staff && (
             <StaffTab/>
           )}
-           {tab == UserTabs.Managers && (
+          {tab === UserTabs.Managers && (
             <ManagersTab/>
           )}
-           {tab == UserTabs.Couriers && (
+          {tab === UserTabs.Couriers && (
             <CuriersTab/>
           )}
         </ContainerLayout>

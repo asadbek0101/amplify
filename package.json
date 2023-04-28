@@ -16,6 +16,7 @@
     "immupdate": "^1.3.1",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-beforeunload": "^2.5.3",
     "react-dom": "^18.2.0",
     "react-notifications": "^1.7.4",
     "react-redux": "^8.0.5",
@@ -54,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-beforeunload": "^2.1.1"
   }
 }

@@ -11,6 +11,7 @@ import AdministratorContainer from "./AdministratorContainer";
 import UsersContainer from "./UsersContainer";
 import ParcelContainer from "./ParcelContainer";
 import { Pages, RouteContainerTabs } from "../constants/Routes";
+import EditParcelContainer from "./EditParcelContainer";
 
 
 export default function RootContainer(){
@@ -50,6 +51,7 @@ export default function RootContainer(){
                 <Route path={RouteContainerTabs.UsersPath} element={<UsersContainer/>}/>
                 <Route path={RouteContainerTabs.ParcelsPath} element={<ParcelContainer/>}/>
                 <Route path={RouteContainerTabs.AddParcel} element={<AddParcelContainer/>}/>
+                <Route path={RouteContainerTabs.EditParcel} element={<EditParcelContainer/>}/>
         </Route>
       </Routes>
 )

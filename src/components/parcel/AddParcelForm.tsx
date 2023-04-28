@@ -14,6 +14,7 @@ import ImgUpload from "../app/ImgUpload";
 import AddParcelShowImages from "./AddParcelShowImages";
 import TextAreaField from "../form/TextAreaField";
 import Dropdown from "../form/DropdownSelect";
+import SelectPickerField from "../form/SelectPickerField";
 
 interface AddParcelFormProps{
     readonly initialValues: any;
@@ -25,9 +26,9 @@ interface AddParcelFormProps{
     readonly costInfo: any[];
     readonly paymentMethods: any[];
     readonly handleScroll: () => void;
-    readonly setSearch: (value: any) => void;
     readonly setRundomCode: (value: any) => void;
     readonly onSubmit: (value: any) => void;
+    readonly searchUser: (value: string) => void;
 }
 
 const validationSchema = object({
@@ -59,9 +60,9 @@ export default function AddParcelForm({
     customers, 
     paymentMethods, 
     setInitialValues,
-    setSearch,
     setRundomCode,
-    onSubmit
+    onSubmit,
+    searchUser,
 }:AddParcelFormProps){
 
     const [randomNum, setRandomNum] = useState<number>();
@@ -284,14 +285,18 @@ export default function AddParcelForm({
                             <GroupBox title="Sender">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <SelectVirtualizedPricek 
-                                            setSearch={setSearch} 
+                                    <SelectPickerField
                                             name="senderId" 
                                             options={users} 
-                                            onChange={(value: any)=>onChangeSenderId(value)} handleScroll={handleScroll} label={"Sender"}/>
-                                    </div>
+                                            onChange={(value)=>onChangeSenderId(value)}
+                                            label="Sender"
+                                            />
+                                        </div>
                                     <div className="col-12 mt-2">
-                                        <SelectPicker name="parcelBranchFromId" options={branchs} onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
+                                        <SelectPickerField 
+                                        name="parcelBranchFromId" 
+                                        options={branchs} 
+                                        onChange={(value: any)=>onChangeParcelBranchFromId(value)} label="From"/>
                                     </div>
                                  </div>
                              </GroupBox>
@@ -301,16 +306,21 @@ export default function AddParcelForm({
                             <GroupBox title="Recipent">
                                 <div className="row mt-2">
                                     <div className="col-12">
-                                        <Dropdown 
+                                        <SelectPickerField 
+                                            isSearchable={true}
+                                            name="receipent" 
                                             options={users} 
-                                            onChange={(value: any)=>onChangeRecepientId(value)} 
-                                            onScroll={handleScroll} 
-                                            isSearchable
-                                            setSearch={setSearch}
+                                            onChange={(value)=>onChangeRecepientId(value)}
+                                            label="Recepient"
+                                            onInputChange={(value)=>searchUser(value)}
                                             />
                                     </div>
                                     <div className="col-12 mt-2">
-                                    <SelectPicker name="parcelBranchToId" options={branchs} onChange={(value: any)=>onChangeParcelBranchToId(value)} label="To"/>                                    </div>
+                                        <SelectPickerField 
+                                            name="parcelBranchToId" 
+                                            options={branchs} 
+                                            onChange={(value: any)=>onChangeParcelBranchToId(value)} label="To"/>                                    
+                                    </div>
                                 </div>
                              </GroupBox>
                         </div>
@@ -325,7 +335,7 @@ export default function AddParcelForm({
                                         <InputField name="numberOfPoint" value={initialValues.numberOfPoint} onChange={(event: any)=>onChangeNumberOfPoint(event.target.value)} type="number" label="Number Of Point"/>
                                     </div>
                                     <div className="col-4">
-                                        <SelectPicker name="parcelPlanId" onChange={(value: any)=>onChangeParcelPlanId(value)}  options={plans} label="Parcel Plan"/>
+                                        <SelectPickerField name="parcelPlanId" onChange={(value: any)=>onChangeParcelPlanId(value)}  options={plans} label="Parcel Plan"/>
                                     </div>
                                 </div>
                             </GroupBox>
@@ -356,20 +366,20 @@ export default function AddParcelForm({
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
-                                        <SelectPicker options={paymentMethods} name="paymentMethod" label="Payment Method"/>
+                                        <SelectPickerField options={paymentMethods} name="paymentMethod" label="Payment Method"/>
                                     </div>
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Courier For Pickingup">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
                                             <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
-                                            <SelectPicker options={customers}  isBgColor={false} isBorder={false} onChange={(value)=>onChangeSenderCourierId(value)} name="senderCourierId"/>
+                                            <SelectPickerField options={customers} onChange={(value)=>onChangeSenderCourierId(value)} name="senderCourierId"/>
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
                                         <InputGroup label="Courier For Delivery">
                                             <InputField disabled inputClassName="border-0" value={"Is it calculated with a courier?"} name="costDeliveryToBranch"/>
                                             <CheckBox onChange={()=>console.log("Asadbek")} name="name"/>
-                                            <SelectPicker options={customers} isBgColor={false} isBorder={false} onChange={(value)=>onChangeRecepientCourierId(value)} name="recepientCourierId"/>
+                                            <SelectPickerField options={customers} onChange={(value)=>onChangeRecepientCourierId(value)} name="recepientCourierId"/>
                                         </InputGroup>
                                     </div>
                                 </div>

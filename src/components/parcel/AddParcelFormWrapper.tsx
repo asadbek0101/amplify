@@ -32,7 +32,6 @@ export default function AddParcelFormWrapper(){
     const [plans, setPlans] = useState<any>([]);
     const [couriers, setCouriers] = useState<any>([]);
     const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
-    const [searchValue, setSearchValue] = useState("")
 
     const [scrollTop, setScrollTop] = useState(1);
   
@@ -68,23 +67,25 @@ export default function AddParcelFormWrapper(){
         
     },[request, setCostInfoList, setBranches, setPlans]) 
     
-    useEffect(()=>{
-        request.get(`/UserManager/SearchUserWithPagination?pageNumber=${scrollTop}&pageSize=${50}&searchText=${searchValue}`,{
-          headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-        }).then((respon: any)=>{
-            let array: any = []
-            respon.data.items.map((item: any)=>{
-                const data = {
-                    label: `${item.firstName} ${item.lastName} ${item.phone}`,
-                    value: item.id
-                }
-                array.push(data);
-            })
-            setUsers(array)
-        }).catch((error)=>toast.error(error.message))
-        
-    },[request, toast, setUsers, scrollTop, searchValue])
-  
+
+    const getUsersBySearching = useCallback((value: string)=>{
+        request.get(`/UserManager/SearchUserWithSkip?searchText=${value}&Skip=${0}&Top=${20}`,{
+            headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+          }).then((respon: any)=>{
+              let array: any = []
+              respon.data.items.map((item: any)=>{
+                  const data = {
+                      label: `${item.firstName} ${item.lastName} ${item.phone}`,
+                      value: item.id
+                  }
+                  array.push(data);
+              })
+              setUsers(array)
+          }).catch((error)=>{
+            console.log(error.message)
+            toast.error(error.message)})
+    },[request, setUsers, toast])
+
     useEffect(()=>{
         request.get(`/UserManager/GetAll?RoleId=4`,{
           headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
@@ -175,9 +176,9 @@ export default function AddParcelFormWrapper(){
                 plans={plans} 
                 branchs={branches} 
                 costInfo={costInfoList}
-                setSearch={setSearchValue}
                 setRundomCode={(value:any)=>console.log(value)}
                 onSubmit={(value)=>onSumbit(value)}
+                searchUser={(value: string) => getUsersBySearching(value)}
                 />
           </>
      )
