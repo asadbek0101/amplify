@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import AddParcelForm from "./AddParcelForm";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface SelectType{
     readonly label: string;
@@ -51,6 +52,7 @@ export default function AddParcelFormWrapper(){
     const [plans, setPlans] = useState<any>([]);
     const [couriers, setCouriers] = useState<any>([]);
     const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
+    const navigator = useNavigate();
 
     const profile = useSelector((state: any)=>state.data.profile)
 
@@ -187,8 +189,10 @@ export default function AddParcelFormWrapper(){
         }
         request.post("/Parcel", data ,{
                 headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
-            }).then(()=>toast.success("Added!")).catch((err: any)=>toast.error(err.message))
-    },[request, toast, profile])
+            }).then(()=>{
+                navigator('/app/parcels/all-parcels')
+            }).catch((err: any)=>toast.error(err.message))
+    },[request, toast, profile, navigator])
 
 
     return (
