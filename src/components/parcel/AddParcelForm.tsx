@@ -196,7 +196,7 @@ export default function AddParcelForm({
 
                 setInitialValues((prev: any)=>
                     update(prev, {
-                        code: Math.floor(Math.random() * (8999999999 + 1) + 1000000000)
+                        code: Math.floor(Math.random() * (899999999 + 1) + 100000000)
                     })
                 );
 

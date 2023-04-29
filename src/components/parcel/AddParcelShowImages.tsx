@@ -9,9 +9,9 @@ export default function AddParcelShowImages({data}:Props){
         <div className="row">
             {data.length > 0 && (
               <>
-                {data.map((item: any)=>{
+                {data.map((item: any, index: number)=>{
                     return (
-                    <div className="col-3">
+                    <div className="col-3" key={index}>
                          <img width="100%" src={item.imageBytes} alt="" />
                      </div>
                     )

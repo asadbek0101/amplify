@@ -130,7 +130,7 @@ export default function SideBarMenu(){
                         <AppMenu
                             activeTab={childTab}
                             defaultTab="all-parcels"
-                            onChangeTab={(value: any)=>navigate(`/app/parcel/${value}`)}
+                            onChangeTab={(value: any)=>navigate(`/app/parcels/${value}`)}
                             >
                             <SideBarItem
                                 key="all-parcels"
