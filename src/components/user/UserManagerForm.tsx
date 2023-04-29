@@ -5,7 +5,7 @@ import GroupBox from "../app/GroupBox";
 import InputField from "../form/InputField";
 import { update } from "immupdate";
 import Button from "../button/Button";
-import SelectPicker from "../form/SelectPicker";
+import SelectPickerField from "../form/SelectPickerField";
 
 interface UserManagerFormProps{
     readonly initialValues: any;
@@ -175,7 +175,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                                          />
                                         </div>
                                         <div className="col-8 d-flex">
-                                        <SelectPicker
+                                        <SelectPickerField
                                             label="User Roles"
                                             name="roleName"
                                             options={roles}

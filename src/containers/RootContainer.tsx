@@ -37,6 +37,7 @@ export default function RootContainer(){
                     dispatch(set_user_profile(response.data.token))
                     toast.success(response.data.message[0])
                     navigate('/app/administrator')
+                    window.location.reload();
                 }else{
                     alert(response.data.message[0])
                 }

@@ -12,7 +12,7 @@ export default function AddParcelShowImages({data}:Props){
                 {data.map((item: any)=>{
                     return (
                     <div className="col-3">
-                         <img width="100%" src={item.imgUrl} alt="" />
+                         <img width="100%" src={item.imageBytes} alt="" />
                      </div>
                     )
                 })}

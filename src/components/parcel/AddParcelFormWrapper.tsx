@@ -1,44 +1,58 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
 import AddParcelForm from "./AddParcelForm";
+import { useSelector } from "react-redux";
+
+interface SelectType{
+    readonly label: string;
+    readonly value: string;
+}
+
+const labeValue: SelectType = {
+    label: "",
+    value: ""
+}
 
 export default function AddParcelFormWrapper(){
     
     const [initialValues, setInitialValues] = useState({
-        senderId: "",
-        recepientId: "",
-        parcelBranchFromId: "",
-        parcelBranchToId: "",
-        weight: "",
-        numberOfPoint: "",
-        parcelPlanId: "",
-        parcelPlanIdForApi: "",
-        costDeliveryToBranch: "",
-        costDeliveryToPoint: "",
-        costPickingUp: "",
-        paymentMethod: "",
-        senderCourierId: "",
-        recepientCourierId: "",
-        StateDeliveryToBranch: "",
-        StatePickingUp: "",
-        StateDeliveryToPoint: "",
-        parcelBranchFromIdForApi: "",
-        parcelBranchToIdForApi: "",
+        code: 0,
+        senderId: labeValue,
+        recepientId: labeValue,
+        parcelBranchFromId: labeValue,
+        parcelBranchToId: labeValue,
+        weight: 0,
+        images: [],
+        description: "",
+        pickupAddress: "",
+        deliveryAddress: "",
+        numberOfPoint: 0,
+        parcelPlanId: labeValue,
+        costDeliveryToBranch: 0,
+        costDeliveryToPoint: 0,
+        costPickingUp: 0,
+        paymentMethod: 0,
+        senderCourierId: labeValue,
+        recepientCourierId: labeValue   ,
+        StateDeliveryToBranch: false,
+        StatePickingUp: false,
+        StateDeliveryToPoint: false,
+        StateSenderCourierId: false,
+        StateRecipientCourierId: false,
+        sendSmsToRecipient: false,
+        sendSmsToSender: false,
+        sendSmsToTelegram: false,
     })
-    const [users, setUsers] = useState<any[]>([])
+    const [senders, setSenders] = useState<any[]>([])
+    const [receipents, setReceipents] = useState<any[]>([])
     const [branches, setBranches] = useState<any>([]);
     const [costInfoList, setCostInfoList] = useState<any>([]);
     const [plans, setPlans] = useState<any>([]);
     const [couriers, setCouriers] = useState<any>([]);
     const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
 
-    const [scrollTop, setScrollTop] = useState(1);
-  
-    const handleScroll = () => {
-        setScrollTop(scrollTop + 1);
-    };
-  
+    const profile = useSelector((state: any)=>state.data.profile)
 
     useEffect(()=>{
         request.get('/Parcel/GetInfoParcel',{
@@ -67,25 +81,6 @@ export default function AddParcelFormWrapper(){
         
     },[request, setCostInfoList, setBranches, setPlans]) 
     
-
-    const getUsersBySearching = useCallback((value: string)=>{
-        request.get(`/UserManager/SearchUserWithSkip?searchText=${value}&Skip=${0}&Top=${20}`,{
-            headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
-          }).then((respon: any)=>{
-              let array: any = []
-              respon.data.items.map((item: any)=>{
-                  const data = {
-                      label: `${item.firstName} ${item.lastName} ${item.phone}`,
-                      value: item.id
-                  }
-                  array.push(data);
-              })
-              setUsers(array)
-          }).catch((error)=>{
-            console.log(error.message)
-            toast.error(error.message)})
-    },[request, setUsers, toast])
-
     useEffect(()=>{
         request.get(`/UserManager/GetAll?RoleId=4`,{
           headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
@@ -99,7 +94,7 @@ export default function AddParcelFormWrapper(){
             })
         }).catch((error)=>toast.error(error.message))
         
-    },[request, toast, setCouriers, scrollTop])
+    },[request, toast, setCouriers])
 
     useEffect(()=>{
         request.get(`/PaymentMethod`,{
@@ -114,63 +109,94 @@ export default function AddParcelFormWrapper(){
             })
         }).catch((error)=>toast.error(error.message))
         
-    },[request, toast, setPaymentMethods, scrollTop]);
+    },[request, toast, setPaymentMethods]);
+
+
+    const getSendersBySearching = useCallback((value: string)=>{
+        if(value != ""){
+            request.get(`/UserManager/SearchUserWithSkip?searchText=${value}&Skip=${0}&Top=${20}`,{
+                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+              }).then((respon: any)=>{
+                  let array: any = []
+                  respon.data.customers.map((item: any)=>{
+                      const data = {
+                          label: `${item.firstName} ${item.lastName} ${item.phone}`,
+                          value: item.id
+                      }
+                      array.push(data);
+                  })
+                  setSenders(array)
+              }).catch((error)=>{
+                toast.error(error.message)})
+        }
+    },[request, setSenders, toast])
+
+    const getReceipentsBySearching = useCallback((value: string)=>{
+        if(value != ""){
+            request.get(`/UserManager/SearchUserWithSkip?searchText=${value}&Skip=${0}&Top=${20}`,{
+                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`} 
+              }).then((respon: any)=>{
+                  let array: any = []
+                  respon.data.customers.map((item: any)=>{
+                      const data = {
+                          label: `${item.firstName} ${item.lastName} ${item.phone}`,
+                          value: item.id
+                      }
+                      array.push(data);
+                  })
+                  setReceipents(array)
+              }).catch((error)=>{
+                toast.error(error.message)})
+        }
+    },[request, setReceipents, toast])
 
 
     const onSumbit = useCallback((value: any)=>{
         const data = {
+            code: value.code,
             parcelCost: {
                 StateDeliveryToBranch: value.StateDeliveryToBranch,
                 StatePickingUp: value.StatePickingUp,
                 StateDeliveryToPoint: value.StateDeliveryToPoint,
-                StateBuyout: true,
                 costPickingUp: Number(value.costPickingUp),
                 costDeliveryToPoint: Number(value.costDeliveryToPoint),
                 costDeliveryToBranch: Number(value.costDeliveryToBranch),
-                costBuyout: 10,
-                currencyId: 1
             },
-            senderId: value.senderId,
-            recepientId: value.recepientId,
-            recepientStaffId: "3",
-            senderStaffId: "1",
-            recepientCourierId: value.recepientCourierId,
-            senderCourierId: value.senderCourierId,
-            parcelPlanId: value.parcelPlanIdForApi,
-            parcelBranchFromId: value.parcelBranchFromIdForApi,
-            parcelBranchToId: value.parcelBranchToIdForApi,
+            senderId: Number(value.senderId.value),
+            recepientId: Number(value.recepientId.value),
+            senderStaffId: Number(profile.id),
+            recepientCourierId: Number(value.recepientCourierId.value),
+            senderCourierId: Number(value.senderCourierId.value),
+            parcelPlanId: Number(value.parcelPlanId.value),
+            parcelBranchFromId: Number(value.parcelBranchFromId.value),
+            parcelBranchToId: Number(value.parcelBranchToId.value),
             parcelSize: {
-                weight: value.weight,
-                numberOfPoint: value.numberOfPoint
+                weight: Number(value.weight),
+                numberOfPoint: Number(value.numberOfPoint)
             },
-            parcelItem: [
-                {
-                    name: "Asadbek",
-                    cost: 10000,
-                    currencyId: 1,
-                    description: "asdasdasd"
-                }
-            ],
-            parcelStatusId: 1,
-            parcelImage: [],
-            parcelSound: [],
+            parcelImage: value.images,
+            pickupAddress: value.pickupAddress,
+            deliveryAddress: value.deliveryAddress,
             parcelDescription: {
-                description: "Create Parcell uchun birinchi urunish"
-            }
+                description: value.description
+            },
+            sendSmsToRecipient: value.sendSmsToRecipient,
+            sendSmsToSender: value.sendSmsToSender,
+            sendSmsToTelegram: value.sendSmsToTelegram,
         }
         request.post("/Parcel", data ,{
                 headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
             }).then(()=>toast.success("Added!")).catch((err: any)=>toast.error(err.message))
-    },[request, toast])
+    },[request, toast, profile])
 
 
     return (
         <>
          <AddParcelForm 
+                senders={senders}
+                recepients={receipents}
                 paymentMethods={paymentMethods} 
                 customers={couriers} 
-                handleScroll={handleScroll} 
-                users={users} 
                 initialValues={initialValues} 
                 setInitialValues={setInitialValues} 
                 plans={plans} 
@@ -178,7 +204,8 @@ export default function AddParcelFormWrapper(){
                 costInfo={costInfoList}
                 setRundomCode={(value:any)=>console.log(value)}
                 onSubmit={(value)=>onSumbit(value)}
-                searchUser={(value: string) => getUsersBySearching(value)}
+                searchSender={(value: string) => getSendersBySearching(value)}
+                searchReceipent={(value: string) => getReceipentsBySearching(value)}
                 />
           </>
      )

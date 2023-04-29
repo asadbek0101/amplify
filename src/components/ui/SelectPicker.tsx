@@ -39,13 +39,13 @@ export function SelectPricker({
     ...props
 }:SelectPrickerProps){
 
-    const customFilter = useCallback((candidate: any, input: any) => {
-        if (input) {
-          // return true for each option that matches your filter
-          console.log(input)
-        }
-        return true; // if not search, then all match
-      }, []);
+    // const customFilter = useCallback((candidate: any, input: any) => {
+    //     if (input) {
+    //       // return true for each option that matches your filter
+    //       console.log(input)
+    //     }
+    //     return true; // if not search, then all match
+    //   }, []);
 
     return (
         <div
@@ -92,7 +92,7 @@ export function SelectPricker({
                         placeholder={placeholderSelect}
                         noOptionsMessage={()=>"No options"}
                         onChange={(value )=>onChange && onChange(value)}
-                        filterOption={customFilter}
+                        // filterOption={customFilter}
                         {...props}
                         isDisabled={disabled}
                         isSearchable={isSearchable}
