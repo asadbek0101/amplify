@@ -154,6 +154,7 @@ export default function AddParcelFormWrapper(){
     const onSumbit = useCallback((value: any)=>{
         const data = {
             code: value.code,
+            currencyId: 1,
             parcelCost: {
                 StateDeliveryToBranch: value.StateDeliveryToBranch,
                 StatePickingUp: value.StatePickingUp,
