@@ -75,7 +75,6 @@ export default function ParcelTable({data, selectRow, selectRowCheckbox}:BranchT
             access: 'date',
             width: 200,
             ceil: (row: any)=>{
-                console.log(row.dateCreated)
                 return (
                             <>
                             {DateFormatter(row.dateCreated)}
@@ -112,5 +111,10 @@ export default function ParcelTable({data, selectRow, selectRowCheckbox}:BranchT
         },
         
     ]
-    return (<Table selectRowCheckbox={selectRowCheckbox} data={data} headers={headers} withCheckbox={true}/>)
+    return (
+        <Table 
+            selectRowCheckbox={selectRowCheckbox} 
+            data={data} 
+            headers={headers} 
+            withCheckbox={true}/>)
 }

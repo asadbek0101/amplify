@@ -192,8 +192,14 @@ export default function AddParcelFormWrapper(){
                     costDeliveryToPoint: value.parcelCost.costDeliveryToPoint,
                     costPickingUp: value.parcelCost.costPickingUp,
                     paymentMethod: paymentMethods && paymentMethods.filter((item)=>item.value === value.parcelCost.paymentMethodId)[0],
-                    senderCourierId: labeValue,
-                    recepientCourierId: labeValue   ,
+                    senderCourierId: {
+                        label: value.senderCourier.firstName + " " + value.senderCourier.lastName + " " + value.senderCourier.phoneNumber,
+                        value: value.senderCourier.id
+                    },
+                    recepientCourierId: {
+                        label: value.recepientCourier.firstName + " " + value.recepientCourier.lastName + " " + value.recepientCourier.phoneNumber,
+                        value: value.recepientCourier.id
+                    },
                     StateDeliveryToBranch: value.parcelCost.stateDeliveryToBranch,
                     StatePickingUp: value.parcelCost.StatePickingUp,
                     StateDeliveryToPoint: value.parcelCost.StateDeliveryToPoint,
@@ -206,7 +212,7 @@ export default function AddParcelFormWrapper(){
                  setInitialValues(data)
             }).catch((error)=>console.log(error))
         }
-    },[request, parcelId, setInitialValues])
+    },[request, parcelId, setInitialValues, paymentMethods])
 
 
     const onSumbit = useCallback((value: any)=>{
@@ -220,6 +226,7 @@ export default function AddParcelFormWrapper(){
                 costDeliveryToPoint: Number(value.costDeliveryToPoint),
                 costDeliveryToBranch: Number(value.costDeliveryToBranch),
                 currencyId: 1,
+                paymentMethodId: value.paymentMethod.value,
             },
             senderId: Number(value.senderId.value),
             recepientId: Number(value.recepientId.value),
