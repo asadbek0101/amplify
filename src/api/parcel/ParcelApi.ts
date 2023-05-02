@@ -13,7 +13,7 @@ export class ParcelApi extends ApiContext{
     }
 
     public deleteParcel(del:any):Promise<any>{
-        return this.post(`/Parcel/DeleteBranches`, del)
+        return this.post(`/Parcel/DeleteParcels`, del)
     }
 
     public updateParcel(body:any){

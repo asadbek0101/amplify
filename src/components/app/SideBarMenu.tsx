@@ -133,6 +133,11 @@ export default function SideBarMenu(){
                             onChangeTab={(value: any)=>navigate(`/app/parcels/${value}`)}
                             >
                             <SideBarItem
+                                key="parcel-form"
+                                >
+                                Add Parcel
+                            </SideBarItem>
+                            <SideBarItem
                                 key="all-parcels"
                                 >
                                 All Parcels
@@ -142,21 +147,14 @@ export default function SideBarMenu(){
                     >
                     Parcels
                 </SideBarItem>
-                <SideBarItem
-                    key="add-parcel"
-                    icon={
-                        <AddIcon color="white"/>
-                    }
-                    >
-                    Add Parcel
-                </SideBarItem>
+                
                 <SideBarItem
                     key="edit-parcel"
                     icon={
                         <EditIcon color="white"/>
                     }
                     >
-                    Edit Parcel
+                    Edit Parcel Status
                 </SideBarItem>
                 </AppMenu>
         )}

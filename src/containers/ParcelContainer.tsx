@@ -1,13 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ContainerLayout from "../components/app/ContainerLayout";
-import AllParcelsTab from "../components/parcel/ParcelsTab";
+import AddParcelFormWrapper from "../components/parcel/ParcelFormWrapper";
+import ParcelTableWrapper from "../components/parcel/ParcelTableWrapper";
 
 export default function ParcelContainer(){
-    const { tab = "all-parcels" } = useParams();
+    const { tab = "parcel-form" } = useParams();
+    const navigator = useNavigate();
+    const [search, setSearch] = useSearchParams();
     return (
         <ContainerLayout>
            {tab === "all-parcels" && (
-            <AllParcelsTab/>
+            <ParcelTableWrapper selectRow={(value)=>{
+                navigator(`/app/parcels/parcel-form?parcelId=${value.id}`);
+            }}/>
+           )}
+           {tab === "parcel-form" && (
+            <AddParcelFormWrapper/>
            )}
         </ContainerLayout>
     )

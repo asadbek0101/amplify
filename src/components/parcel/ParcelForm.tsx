@@ -9,7 +9,7 @@ import CheckBox from "../form/CheckBox";
 import InputField from "../form/InputField";
 import { toast } from "react-toastify";
 import ImgUpload from "../app/ImgUpload";
-import AddParcelShowImages from "./AddParcelShowImages";
+import AddParcelShowImages from "./ParcelShowImages";
 import TextAreaField from "../form/TextAreaField";
 import SelectPickerField from "../form/SelectPickerField";
 
@@ -29,7 +29,7 @@ const validationSchema = object({
     costDeliveryToBranch: string(),
     costDeliveryToPoint: string(),
     costPickingUp: string(),
-    paymentMethod: string(),
+    paymentMethod: mixed<SelectType>(),
     senderCourierId: mixed<SelectType>(),
     recepientCourierId: mixed<SelectType>(),
     StateDeliveryToBranch: bool(),
@@ -84,6 +84,17 @@ export default function AddParcelForm({
         setInitialValues((prev: any)=>
             update(prev, {
                 recepientId: {
+                    label: value.label,
+                    value: value.value
+                }
+            })
+        )
+    },[setInitialValues])
+
+    const onChangePaymentMethod = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>
+            update(prev, {
+                paymentMethod: {
                     label: value.label,
                     value: value.value
                 }
@@ -373,6 +384,15 @@ export default function AddParcelForm({
         }))
     },[setInitialValues, initialValues.images])
 
+    const deleteImage = useCallback((value: number)=>{
+        const images = [...initialValues.images]
+        images.splice(value, 1)
+        setInitialValues((prev: any)=>
+        update(prev, {
+            images: images,
+        }))
+    },[setInitialValues, initialValues.images])
+
     return (
         <Formik
             initialValues={initialValues}
@@ -528,6 +548,7 @@ export default function AddParcelForm({
                                     <div className="col-6 mt-3">
                                         <SelectPickerField 
                                             options={paymentMethods} 
+                                            onChanges={(value: any)=>onChangePaymentMethod(value)}
                                             name="paymentMethod" 
                                             label="Payment Method"/>
                                     </div>
@@ -575,7 +596,9 @@ export default function AddParcelForm({
                             className="mb-3" 
                             setImage={(value: any)=>onChangeImage(value)}/>
                         <AddParcelShowImages 
-                            data={initialValues.images}/>
+                            data={initialValues.images}
+                            deleteImage={(value)=>deleteImage(value)}
+                            />
                 </div>
 
                 <div className="col-12 mt-3">

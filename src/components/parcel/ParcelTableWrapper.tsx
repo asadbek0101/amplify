@@ -29,10 +29,8 @@ export default function ParcelTableWrapper({selectRow}:BranchTableWrapperProps){
   },[ParcelApi, toast, pageCount, pageSize])
 
   const deletePost = useCallback(()=>{
-        const del = {
-            id: ids
-        }
-        ParcelApi.deleteParcel({del: del}).then(()=>{
+        const id = ids
+        ParcelApi.deleteParcel({id}).then(()=>{
             toast.success("Deleted!");
             setIsDelModal(false);
             window.location.reload();

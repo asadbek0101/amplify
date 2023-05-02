@@ -11,7 +11,6 @@ interface BranchTableProps{
 }
 
 export default function ParcelTable({data, selectRow, selectRowCheckbox}:BranchTableProps){
-    console.log(data)
     const headers:any = [
         {
             header: 'ИД',

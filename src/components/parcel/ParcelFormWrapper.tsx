@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../api/request";
-import AddParcelForm from "./AddParcelForm";
+import AddParcelForm from "./ParcelForm";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import TabPage from "../tabs/TabPage";
 
 interface SelectType{
     readonly label: string;
@@ -33,7 +34,7 @@ export default function AddParcelFormWrapper(){
         costDeliveryToBranch: 0,
         costDeliveryToPoint: 0,
         costPickingUp: 0,
-        paymentMethod: 0,
+        paymentMethod: labeValue,
         senderCourierId: labeValue,
         recepientCourierId: labeValue   ,
         StateDeliveryToBranch: false,
@@ -52,8 +53,10 @@ export default function AddParcelFormWrapper(){
     const [plans, setPlans] = useState<any>([]);
     const [couriers, setCouriers] = useState<any>([]);
     const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
+    const [search, setSearch] = useSearchParams();
     const navigator = useNavigate();
 
+    const parcelId = useMemo(()=>search.get("parcelId")?search.get("parcelId"): "",[search])
     const profile = useSelector((state: any)=>state.data.profile)
 
     useEffect(()=>{
@@ -152,6 +155,59 @@ export default function AddParcelFormWrapper(){
         }
     },[request, setReceipents, toast])
 
+    useEffect(()=>{
+        if(parcelId !== ""){
+            request.get(`/Parcel/${parcelId}`).then((response)=>{
+                const value = response.data
+                console.log("value ", value)
+                const data = {
+                    code: value.code,
+                    senderId: {
+                        label: value.sender.firstName + " " + value.sender.lastName + " " + value.sender.phoneNumber,
+                        value: value.sender.id
+                    },
+                    recepientId: {
+                        label: value.recepient.firstName + " " + value.recepient.lastName + " " + value.recepient.phoneNumber,
+                        value: value.recepient.id
+                    },
+                    parcelBranchFromId: {
+                        label: value.fromBranch.name,
+                        value: value.fromBranch.id
+                    },
+                    parcelBranchToId: {
+                        label: value.toBranch.name,
+                        value: value.toBranch.id
+                    },
+                    weight: value.parcelSize.weight,
+                    images: value.parcelImage,
+                    description: value.parcelDescription.description,
+                    pickupAddress: "",
+                    deliveryAddress: "",
+                    numberOfPoint: value.parcelSize.numberOfPoint,
+                    parcelPlanId: {
+                        label: value.parcelPlan.name,
+                        value: value.parcelPlan.id
+                    },
+                    costDeliveryToBranch: value.parcelCost.costDeliveryToBranch,
+                    costDeliveryToPoint: value.parcelCost.costDeliveryToPoint,
+                    costPickingUp: value.parcelCost.costPickingUp,
+                    paymentMethod: paymentMethods && paymentMethods.filter((item)=>item.value === value.parcelCost.paymentMethodId)[0],
+                    senderCourierId: labeValue,
+                    recepientCourierId: labeValue   ,
+                    StateDeliveryToBranch: value.parcelCost.stateDeliveryToBranch,
+                    StatePickingUp: value.parcelCost.StatePickingUp,
+                    StateDeliveryToPoint: value.parcelCost.StateDeliveryToPoint,
+                    StateSenderCourierId: false,
+                    StateRecipientCourierId: false,
+                    sendSmsToRecipient: false,
+                    sendSmsToSender: false,
+                    sendSmsToTelegram: false,
+                }
+                 setInitialValues(data)
+            }).catch((error)=>console.log(error))
+        }
+    },[request, parcelId, setInitialValues])
+
 
     const onSumbit = useCallback((value: any)=>{
         const data = {
@@ -196,7 +252,9 @@ export default function AddParcelFormWrapper(){
 
 
     return (
-        <>
+        <TabPage
+            childrenClassName="p-2"
+            >
          <AddParcelForm 
                 senders={senders}
                 recepients={receipents}
@@ -212,6 +270,6 @@ export default function AddParcelFormWrapper(){
                 searchSender={(value: string) => getSendersBySearching(value)}
                 searchReceipent={(value: string) => getReceipentsBySearching(value)}
                 />
-          </>
+          </TabPage>
      )
 }

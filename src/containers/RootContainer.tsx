@@ -6,12 +6,10 @@ import { set_user_profile } from "../redux/action";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AppContainer from "./AppContainer";
 import AuthContainer from "./AuthContainer";
-import AddParcelContainer from "./AddParcelContainer";
 import AdministratorContainer from "./AdministratorContainer";
 import UsersContainer from "./UsersContainer";
 import ParcelContainer from "./ParcelContainer";
 import { Pages, RouteContainerTabs } from "../constants/Routes";
-import EditParcelContainer from "./EditParcelContainer";
 
 
 export default function RootContainer(){
@@ -51,8 +49,6 @@ export default function RootContainer(){
                 <Route path={RouteContainerTabs.AdministratorPath} element={<AdministratorContainer/>}/>
                 <Route path={RouteContainerTabs.UsersPath} element={<UsersContainer/>}/>
                 <Route path={RouteContainerTabs.ParcelsPath} element={<ParcelContainer/>}/>
-                <Route path={RouteContainerTabs.AddParcel} element={<AddParcelContainer/>}/>
-                <Route path={RouteContainerTabs.EditParcel} element={<EditParcelContainer/>}/>
         </Route>
       </Routes>
 )
