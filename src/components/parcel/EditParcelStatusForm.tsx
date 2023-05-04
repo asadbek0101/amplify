@@ -43,8 +43,10 @@ export default function EditParcelStatusForm({
             let data = {
                 title: value.target.value
             }
-
-            array.push(data);
+            let found = array.filter((item: any)=>item.title === value.target.value)
+            if(found.length === 0){
+                array.push(data);
+            }
 
             setInitialValues((prev: any)=>update(prev, {
                 searchParcelByNumber: array,
@@ -56,6 +58,7 @@ export default function EditParcelStatusForm({
             }))
         }
     },[setInitialValues, initialValues])
+
 
     const deleteSearchNumber = useCallback((value: any)=>{
 
