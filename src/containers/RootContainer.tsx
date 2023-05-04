@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { request } from "../api/request";
 import { set_user_profile } from "../redux/action";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { Pages, RouteContainerTabs } from "../constants/Routes";
 import AppContainer from "./AppContainer";
 import AuthContainer from "./AuthContainer";
 import AdministratorContainer from "./AdministratorContainer";
 import UsersContainer from "./UsersContainer";
 import ParcelContainer from "./ParcelContainer";
-import { Pages, RouteContainerTabs } from "../constants/Routes";
+import EditParcelStatusContainer from "./EditParcelStatusContainer";
 
 
 export default function RootContainer(){
@@ -49,6 +50,7 @@ export default function RootContainer(){
                 <Route path={RouteContainerTabs.AdministratorPath} element={<AdministratorContainer/>}/>
                 <Route path={RouteContainerTabs.UsersPath} element={<UsersContainer/>}/>
                 <Route path={RouteContainerTabs.ParcelsPath} element={<ParcelContainer/>}/>
+                <Route path={RouteContainerTabs.EditParcelPath} element={<EditParcelStatusContainer/>}/>
         </Route>
       </Routes>
 )

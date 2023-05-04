@@ -17,7 +17,7 @@ export enum UserTabs{
 }
 
 export default function UsersContainer(){
-    const { tab = UserTabs.AddUser } = useParams();
+    const { tab = UserTabs.AllUsers } = useParams();
     return (
         <ContainerLayout>
           {tab === UserTabs.AddUser && (

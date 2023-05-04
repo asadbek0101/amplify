@@ -5,6 +5,7 @@ import AddParcelForm from "./ParcelForm";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TabPage from "../tabs/TabPage";
+import axios from "axios";
 
 interface SelectType{
     readonly label: string;
@@ -159,8 +160,9 @@ export default function AddParcelFormWrapper(){
         if(parcelId !== ""){
             request.get(`/Parcel/${parcelId}`).then((response)=>{
                 const value = response.data
-                console.log("value ", value)
-                const data = {
+                const data: any = {
+                    ...value,
+                    id: value.id,
                     code: value.code,
                     senderId: {
                         label: value.sender.firstName + " " + value.sender.lastName + " " + value.sender.phoneNumber,
@@ -181,8 +183,8 @@ export default function AddParcelFormWrapper(){
                     weight: value.parcelSize.weight,
                     images: value.parcelImage,
                     description: value.parcelDescription.description,
-                    pickupAddress: "",
-                    deliveryAddress: "",
+                    pickupAddress: value.parcelAddress.pickingUpAddress,
+                    deliveryAddress: value.parcelAddress.deliveryUpAddress,
                     numberOfPoint: value.parcelSize.numberOfPoint,
                     parcelPlanId: {
                         label: value.parcelPlan.name,
@@ -205,9 +207,6 @@ export default function AddParcelFormWrapper(){
                     StateDeliveryToPoint: value.parcelCost.StateDeliveryToPoint,
                     StateSenderCourierId: false,
                     StateRecipientCourierId: false,
-                    sendSmsToRecipient: false,
-                    sendSmsToSender: false,
-                    sendSmsToTelegram: false,
                 }
                  setInitialValues(data)
             }).catch((error)=>console.log(error))
@@ -216,48 +215,143 @@ export default function AddParcelFormWrapper(){
 
 
     const onSumbit = useCallback((value: any)=>{
-        const data = {
-            code: value.code,
-            parcelCost: {
-                StateDeliveryToBranch: value.StateDeliveryToBranch,
-                StatePickingUp: value.StatePickingUp,
-                StateDeliveryToPoint: value.StateDeliveryToPoint,
-                costPickingUp: Number(value.costPickingUp),
-                costDeliveryToPoint: Number(value.costDeliveryToPoint),
-                costDeliveryToBranch: Number(value.costDeliveryToBranch),
-                currencyId: 1,
-                paymentMethodId: value.paymentMethod.value,
-            },
-            senderId: Number(value.senderId.value),
-            recepientId: Number(value.recepientId.value),
-            senderStaffId: Number(profile.id),
-            recepientCourierId: Number(value.recepientCourierId.value),
-            senderCourierId: Number(value.senderCourierId.value),
-            parcelPlanId: Number(value.parcelPlanId.value),
-            parcelBranchFromId: Number(value.parcelBranchFromId.value),
-            parcelBranchToId: Number(value.parcelBranchToId.value),
-            parcelSize: {
-                weight: Number(value.weight),
-                numberOfPoint: Number(value.numberOfPoint)
-            },
-            parcelImage: value.images,
-            pickupAddress: value.pickupAddress,
-            deliveryAddress: value.deliveryAddress,
-            parcelDescription: {
-                description: value.description
-            },
-            sendSmsToRecipient: value.sendSmsToRecipient,
-            sendSmsToSender: value.sendSmsToSender,
-            sendSmsToTelegram: value.sendSmsToTelegram,
+        console.log("On Sumbit button is working...")
+        if(parcelId !== ""){
+            const data = {
+                ...value,
+                code: value.code,
+                parcelCost: {
+                    StateDeliveryToBranch: value.StateDeliveryToBranch,
+                    StatePickingUp: value.StatePickingUp,
+                    StateDeliveryToPoint: value.StateDeliveryToPoint,
+                    costPickingUp: Number(value.costPickingUp),
+                    costDeliveryToPoint: Number(value.costDeliveryToPoint),
+                    costDeliveryToBranch: Number(value.costDeliveryToBranch),
+                    currencyId: 1,
+                    paymentMethodId: value.paymentMethod.value,
+                },
+                senderId: Number(value.senderId.value),
+                recepientId: Number(value.recepientId.value),
+                senderStaffId: Number(profile.id),
+                recepientCourierId: Number(value.recepientCourierId.value),
+                senderCourierId: Number(value.senderCourierId.value),
+                parcelPlanId: Number(value.parcelPlanId.value),
+                parcelBranchFromId: Number(value.parcelBranchFromId.value),
+                parcelBranchToId: Number(value.parcelBranchToId.value),
+                parcelSize: {
+                    weight: Number(value.weight),
+                    numberOfPoint: Number(value.numberOfPoint)
+                },
+                parcelImage: value.images, 
+                parcelAddress: {
+                    pickingUpAddress: value.pickupAddress,
+                    deliveryUpAddress: value.deliveryAddress,
+                },
+                parcelDescription: {
+                    description: value.description
+                },
+                sendSmsToRecipient: value.sendSmsToRecipient,
+                sendSmsToSender: value.sendSmsToSender,
+                sendSmsToTelegram: value.sendSmsToTelegram,
+            }
+            request.put("/Parcel", data ,{
+                    headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
+                }).then(()=>{
+                    toast.success("Parcel had updated successfully")
+                    navigator('/app/parcels/all-parcels')
+                }).catch((err: any)=>toast.error(err.message))
+        }else{
+            if(value.paymentMethod.value === ""){
+                toast.warning("Payment Method Wass Null!")
+            }else {
+            const data = {
+                code: value.code,
+                parcelCost: {
+                    StateDeliveryToBranch: value.StateDeliveryToBranch,
+                    StatePickingUp: value.StatePickingUp,
+                    StateDeliveryToPoint: value.StateDeliveryToPoint,
+                    costPickingUp: Number(value.costPickingUp),
+                    costDeliveryToPoint: Number(value.costDeliveryToPoint),
+                    costDeliveryToBranch: Number(value.costDeliveryToBranch),
+                    currencyId: 1,
+                    paymentMethodId: value.paymentMethod.value,
+                },
+                senderId: Number(value.senderId.value),
+                recepientId: Number(value.recepientId.value),
+                senderStaffId: Number(profile.id),
+                recepientCourierId: Number(value.recepientCourierId.value),
+                senderCourierId: Number(value.senderCourierId.value),
+                parcelPlanId: Number(value.parcelPlanId.value),
+                parcelBranchFromId: Number(value.parcelBranchFromId.value),
+                parcelBranchToId: Number(value.parcelBranchToId.value),
+                parcelSize: {
+                    weight: Number(value.weight),
+                    numberOfPoint: Number(value.numberOfPoint)
+                },
+                parcelImage: value.images, 
+                parcelAddress: {
+                    pickingUpAddress: value.pickupAddress,
+                    deliveryUpAddress: value.deliveryAddress,
+                },
+                parcelDescription: {
+                    description: value.description
+                },
+                sendSmsToRecipient: value.sendSmsToRecipient,
+                sendSmsToSender: value.sendSmsToSender,
+                sendSmsToTelegram: value.sendSmsToTelegram,
+            }
+            request.post("/Parcel", data ,{
+                    headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
+                }).then(()=>{
+                    toast.success("Parcel had added successfully")
+                    navigator('/app/parcels/all-parcels')
+                }).catch((err: any)=>toast.error(err.message))
+            }
         }
-        request.post("/Parcel", data ,{
-                headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
-            }).then(()=>{
-                navigator('/app/parcels/all-parcels')
-            }).catch((err: any)=>toast.error(err.message))
     },[request, toast, profile, navigator])
 
+    const onPrint = useCallback((value: any)=>{
+        const myArray: boolean[] = [];
+        let myString: boolean = false;
+        if(value.StateDeliveryToBranch && value.StateDeliveryToPoint && value.StatePickingUp){
+            myArray.push(true);
+        }else{
+            myArray.push(false);
+        }
 
+        if(value.StateDeliveryToPoint){
+            myString = true 
+        }
+
+        const data = {
+            barCodeNumber: value.code,
+            promted: Number(value.numberOfPoint),
+            dateTime: "2023-05-03T10:26:33.271Z",
+            myArray: myArray,
+            myString: myString
+        }
+
+        request.post('/Parcel/GetSticker',
+        data,
+         {
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem("token")}`,
+            },
+            responseType: 'blob',
+        }).then((response) => {
+            const href = URL.createObjectURL(response.data);
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', `${value.code}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+        
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+        });
+
+    },[request, localStorage])
+    
     return (
         <TabPage
             childrenClassName="p-2"
@@ -272,7 +366,7 @@ export default function AddParcelFormWrapper(){
                 plans={plans} 
                 branchs={branches} 
                 costInfo={costInfoList}
-                setRundomCode={(value:any)=>console.log(value)}
+                setRundomCode={(value:any)=>onPrint(value)}
                 onSubmit={(value)=>onSumbit(value)}
                 searchSender={(value: string) => getSendersBySearching(value)}
                 searchReceipent={(value: string) => getReceipentsBySearching(value)}

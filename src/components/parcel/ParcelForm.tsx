@@ -29,7 +29,7 @@ const validationSchema = object({
     costDeliveryToBranch: string(),
     costDeliveryToPoint: string(),
     costPickingUp: string(),
-    paymentMethod: mixed<SelectType>(),
+    paymentMethod: mixed<SelectType>().required("Required!"),
     senderCourierId: mixed<SelectType>(),
     recepientCourierId: mixed<SelectType>(),
     StateDeliveryToBranch: bool(),
@@ -672,10 +672,10 @@ export default function AddParcelForm({
                         <Button 
                             className="text-light bg-green px-3 py-1" 
                             onClick={() => {
-                                if(initialValues.code != 0){
-                                    setRundomCode(initialValues.code)
+                                if(initialValues.code != 0 && initialValues.numberOfPoint != 0){
+                                    setRundomCode(initialValues)
                                 }else{
-                                    toast.error("Parcel Number Is Not Found")
+                                    toast.error("Parcel Number or Number Of Point is Not Found")
                                 }
                             }}>
                                 Print

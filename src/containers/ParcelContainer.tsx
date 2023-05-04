@@ -4,7 +4,7 @@ import AddParcelFormWrapper from "../components/parcel/ParcelFormWrapper";
 import ParcelTableWrapper from "../components/parcel/ParcelTableWrapper";
 
 export default function ParcelContainer(){
-    const { tab = "parcel-form" } = useParams();
+    const { tab = "all-parcels" } = useParams();
     const navigator = useNavigate();
     const [search, setSearch] = useSearchParams();
     return (

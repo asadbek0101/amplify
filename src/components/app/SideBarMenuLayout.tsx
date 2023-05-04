@@ -19,6 +19,7 @@ export default function SideBarMenuLayout({children}:SideBarMenuLayoutProps){
                     <div className="d-flex flex-column align-items-center justify-content-center">
                         <span className="name-title-span fs-5 fw-bold text-light">{profile.unique_name}</span>
                         <span className="text-light title-sub">{profile.sub}</span>
+                        <span className="text-light">{profile.role[0]}</span>
                     </div>
                 )}
             </div>
