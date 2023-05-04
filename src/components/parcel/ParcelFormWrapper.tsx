@@ -215,7 +215,6 @@ export default function AddParcelFormWrapper(){
 
 
     const onSumbit = useCallback((value: any)=>{
-        console.log("On Sumbit button is working...")
         if(parcelId !== ""){
             const data = {
                 ...value,

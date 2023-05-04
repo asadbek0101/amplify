@@ -6,11 +6,13 @@ export default function EditParcelStatusFormWrapper(){
 
     const [initialValues, setInitialValues] = useState({
         name: "",
+        searchParcelByNumber: [],
+        searchText: "",
     })
 
     return (
         <TabPage
-            childrenClassName="p-2"
+            childrenClassName="p-4"
             >
             <EditParcelStatusForm
                 initialValues={initialValues}
