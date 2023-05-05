@@ -1,11 +1,14 @@
 import { ApiContext } from "../ApiContext";
 import { IdProps } from "../AppDto";
-import { GetAllRole } from "./UserDto";
 
 export class UserApi extends ApiContext{
     
     public getAllUsers({pageNumber, pageSize, roleId }:any):Promise<any>{
         return this.get(`/UserManager/WithPagination?pageNumber=${pageNumber}&pageSize=${pageSize}&RoleId=${roleId}`)
+    }
+
+    public getAllUsersWithoutPagination(roleId: number): Promise<any>{
+        return this.get(`/UserManager/GetAll?RoleId=${roleId}`)
     }
 
     public getUserById({id}:IdProps):Promise<any>{

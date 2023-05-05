@@ -20,7 +20,12 @@ export default function CheckBox({name, leftLabel, rightLabel, className, value,
                 <label htmlFor={name}>{leftLabel}</label>
             </div>
            )}
-                <input className={`${checkboxClassName}`} checked={value} type="checkbox" id={name} onChange={(event)=>onChange(event.target.checked)}/>
+                <input 
+                    className={`${checkboxClassName}`} 
+                    checked={value} 
+                    type="checkbox" 
+                    id={name} 
+                    onChange={(event)=>onChange(event.target.checked)}/>
            {rightLabel && (
             <div className="right-label">
                  <label htmlFor={name}>{rightLabel}</label>

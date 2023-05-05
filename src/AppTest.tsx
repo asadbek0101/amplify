@@ -1,20 +1,32 @@
 import {useEffect, useState} from 'react';
+import RadioButtonGroupField from './components/form/RadioButtonGroupField';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
 
-  const [randomNum, setRandomNum] = useState(5);
+  const [value, setValue] = useState("")
 
-  const handleRandomNum = () => {
-    setRandomNum(Math.floor(Math.random() * (89999999 + 1) + 10000000));
-  };
+  const options = [
+    {
+      label: "Salom",
+      value: "salom",
+    },
+    {
+      label: "Salom 2",
+      value: "salom_2"
+    },
+    {
+      label: "Salom 3",
+      value: "salom_3"
+    }
+  ]
 
   return (
-    <div>
-      <button onClick={handleRandomNum}>
-        Randow
-      </button>
-      {randomNum}
-    </div>
+   <RadioButtonGroupField
+        options={options}
+        onChange={(value: any)=>setValue(value.target.value)}
+        value={value}
+    />
   );
 };
 

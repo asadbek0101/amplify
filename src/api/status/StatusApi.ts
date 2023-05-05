@@ -8,6 +8,11 @@ export class StatusApi extends ApiContext{
         return this.get(`/Status/WithPagination?pageNumber=${pageNumber}&pageSize=${pageSize}`)
     }
 
+
+    public getAllStatusWithoutPagination():Promise<any>{
+        return this.get(`/Status`)
+    }
+
     public getStatusById({id}:IdProps):Promise<any>{
         return this.get(`/Status/${id}`)
     }

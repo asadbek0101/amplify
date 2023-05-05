@@ -13,7 +13,7 @@ import AddParcelShowImages from "./ParcelShowImages";
 import TextAreaField from "../form/TextAreaField";
 import SelectPickerField from "../form/SelectPickerField";
 
-interface SelectType{
+export interface SelectType{
     label: string;
     value: string;
 }
