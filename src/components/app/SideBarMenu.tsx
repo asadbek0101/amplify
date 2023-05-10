@@ -53,27 +53,27 @@ export default function SideBarMenu(){
                         <SideBarItem
                             key={AdministratorTabs.RoleManagerTab}
                             >
-                            Role Manager
+                            Роли
                         </SideBarItem>    
                         <SideBarItem
                             key={AdministratorTabs.PlanTab}
                             >
-                            Plan
+                            Тарифы
                         </SideBarItem> 
                         <SideBarItem
                             key={AdministratorTabs.StatusTab}
                             >
-                            Status
+                            Статусы
                         </SideBarItem> 
                         <SideBarItem
                             key={AdministratorTabs.BranchesTab}
                             >
-                            Branches
+                            Филиалы
                         </SideBarItem>    
                         </AppMenu>
                     }
                     >
-                    Administrator
+                    Администратор
                 </SideBarItem>
                 <SideBarItem
                     key={RouteContainerTabs.Users}
@@ -89,37 +89,37 @@ export default function SideBarMenu(){
                         <SideBarItem
                             key={UserTabs.AddUser}
                             >
-                            Add User
+                            Создать
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.AllUsers}
                             >
-                            All Users
+                            Все 
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Customers}
                             >
-                            Customers
+                            Клиенты
                         </SideBarItem>    
                         <SideBarItem
                             key={UserTabs.Staff}
                             >
-                            Staff
+                            Сотрудники
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Managers}
                             >
-                            Managers
+                            Менеджеры
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Couriers}
                             >
-                            Couriers
+                            Курьеры
                         </SideBarItem>    
                         </AppMenu>
                     }
                     >
-                    Users
+                    Пользователи
                 </SideBarItem>
                 <SideBarItem
                     key={RouteContainerTabs.Parcels}
@@ -135,17 +135,17 @@ export default function SideBarMenu(){
                             <SideBarItem
                                 key="parcel-form"
                                 >
-                                Add Parcel
+                                Создать
                             </SideBarItem>
                             <SideBarItem
                                 key="all-parcels"
                                 >
-                                All Parcels
+                                Все
                             </SideBarItem>     
                         </AppMenu>
                     }
                     >
-                    Parcels
+                    Посылки
                 </SideBarItem>
                 
                 <SideBarItem
@@ -154,7 +154,7 @@ export default function SideBarMenu(){
                         <EditIcon color="white"/>
                     }
                     >
-                    Edit Parcel Status
+                    Статус посылок
                 </SideBarItem>
                 </AppMenu>
         )}

@@ -30,7 +30,7 @@ export default function AddParcelShowImages({
             )}
             {data.length == 0 && (
                 <div className="col-12 d-flex justify-content-center align-items-center" style={{height: "200px",}}>
-                    <h2>Upload Img</h2>
+                    <h2>Загрузка изображений</h2>
                 </div>
             )}
         </div>

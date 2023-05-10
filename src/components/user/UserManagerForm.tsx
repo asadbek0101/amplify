@@ -108,11 +108,11 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
 
                         </div>
                         <div className="col-8">
-                        <GroupBox title="User Info">
+                        <GroupBox title="Инфомрация о пользователя">
                            <div className="row">
                             <div className="col-6 my-1">
                             <InputField
-                                label="First Name"
+                                label="Имя"
                                 name="firstName"
                                 value={initialValues.firstName}
                                 onChange={(event: any)=>onChangeFirstName(event)}
@@ -120,7 +120,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Last Name"
+                                label="Фамилия"
                                 name="lastName"
                                 value={initialValues.lastName}
                                 onChange={(event: any)=>onChangeLastName(event)}
@@ -136,7 +136,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Username"
+                                label="Имя пользователя (ник)"
                                 name="userName"
                                 value={initialValues.userName}
                                 onChange={(event: any)=>onChangeUserName(event)}
@@ -144,7 +144,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Phone Number"
+                                label="Контакт"
                                 name="phoneNumber"
                                 value={initialValues.phoneNumber}
                                 onChange={(event: any)=>onChangePhoneNumber(event)}
@@ -152,7 +152,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Address"
+                                label="Адрес"
                                 name="address"
                                 value={initialValues.address}
                                 onChange={(event: any)=>onChangeAddress(event)}
@@ -163,12 +163,12 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                         </div>
                         <div className="col-12 mt-5">
                             <GroupBox
-                                title="Some user details"
+                                title="Дополнительная информация"
                                 >
                                     <div className="row">
                                         <div className="col-4 d-flex">
                                         <InputField
-                                        label="User Password"
+                                        label="Пароль"
                                         name="passwordHash"
                                         value={initialValues.passwordHash}
                                         onChange={(event: any)=>onChangePassword(event)}
@@ -176,7 +176,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                                         </div>
                                         <div className="col-8 d-flex">
                                         <SelectPickerField
-                                            label="User Roles"
+                                            label="Роль"
                                             name="roleName"
                                             options={roles}
                                             isMulti
@@ -189,7 +189,7 @@ export default function UserManagerForm({initialValues, roles, setInitialValues,
                         </div>
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>

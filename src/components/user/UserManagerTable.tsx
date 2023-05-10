@@ -18,7 +18,7 @@ export default function UserManagerTable({data, editRow, deleteRow}:UserManagerT
             width: 40
         },
          {
-            header: 'First Name',
+            header: 'Имя',
             access: 'firstName',
             width: 100
         },
@@ -28,22 +28,22 @@ export default function UserManagerTable({data, editRow, deleteRow}:UserManagerT
         //     width: 100
         // },
         {
-            header: 'Last Name',
+            header: 'Фамилия',
             access: 'lastName',
             width: 100
         },
         {
-            header: 'Address',
+            header: 'Адрес',
             access: 'address',
             width: 100
         },
         {
-            header: 'Phone',
+            header: 'Контакт',
             access: 'phone',
             width: 100
         },
         {
-            header: 'User Roles',
+            header: 'Роль',
             access: 'userRoles',
             width: 80,
             ceil: (row: any) => {
@@ -55,7 +55,7 @@ export default function UserManagerTable({data, editRow, deleteRow}:UserManagerT
             }
         },
         {
-            header: "Actions",
+            header: "...",
             access: 'edit',
             ceil: (row: any)=>{
                 return (

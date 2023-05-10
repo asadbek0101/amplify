@@ -16,7 +16,7 @@ export default function LogoutButton({onClick}:LogoutButtonProps){
             // style={{background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1))`}}
             >
                <span className="text-light me-2">
-               Logout
+               Выход
                </span>
             <LogoutIcon/>
         </Button>

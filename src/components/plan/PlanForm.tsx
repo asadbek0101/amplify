@@ -51,11 +51,11 @@ export default function PlanForm({initialValues, setInitialValues, submit}:Branc
                 <Form>
                     <div className="row">
                         <div className="col-6">
-                        <GroupBox title="Person Info">
+                        <GroupBox title="Информация о тарифе">
                            <div className="row">
                             <div className="col-12">
                             <InputField
-                                label="Name"
+                                label="Название"
                                 name="name"
                                 value={initialValues.name}
                                 onChange={(event: any)=>onChangeName(event)}
@@ -63,7 +63,7 @@ export default function PlanForm({initialValues, setInitialValues, submit}:Branc
                             </div>
                             <div className="col-12">
                             <InputField
-                                label="Cost"
+                                label="Стоимость"
                                 name="cost"
                                 value={initialValues.cost}
                                 onChange={(event: any)=>onChangeCost(event)}
@@ -71,7 +71,7 @@ export default function PlanForm({initialValues, setInitialValues, submit}:Branc
                             </div>
                             <div className="col-12">
                             <InputField
-                                label="Description"
+                                label="Описание"
                                 name="description"
                                 value={initialValues.description}
                                 onChange={(event: any)=>onChangeDescription(event)}
@@ -82,7 +82,7 @@ export default function PlanForm({initialValues, setInitialValues, submit}:Branc
                         </div>
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>

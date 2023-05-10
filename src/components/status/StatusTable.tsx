@@ -12,17 +12,17 @@ interface StatusTableProps{
 export default function StatusTable({data, selectRow, selectRowCheckbox}:StatusTableProps){
     const headers:any = [
         {
-            header: 'Name',
+            header: 'Название',
             access: 'name',
             width: 200
         },
         {
-            header: 'Description',
+            header: 'Описание',
             access: 'description',
             width: 300
         },
         {
-            header: "Edit",
+            header: "...",
             access: 'edit',
             ceil: (row: any)=>{
                 return (

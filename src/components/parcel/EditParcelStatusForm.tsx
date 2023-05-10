@@ -146,7 +146,7 @@ export default function EditParcelStatusForm({
                 <Form>
                     <div className="row">
                         <div className="col-6">
-                        <GroupBox title="Person Info">
+                        <GroupBox title="Информация о статусе">
                            <div className="row">
                             <div className="col-12">
                             <SelectPickerField
@@ -229,7 +229,7 @@ export default function EditParcelStatusForm({
                                     <div className="col-12">
                                         <TextAreaField
                                             name="parcelCode"
-                                            label="Search parcel by number"
+                                            label="Введите код посылки"
                                             value={initialValues.searchText}
                                             onChange={(value)=>onChangeParcelCode(value)}
                                             />
@@ -247,7 +247,7 @@ export default function EditParcelStatusForm({
 
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>
