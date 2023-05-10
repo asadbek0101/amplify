@@ -40,7 +40,7 @@ export default function UserManagerEditPasswordForm({initialValues, setInitialVa
                                     <div className="row">
                                         <div className="col-12 d-flex">
                                         <InputField
-                                        label="User Password"
+                                        label="Пароль"
                                         name="passwordHash"
                                         value={initialValues.passwordHash}
                                         onChange={(event: any)=>onChangePasswordHash(event)}
@@ -51,7 +51,7 @@ export default function UserManagerEditPasswordForm({initialValues, setInitialVa
                         </div>
                         <div className="col-12 mt-3 d-flex justify-content-end">
                             <Button type="submit" className="text-light bg-gold px-2 py-1 ">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>

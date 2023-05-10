@@ -53,7 +53,7 @@ export default function RoleManagerFormWrapper({back}:RoleManagerFormWrapperProp
         childrenClassName="p-3 pt-4"
         headerComponent={
             <Button onClick={back} className="bg-gold text-light mb-2 px-2 py-1">
-                Back
+                Назад
             </Button>
         }
         >

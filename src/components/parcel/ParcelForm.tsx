@@ -403,19 +403,19 @@ export default function AddParcelForm({
                     <div className="row p-3 mt-3">
                         <div className="col-12 mb-3 d-flex justify-content-between align-item-center">
                             <div className="d-flex gap-2 align-item-center">
-                                <span>New Parcel</span><span> { initialValues.code} </span>
+                                <span>Нова посылка</span><span> { initialValues.code} </span>
                             </div>
                         </div>
                         
                         <div className="col-6">
-                            <GroupBox title="Sender">
+                            <GroupBox title="Отправитель">
                                 <div className="row mt-2">
                                     <div className="col-12">
                                     <SelectPickerField
                                             name="senderId" 
                                             options={senders} 
                                             onChanges={(value)=>onChangeSenderId(value)}
-                                            label="Sender"
+                                            label="ФИО отправителя"
                                             isSearchable
                                             onInputChange={(value)=>searchSender(value)}
                                             />
@@ -425,14 +425,14 @@ export default function AddParcelForm({
                                             name="parcelBranchFromId" 
                                             options={branchs} 
                                             onChanges={(value: any)=>onChangeParcelBranchFromId(value)} 
-                                            label="From"/>
+                                            label="Откуда"/>
                                     </div>
                                  </div>
                              </GroupBox>
                         </div>
                         
                         <div className="col-6">
-                            <GroupBox title="Recipent">
+                            <GroupBox title="Получатель">
                                 <div className="row mt-2">
                                     <div className="col-12">
                                         <SelectPickerField 
@@ -440,7 +440,7 @@ export default function AddParcelForm({
                                             name="recepientId" 
                                             options={recepients} 
                                             onChanges={(value)=>onChangeRecepientId(value)}
-                                            label="Recepient"
+                                            label="ФИО получателя"
                                             onInputChange={(value)=>searchReceipent(value)}
                                             />
                                     </div>
@@ -449,7 +449,7 @@ export default function AddParcelForm({
                                             name="parcelBranchToId" 
                                             options={branchs} 
                                             onChanges={(value: any)=>onChangeParcelBranchToId(value)} 
-                                            label="To"/>                                    
+                                            label="Куда"/>                                    
                                     </div>
                                 </div>
                              </GroupBox>
@@ -464,35 +464,35 @@ export default function AddParcelForm({
                                             value={initialValues.weight} 
                                             onChange={(event: any)=>onChangeWeight(event.target.value)} 
                                             type="number" 
-                                            label="Weight"/>
+                                            label="Вес"/>
                                     </div>
                                     <div className="col-4">
                                         <InputField 
                                             name="numberOfPoint" 
                                             value={initialValues.numberOfPoint} 
                                             onChange={(event: any)=>onChangeNumberOfPoint(event.target.value)} 
-                                            type="number" label="Number Of Point"/>
+                                            type="number" label="Количество мест в посылке"/>
                                     </div>
                                     <div className="col-4">
                                         <SelectPickerField 
                                             name="parcelPlanId" 
                                             onChanges={(value: any)=>onChangeParcelPlanId(value)}  
                                             options={plans} 
-                                            label="Parcel Plan"/>
+                                            label="Тариф"/>
                                     </div>
                                 </div>
                             </GroupBox>
                         </div>
                         
                         <div className="col-12 mt-4">
-                            <GroupBox title="Courier And Cost">
+                            <GroupBox title="Стоимость услуги">
                                 <div className="row mt-2">
                                     <div className="col-6">
-                                        <InputGroup label="Cost For Delivery To Branch">
+                                        <InputGroup label="Стоимость перевозки до филиала">
                                             <InputField 
                                                 disabled 
                                                 inputClassName="border-0" 
-                                                value={"Has the shipping cost been paid?"} 
+                                                value={"Стоимость перевозки оплачен?"} 
                                                 name="costDeliveryToBranch"/>
 
                                             <CheckBox 
@@ -508,11 +508,11 @@ export default function AddParcelForm({
                                         </InputGroup>
                                     </div>
                                     <div className="col-6">
-                                         <InputGroup label="Cost For Delivery To Point">
+                                         <InputGroup label="Стоимость доставки до двери">
                                             <InputField 
                                                 disabled 
                                                 inputClassName="border-0" 
-                                                value={"Shipping cost paid?"} 
+                                                value={"Стоимость доставки оплачен?"} 
                                                 name="costDeliveryToBranch"/>
                                             <CheckBox 
                                                 onChange={(event)=>onChangeStateDeliveryToPoint(event)} 
@@ -527,11 +527,11 @@ export default function AddParcelForm({
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
-                                        <InputGroup label="Cost For Delivery To Pickingup">
+                                        <InputGroup label="Стоимость забора">
                                             <InputField 
                                                 disabled 
                                                 inputClassName="border-0" 
-                                                value={"Has the cost of the fence been paid?"} 
+                                                value={"С курьером рассчитан?"} 
                                                 name="costDeliveryToBranch"/>
                                             <CheckBox 
                                                 onChange={(event)=>onChangeStatePickingUp(event)} 
@@ -550,14 +550,23 @@ export default function AddParcelForm({
                                             options={paymentMethods} 
                                             onChanges={(value: any)=>onChangePaymentMethod(value)}
                                             name="paymentMethod" 
-                                            label="Payment Method"/>
+                                            label="Метод оплаты"/>
                                     </div>
+                                    
+                                    
+                                </div>
+                            </GroupBox>
+                        </div>
+
+                        <div className="col-12 mt-4">
+                            <GroupBox title="Забор и доставка посылок">
+                                <div className="row mt-2">
                                     <div className="col-6 mt-3">
-                                        <InputGroup label="Courier For Pickingup">
+                                        <InputGroup label="Курьер для забора посылки">
                                             <InputField 
                                                 disabled 
                                                 inputClassName="border-0" 
-                                                value={"Is it calculated with a courier?"} 
+                                                value={"С курьером рассчитан?"} 
                                                 name="costDeliveryToBranch"/>
                                             <CheckBox 
                                                 onChange={(value: boolean)=>onChangeStateSenderCourierId(value)}
@@ -571,11 +580,11 @@ export default function AddParcelForm({
                                         </InputGroup>
                                     </div>
                                     <div className="col-6 mt-3">
-                                        <InputGroup label="Courier For Delivery">
+                                        <InputGroup label="Курьер для доставки посылки">
                                             <InputField 
                                                 disabled 
                                                 inputClassName="border-0" 
-                                                value={"Is it calculated with a courier?"} 
+                                                value={"С курьером рассчитан?"} 
                                                 name="costDeliveryToBranch"/>
                                             <CheckBox 
                                                 onChange={()=>console.log("Asadbek")} 
@@ -591,6 +600,8 @@ export default function AddParcelForm({
                             </GroupBox>
                         </div>
 
+
+
                 <div className="col-12 mt-3">
                         <ImgUpload 
                             className="mb-3" 
@@ -602,7 +613,7 @@ export default function AddParcelForm({
                 </div>
 
                 <div className="col-12 mt-3">
-                    <GroupBox title="Messages">
+                    <GroupBox title="Оповещение">
                         <div className="row">
                             <div className="col-4 d-flex">
                                 <CheckBox 
@@ -618,7 +629,7 @@ export default function AddParcelForm({
                                     value={initialValues.sendSmsToSender}
                                     className="bg-transparent w-100" 
                                     name="sms-sender" 
-                                    rightLabel="Sms Sender"/>
+                                    rightLabel="СМС отправителю"/>
                             </div>
                             <div className="col-4 d-flex">
                                 <CheckBox 
@@ -626,18 +637,18 @@ export default function AddParcelForm({
                                     value={initialValues.sendSmsToRecipient} 
                                     className="bg-transparent w-100" 
                                     name="sms-receipent" 
-                                    rightLabel="Sms-Reseipent"/>
+                                    rightLabel="СМС получателю"/>
                             </div>
                         </div>
                     </GroupBox>
                 </div>
 
                 <div className="col-12 mt-4">
-                        <GroupBox title="Pickup and Delivery address">
+                        <GroupBox title="Адреса доставки и забора посылки">
                             <div className="row">
                                 <div className="col-12 mt-2">
                                     <TextAreaField 
-                                        label="Description" 
+                                        label="Описание посылки" 
                                         name="description"
                                         value={initialValues.description}
                                         onChange={(value: any)=>onChangeDescription(value)}
@@ -645,7 +656,7 @@ export default function AddParcelForm({
                                 </div>
                                 <div className="col-12 mt-2">
                                     <TextAreaField 
-                                        label="Pickup address" 
+                                        label="Адрес для забора посылки" 
                                         name="pickupAddress"
                                         value={initialValues.pickupAddress}
                                         onChange={(value: any)=>onChangePickupAddress(value)}
@@ -653,7 +664,7 @@ export default function AddParcelForm({
                                 </div>
                                 <div className="col-12 mt-2">
                                     <TextAreaField 
-                                        label="Delivery address" 
+                                        label="Адрес для доставки до двери посылки" 
                                         name="deliveryAddress"
                                         value={initialValues.deliveryAddress}
                                         onChange={(value: any)=>onChangeDeliveryAddress(value)}
@@ -666,7 +677,7 @@ export default function AddParcelForm({
                         <Button 
                             className="bg-gold text-light px-3 py-1" 
                             type="submit">
-                            Submit
+                            Сохранить
                         </Button>
 
                         <Button 
@@ -678,7 +689,7 @@ export default function AddParcelForm({
                                     toast.error("Parcel Number or Number Of Point is Not Found")
                                 }
                             }}>
-                                Print
+                                Печать этикетки
                     </Button>
                     </div>
                 </div>

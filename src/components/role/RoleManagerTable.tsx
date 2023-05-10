@@ -13,12 +13,12 @@ interface RoleManagerTableProps{
 export default function RoleManagerTable({data, editRow, deleteRow}:RoleManagerTableProps){
     const headers:any = [
         {
-            header: 'Name',
+            header: 'Название',
             access: 'name',
             width: 400
         },
         {
-            header: "Actions",
+            header: "...",
             access: 'edit',
             ceil: (row: any)=>{
                 return (

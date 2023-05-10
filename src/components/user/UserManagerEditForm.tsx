@@ -66,11 +66,11 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                         <div className="col-4">
                         </div>
                         <div className="col-8">
-                        <GroupBox title="User Info">
+                        <GroupBox title="ИНформация о пользователе">
                            <div className="row">
                             <div className="col-6 my-1">
                             <InputField
-                                label="First Name"
+                                label="Имя"
                                 name="firstName"
                                 value={initialValues.firstName}
                                 onChange={(event: any)=>onChangeFirstName(event)}
@@ -78,7 +78,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Last Name"
+                                label="Фамилия"
                                 name="lastName"
                                 value={initialValues.lastName}
                                 onChange={(event: any)=>onChangeLastName(event)}
@@ -86,7 +86,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Username"
+                                label="Имя пользователя (ник)"
                                 name="userName"
                                 value={initialValues.userName}
                                 onChange={(event: any)=>onChangeUserName(event)}
@@ -94,7 +94,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                             </div>
                             <div className="col-6 my-1">
                             <InputField
-                                label="Phone Number"
+                                label="Контакт"
                                 name="phoneNumber"
                                 value={initialValues.phoneNumber}
                                 onChange={(event: any)=>onChangePhoneNumber(event)}
@@ -102,7 +102,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                             </div>
                             <div className="col-12 my-1">
                             <InputField
-                                label="Address"
+                                label="Адрес"
                                 name="address"
                                 value={initialValues.address}
                                 onChange={(event: any)=>onChangeAddress(event)}
@@ -113,7 +113,7 @@ export default function UserManagerEditForm({initialValues, setInitialValues, su
                         </div>
                         <div className="col-12 mt-3 d-flex justify-content-end">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>
