@@ -44,11 +44,11 @@ export default function StatusForm({initialValues, setInitialValues, submit}:Sta
                 <Form>
                     <div className="row">
                         <div className="col-6">
-                        <GroupBox title="Person Info">
+                        <GroupBox title="Информация о статусе">
                            <div className="row">
                             <div className="col-12">
                             <InputField
-                                label="Name"
+                                label="Название"
                                 name="name"
                                 value={initialValues.name}
                                 onChange={(event: any)=>onChangeName(event)}
@@ -56,7 +56,7 @@ export default function StatusForm({initialValues, setInitialValues, submit}:Sta
                             </div>
                             <div className="col-12">
                             <InputField
-                                label="Description"
+                                label="Описание"
                                 name="description"
                                 value={initialValues.description}
                                 onChange={(event: any)=>onChangeDescription(event)}
@@ -67,7 +67,7 @@ export default function StatusForm({initialValues, setInitialValues, submit}:Sta
                         </div>
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Созранить
                             </Button>
                         </div>
                     </div>

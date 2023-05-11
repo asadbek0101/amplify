@@ -44,7 +44,7 @@ export default function RoleManagerTableWrapper({create, editRow}:RoleManagerTab
             childrenClassName="p-2"
             headerComponent={
                 <Button onClick={()=>create()} className="mb-2 text-light px-2 py-1 bg-gold">
-                    Create
+                    Создать
                 </Button>
             }
             footerComponent={

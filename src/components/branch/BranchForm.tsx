@@ -78,11 +78,11 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                 <Form>
                     <div className="row">
                         <div className="col-6">
-                        <GroupBox title="Person Info">
+                        <GroupBox title="Информация о филиале">
                            <div className="row">
                             <div className="col-12">
                             <InputField
-                                label="Name"
+                                label="Название"
                                 name="name"
                                 value={initialValues.name}
                                 onChange={(event: any)=>onChangeName(event)}
@@ -98,7 +98,7 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                             </div>
                             <div className="col-6">
                             <InputField
-                                label="Phone"
+                                label="Котакт"
                                 name="phone"
                                 value={initialValues.phone}
                                 onChange={(event: any)=>onChangePhone(event)}
@@ -106,7 +106,7 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                             </div>
                             <div className="col-6">
                             <InputField
-                                label="Code"
+                                label="Код"
                                 name="code"
                                 value={initialValues.code}
                                 onChange={(event: any)=>onChangecode(event)}
@@ -116,11 +116,11 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                         </GroupBox>
                         </div>
                         <div className="col-6">
-                        <GroupBox title="Location Info">
+                        <GroupBox title="Адрес">
                            <div className="row">
                             <div className="col-12">
                             <InputField
-                                label="City"
+                                label="Город"
                                 name="city"
                                 value={initialValues.city}
                                 onChange={(event: any)=>onChangeCity(event)}
@@ -128,7 +128,7 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                             </div>
                             <div className="col-12">
                             <InputField
-                                label="Country"
+                                label="Страна"
                                 name="country"
                                 value={initialValues.country}
                                 onChange={(event: any)=>onChangeCountry(event)}
@@ -136,7 +136,7 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                             </div>
                             <div className="col-12">
                             <InputField
-                                label="Address"
+                                label="Адрес"
                                 name="address"
                                 value={initialValues.address}
                                 onChange={(event: any)=>onChangeAddress(event)}
@@ -147,7 +147,7 @@ export default function BranchForm({initialValues, setInitialValues, submit}:Bra
                         </div>
                         <div className="col-12 mt-3">
                             <Button type="submit" className="text-light bg-gold px-2 py-1">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>

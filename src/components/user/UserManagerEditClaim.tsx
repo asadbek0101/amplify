@@ -41,7 +41,7 @@ export default function UserManagerEditClaimForm({initialValues, setInitialValue
                                     <div className="row">
                                         <div className="col-12 d-flex">
                                         <InputField
-                                        label="User Claims"
+                                        label="Доступы"
                                         name="claim"
                                         value={initialValues.claim}
                                         onChange={(event: any)=>onChangeClaim(event)}
@@ -52,7 +52,7 @@ export default function UserManagerEditClaimForm({initialValues, setInitialValue
                         </div>
                         <div className="col-12 mt-3 d-flex justify-content-end">
                             <Button type="submit" className="text-light bg-gold px-2 py-1 ">
-                                Submit
+                                Сохранить
                             </Button>
                         </div>
                     </div>

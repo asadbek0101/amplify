@@ -12,17 +12,17 @@ interface BranchTableProps{
 export default function PlanTable({data, selectRow, selectRowCheckbox}:BranchTableProps){
     const headers:any = [
         {
-            header: 'Name',
+            header: 'Название',
             access: 'name',
             width: 200
         },
         {
-            header: 'Cost',
+            header: 'Стоимость',
             access: 'cost',
             width: 200
         },
         {
-            header: 'Description',
+            header: 'Описание',
             access: 'description',
             width: 200
         },
@@ -57,7 +57,7 @@ export default function PlanTable({data, selectRow, selectRowCheckbox}:BranchTab
         //     width: 200
         // },
         {
-            header: "Edit",
+            header: "...",
             access: 'edit',
             ceil: (row: any)=>{
                 return (

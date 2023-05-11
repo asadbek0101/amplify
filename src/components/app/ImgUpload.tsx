@@ -23,7 +23,7 @@ export default function ImgUpload({setImage, className}:ImgUploadProps){
     return (
         <div className={`upload-container ${className}`}>
             <input id="fileUpload" className="hidden" type="file" hidden onChange={(event: any) => convertBase64(event)} />
-            <label className="upload-label" htmlFor="fileUpload">Upload Img</label>
+            <label className="upload-label" htmlFor="fileUpload">Загрузка изображений</label>
         </div>
     )
 }

@@ -35,7 +35,7 @@ export default function AuthLoginForm({initialValues, setInitialValues, onSubmit
     return (
        <div className="auth-form" style={{width: '500px'}} >
         <div className="title text-center">
-            <p className="fs-3 fw-bold">Login</p>
+            <p className="fs-3 fw-bold">Вход</p>
         </div>
         <Formik
         validationSchema={validationSchama}
@@ -56,7 +56,7 @@ export default function AuthLoginForm({initialValues, setInitialValues, onSubmit
                 </div>
                  <div className="col-12 mt-2">
                  <InputField
-                    label="Password"
+                    label="Пароль"
                     name="password"
                     type="password"
                     value={initialValues.password}
@@ -66,7 +66,7 @@ export default function AuthLoginForm({initialValues, setInitialValues, onSubmit
                 
                     <div className="col-12 mt-3">
                     <Button type="submit" className="w-100 text-light py-2" style={{ backgroundColor: '#2e5c87'}}>
-                        Send
+                        Отправить
                     </Button>
                     </div>
               </div>
