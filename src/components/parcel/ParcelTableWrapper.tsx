@@ -12,9 +12,13 @@ import { useParcelApiContext } from "../../api/parcel/ParcelApiContext";
 
 interface BranchTableWrapperProps{
     readonly selectRow: (value: any) => void;
+    readonly selectRowForView: (value: any) => void;
 }
 
-export default function ParcelTableWrapper({selectRow}:BranchTableWrapperProps){
+export default function ParcelTableWrapper({
+    selectRow,
+    selectRowForView
+}:BranchTableWrapperProps){
 
     const { ParcelApi } = useParcelApiContext();
     const [data, setData] = useState<any>({})
@@ -63,7 +67,8 @@ export default function ParcelTableWrapper({selectRow}:BranchTableWrapperProps){
             >
             <ParcelTable 
                  selectRowCheckbox={setIds} 
-                 selectRow={selectRow} 
+                 selectRow={selectRow}
+                 selectRowForView={selectRowForView} 
                  data={data.items}/>
             <Modal
                 width="400px"

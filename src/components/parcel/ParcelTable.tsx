@@ -3,14 +3,21 @@ import TableButton from "../button/TableButton";
 import EditIcon from "../icons/EditIcon";
 import Table from "../table/Table";
 import { DateFormatter } from "../../utils/DateFormatter";
+import EyeIcon from "../icons/EyeIcon";
 
 interface BranchTableProps{
     readonly data: any;
     readonly selectRow: (value: any) => void;
+    readonly selectRowForView: (value: any) => void;
     readonly selectRowCheckbox: (value: any) => void;
 }
 
-export default function ParcelTable({data, selectRow, selectRowCheckbox}:BranchTableProps){
+export default function ParcelTable({
+    data, 
+    selectRow, 
+    selectRowForView,
+    selectRowCheckbox
+}:BranchTableProps){
     const headers:any = [
         {
             header: '№',
@@ -103,6 +110,12 @@ export default function ParcelTable({data, selectRow, selectRowCheckbox}:BranchT
                                 onClick={()=>selectRow(row)}
                                 >
                                 <EditIcon color="white" size={14}/>
+                            </TableButton>
+                            <TableButton
+                                className="bg-success ms-2"
+                                onClick={()=>selectRowForView(row)}
+                                >
+                                <EyeIcon color="white" size={14}/>
                             </TableButton>
                             </div>
                         )
