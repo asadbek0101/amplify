@@ -30,6 +30,11 @@ export default function ParcelTable({
             width: 200
         },
         {
+            header: 'Отправитель',
+            access: 'code',
+            width: 200
+        },
+        {
             header: 'Вес',
             access: 'parcelSize',
             width: 200,

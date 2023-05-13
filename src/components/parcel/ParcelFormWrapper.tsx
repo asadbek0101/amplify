@@ -22,7 +22,7 @@ export default function AddParcelFormWrapper(){
     const [initialValues, setInitialValues] = useState({
         code: 0,
         senderId: labeValue,
-        recepientId: labeValue,
+        recipientId: labeValue,
         parcelBranchFromId: labeValue,
         parcelBranchToId: labeValue,
         weight: 0,
@@ -37,7 +37,7 @@ export default function AddParcelFormWrapper(){
         costPickingUp: 0,
         paymentMethod: labeValue,
         senderCourierId: labeValue,
-        recepientCourierId: labeValue   ,
+        recipientCourierId: labeValue   ,
         StateDeliveryToBranch: false,
         StatePickingUp: false,
         StateDeliveryToPoint: false,
@@ -168,9 +168,9 @@ export default function AddParcelFormWrapper(){
                         label: value.sender.firstName + " " + value.sender.lastName + " " + value.sender.phoneNumber,
                         value: value.sender.id
                     },
-                    recepientId: {
-                        label: value.recepient.firstName + " " + value.recepient.lastName + " " + value.recepient.phoneNumber,
-                        value: value.recepient.id
+                    recipientId: {
+                        label: value.recipient.firstName + " " + value.recipient.lastName + " " + value.recipient.phoneNumber,
+                        value: value.recipient.id
                     },
                     parcelBranchFromId: {
                         label: value.fromBranch.name,
@@ -198,9 +198,9 @@ export default function AddParcelFormWrapper(){
                         label: value.senderCourier.firstName + " " + value.senderCourier.lastName + " " + value.senderCourier.phoneNumber,
                         value: value.senderCourier.id
                     },
-                    recepientCourierId: {
-                        label: value.recepientCourier.firstName + " " + value.recepientCourier.lastName + " " + value.recepientCourier.phoneNumber,
-                        value: value.recepientCourier.id
+                    recipientCourierId: {
+                        label: value.recipientCourier.firstName + " " + value.recipientCourier.lastName + " " + value.recipientCourier.phoneNumber,
+                        value: value.recipientCourier.id
                     },
                     StateDeliveryToBranch: value.parcelCost.stateDeliveryToBranch,
                     StatePickingUp: value.parcelCost.StatePickingUp,
@@ -230,9 +230,9 @@ export default function AddParcelFormWrapper(){
                     paymentMethodId: value.paymentMethod.value,
                 },
                 senderId: Number(value.senderId.value),
-                recepientId: Number(value.recepientId.value),
+                recipientId: Number(value.recipientId.value),
                 senderStaffId: Number(profile.id),
-                recepientCourierId: Number(value.recepientCourierId.value),
+                recipientCourierId: Number(value.recipientCourierId.value),
                 senderCourierId: Number(value.senderCourierId.value),
                 parcelPlanId: Number(value.parcelPlanId.value),
                 parcelBranchFromId: Number(value.parcelBranchFromId.value),
@@ -276,9 +276,9 @@ export default function AddParcelFormWrapper(){
                     paymentMethodId: value.paymentMethod.value,
                 },
                 senderId: Number(value.senderId.value),
-                recepientId: Number(value.recepientId.value),
+                recipientId: Number(value.recipientId.value),
                 senderStaffId: Number(profile.id),
-                recepientCourierId: Number(value.recepientCourierId.value),
+                recipientCourierId: Number(value.recipientCourierId.value),
                 senderCourierId: Number(value.senderCourierId.value),
                 parcelPlanId: Number(value.parcelPlanId.value),
                 parcelBranchFromId: Number(value.parcelBranchFromId.value),
@@ -357,7 +357,7 @@ export default function AddParcelFormWrapper(){
             >
          <AddParcelForm 
                 senders={senders}
-                recepients={receipents}
+                recipients={receipents}
                 paymentMethods={paymentMethods} 
                 customers={couriers} 
                 initialValues={initialValues} 

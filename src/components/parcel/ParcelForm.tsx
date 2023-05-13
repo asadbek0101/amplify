@@ -20,7 +20,7 @@ export interface SelectType{
 
 const validationSchema = object({
     senderId: mixed<SelectType>(),
-    recepientId: mixed<SelectType>(),
+    recipientId: mixed<SelectType>(),
     parcelBranchFromId: mixed<SelectType>(),
     parcelBranchToId: mixed<SelectType>(),
     weight: string(),
@@ -31,7 +31,7 @@ const validationSchema = object({
     costPickingUp: string(),
     paymentMethod: mixed<SelectType>().required("Required!"),
     senderCourierId: mixed<SelectType>(),
-    recepientCourierId: mixed<SelectType>(),
+    recipientCourierId: mixed<SelectType>(),
     StateDeliveryToBranch: bool(),
     StatePickingUp: bool(),
     StateDeliveryToPoint: bool(),
@@ -41,7 +41,7 @@ interface AddParcelFormProps{
     readonly initialValues: any;
     readonly setInitialValues: (value: any) => void;
     readonly senders: any[];
-    readonly recepients: any[];
+    readonly recipients: any[];
     readonly plans: any[];
     readonly customers: any[];
     readonly branchs: any[];
@@ -55,7 +55,7 @@ interface AddParcelFormProps{
 
 export default function AddParcelForm({
     initialValues, 
-    recepients,
+    recipients,
     senders, 
     costInfo, 
     branchs, 
@@ -80,10 +80,10 @@ export default function AddParcelForm({
         )
     },[setInitialValues])
 
-    const onChangeRecepientId = useCallback((value: any)=>{
+    const onChangeRecipientId = useCallback((value: any)=>{
         setInitialValues((prev: any)=>
             update(prev, {
-                recepientId: {
+                recipientId: {
                     label: value.label,
                     value: value.value
                 }
@@ -277,10 +277,10 @@ export default function AddParcelForm({
     },[setInitialValues])
 
 
-    const onChangeRecepientCourierId = useCallback((value: any)=>{
+    const onChangeRecipientCourierId = useCallback((value: any)=>{
         setInitialValues((prev: any)=>
             update(prev, {
-                recepientCourierId: {
+                recipientCourierId: {
                     label: value.label,
                     value: value.value
                 }
@@ -437,9 +437,9 @@ export default function AddParcelForm({
                                     <div className="col-12">
                                         <SelectPickerField 
                                             isSearchable={true}
-                                            name="recepientId" 
-                                            options={recepients} 
-                                            onChanges={(value)=>onChangeRecepientId(value)}
+                                            name="recipientId" 
+                                            options={recipients} 
+                                            onChanges={(value)=>onChangeRecipientId(value)}
                                             label="ФИО получателя"
                                             onInputChange={(value)=>searchReceipent(value)}
                                             />
@@ -592,8 +592,8 @@ export default function AddParcelForm({
                                             <SelectPickerField 
                                                 className="w-100"
                                                 options={customers}     
-                                                onChanges={(value)=>onChangeRecepientCourierId(value)} 
-                                                name="recepientCourierId"/>
+                                                onChanges={(value)=>onChangeRecipientCourierId(value)} 
+                                                name="recipientCourierId"/>
                                         </InputGroup>
                                     </div>
                                 </div>

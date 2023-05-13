@@ -25,7 +25,7 @@ export default function AppView({
                     </div>
                     <div className="col-6">
                         <p><strong>Отправитель - </strong> { data.sender?.firstName} { data.sender?.lastName } { data.sender?.phoneNumber}</p>
-                        <p><strong>Получатель - </strong> { data.recepient?.firstName} { data.recepient?.lastName } { data.recepient?.phoneNumber}</p>
+                        <p><strong>Получатель - </strong> { data.recipient?.firstName} { data.recipient?.lastName } { data.recipient?.phoneNumber}</p>
                         <p><strong>Направление  - </strong> { data.fromBranch?.city} - { data.toBranch?.city }</p>
                         <p><strong>Адрес доставки - </strong> { data.parcelAddress?.deliveryUpAddress}</p>
                         <p><strong>Адрес забора - </strong> { data.parcelAddress?.pickingUpAddress}</p>
