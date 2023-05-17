@@ -75,6 +75,7 @@ export default function SideBarMenu(){
                     >
                     Администратор
                 </SideBarItem>
+
                 <SideBarItem
                     key={RouteContainerTabs.Users}
                     icon={
@@ -121,6 +122,7 @@ export default function SideBarMenu(){
                     >
                     Пользователи
                 </SideBarItem>
+
                 <SideBarItem
                     key={RouteContainerTabs.Parcels}
                     icon={
@@ -147,7 +149,7 @@ export default function SideBarMenu(){
                     >
                     Посылки
                 </SideBarItem>
-                
+
                 <SideBarItem
                     key="edit-parcel"
                     icon={
@@ -182,37 +184,37 @@ export default function SideBarMenu(){
                         <SideBarItem
                             key={UserTabs.AddUser}
                             >
-                            Add User
+                            Создать
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.AllUsers}
                             >
-                            All Users
+                            Все
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Customers}
                             >
-                            Customers
+                            Клиенты
                         </SideBarItem>    
                         <SideBarItem
                             key={UserTabs.Staff}
                             >
-                            Staff
+                            Сотрудники
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Managers}
                             >
-                            Managers
+                            Менеджеры
                         </SideBarItem> 
                         <SideBarItem
                             key={UserTabs.Couriers}
                             >
-                            Couriers
+                            Курьеры
                         </SideBarItem>    
                         </AppMenu>
                     }
                     >
-                    Users
+                    Пользователи
                 </SideBarItem>
                 <SideBarItem
                     key={RouteContainerTabs.Parcels}
@@ -228,12 +230,12 @@ export default function SideBarMenu(){
                             <SideBarItem
                                 key="all-parcels"
                                 >
-                                All Parcels
+                                Все
                             </SideBarItem>     
                         </AppMenu>
                     }
                     >
-                    Parcels
+                    Посылки
                 </SideBarItem>
                 <SideBarItem
                     key="add-parcel"
@@ -241,7 +243,7 @@ export default function SideBarMenu(){
                         <AddIcon color="white"/>
                     }
                     >
-                    Add Parcel
+                    Создать
                 </SideBarItem>
                 <SideBarItem
                     key="edit-parcel"
@@ -249,7 +251,7 @@ export default function SideBarMenu(){
                         <EditIcon color="white"/>
                     }
                     >
-                    Edit Parcel
+                    Статус посылок
                 </SideBarItem>
                 </AppMenu>
         )}
@@ -277,37 +279,37 @@ export default function SideBarMenu(){
                     <SideBarItem
                         key={UserTabs.AddUser}
                         >
-                        Add User
+                        Создать
                     </SideBarItem> 
                     <SideBarItem
                         key={UserTabs.AllUsers}
                         >
-                        All Users
+                        Все
                     </SideBarItem> 
                     <SideBarItem
                         key={UserTabs.Customers}
                         >
-                        Customers
+                        Клиенты
                     </SideBarItem>    
                     {/* <SideBarItem
                         key={UserTabs.Staff}
                         >
                         Staff
-                    </SideBarItem>  */}
+                    </SideBarItem>  
                     <SideBarItem
                         key={UserTabs.Managers}
                         >
                         Managers
-                    </SideBarItem> 
+                    </SideBarItem> */}
                     <SideBarItem
                         key={UserTabs.Couriers}
                         >
-                        Couriers
+                        Курьеры
                     </SideBarItem>    
                     </AppMenu>
                 }
                 >
-                Users
+                Пользователи
             </SideBarItem>
             <SideBarItem
                 key={RouteContainerTabs.Parcels}
@@ -323,12 +325,12 @@ export default function SideBarMenu(){
                         <SideBarItem
                             key="all-parcels"
                             >
-                            All Parcels
+                            Все
                         </SideBarItem>     
                     </AppMenu>
                 }
                 >
-                Parcels
+                Посылки
             </SideBarItem>
             <SideBarItem
                 key="add-parcel"
@@ -336,7 +338,7 @@ export default function SideBarMenu(){
                     <AddIcon color="white"/>
                 }
                 >
-                Add Parcel
+                Создать
             </SideBarItem>
             <SideBarItem
                 key="edit-parcel"
@@ -344,7 +346,7 @@ export default function SideBarMenu(){
                     <EditIcon color="white"/>
                 }
                 >
-                Edit Parcel
+                Статус посылок
             </SideBarItem>
             </AppMenu>
         )}
@@ -372,12 +374,17 @@ export default function SideBarMenu(){
                     <SideBarItem
                         key={UserTabs.AddUser}
                         >
-                        Add User
+                        Мои доставки
                     </SideBarItem> 
                     <SideBarItem
                         key={UserTabs.AllUsers}
                         >
-                        All Users
+                        Мои заборы
+                    </SideBarItem> 
+                    <SideBarItem
+                        key={UserTabs.AllUsers}
+                        >
+                        Мои задачи
                     </SideBarItem> 
                     {/* <SideBarItem
                         key={UserTabs.Customers}
@@ -467,13 +474,18 @@ export default function SideBarMenu(){
                     <SideBarItem
                         key={UserTabs.AddUser}
                         >
-                        Add User
+                        Мои отправки
                     </SideBarItem> 
                     <SideBarItem
                         key={UserTabs.AllUsers}
                         >
-                        All Users
+                        Мои посылки
                     </SideBarItem> 
+                    <SideBarItem
+                        key={UserTabs.AllUsers}
+                        >
+                        Создать
+                    </SideBarItem>
                     {/* <SideBarItem
                         key={UserTabs.Customers}
                         >

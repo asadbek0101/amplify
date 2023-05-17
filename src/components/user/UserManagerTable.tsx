@@ -43,6 +43,11 @@ export default function UserManagerTable({data, editRow, deleteRow}:UserManagerT
             width: 100
         },
         {
+            header: 'Логин',
+            access: 'email',
+            width: 100
+        },
+        {
             header: 'Роль',
             access: 'userRoles',
             width: 80,

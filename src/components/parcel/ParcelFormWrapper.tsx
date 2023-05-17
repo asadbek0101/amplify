@@ -244,7 +244,7 @@ export default function AddParcelFormWrapper(){
                 parcelImage: value.images, 
                 parcelAddress: {
                     pickingUpAddress: value.pickupAddress,
-                    deliveryUpAddress: value.deliveryAddress,
+                    deliveryAddress: value.deliveryAddress,
                 },
                 parcelDescription: {
                     description: value.description
@@ -290,7 +290,7 @@ export default function AddParcelFormWrapper(){
                 parcelImage: value.images, 
                 parcelAddress: {
                     pickingUpAddress: value.pickupAddress,
-                    deliveryUpAddress: value.deliveryAddress,
+                    deliveryAddress: value.deliveryAddress,
                 },
                 parcelDescription: {
                     description: value.description

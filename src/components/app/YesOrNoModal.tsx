@@ -16,10 +16,10 @@ export default function YesOrNoModal({onClick, titleText}:BranchDeleteModalProps
             </div>
                 <div className="delete-button-group d-flex justify-content-center gap-3 mt-3">
                     <Button className="bg-success text-light px-3 py-1" onClick={()=>onClick(true)}>
-                        Yes
+                        Да
                     </Button>
                     <Button className="bg-danger text-light px-3 py-1" onClick={()=>onClick(false)}>
-                        No
+                        Отмена
                     </Button>
                 </div>
         </div>

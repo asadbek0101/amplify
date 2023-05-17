@@ -22,26 +22,33 @@ export default function ParcelTable({
         {
             header: '№',
             access: 'id',
-            width: 100
+            width: 60
         },
         {
             header: 'Код',
             access: 'code',
-            width: 200
+            width: 100
         },
         {
-            header: 'Отправитель',
-            access: 'code',
-            width: 200
+            header: 'Получатель',
+            access: 'sender',
+            width: 400,
+            ceil: (row: any)=>{
+                return (
+                            <>
+                            {row.sender.firstName} {row.sender.lastName}
+                            </>
+                        )
+            },
         },
         {
             header: 'Вес',
             access: 'parcelSize',
-            width: 200,
+            width: 50,
             ceil: (row: any)=>{
                 return (
                             <>
-                            {row.parcelSize.weight}
+                            {row.parcelSize.weight} кг
                             </>
                         )
             },
@@ -49,7 +56,7 @@ export default function ParcelTable({
         {
             header: 'Место',
             access: 'plan',
-            width: 200,
+            width: 10,
             ceil: (row: any)=>{
                 return (
                             <>
@@ -61,11 +68,11 @@ export default function ParcelTable({
         {
             header: 'Итого',
             access: 'summa',
-            width: 200,
+            width: 40,
             ceil: (row: any)=>{
                 return (
                             <>
-                            {row.parcelCost.costPickingUp + row.parcelCost.costDeliveryToPoint + row.parcelCost.costDeliveryToBranch}
+                            {row.parcelCost.costPickingUp + row.parcelCost.costDeliveryToPoint + row.parcelCost.costDeliveryToBranch} $
                             </>
                         )
             },
@@ -73,19 +80,22 @@ export default function ParcelTable({
         {
             header: 'Статус',
             access: 'status',
-            width: 200,
+            width: 100,
             ceil: (row: any) => {
                 return row.parcelStatus.map((item:any, index: number)=>{
+                   if(item.isCurrent){
                     return <div className="text-success fw-bold rounded ps-2 py-1 mb-1">
-                    {item.name}
+                    {item.status.name}
                     </div>
+                   }
+                   
                  })
              }
         },
         {
             header: 'Дата',
             access: 'date',
-            width: 200,
+            width: 100,
             ceil: (row: any)=>{
                 return (
                             <>
