@@ -22,17 +22,17 @@ export default function ParcelTable({
         {
             header: '№',
             access: 'id',
-            width: 100
+            width: 60
         },
         {
             header: 'Код',
             access: 'code',
-            width: 200
+            width: 100
         },
         {
             header: 'Получатель',
             access: 'sender',
-            width: 200,
+            width: 400,
             ceil: (row: any)=>{
                 return (
                             <>
@@ -44,7 +44,7 @@ export default function ParcelTable({
         {
             header: 'Вес',
             access: 'parcelSize',
-            width: 200,
+            width: 50,
             ceil: (row: any)=>{
                 return (
                             <>
@@ -56,7 +56,7 @@ export default function ParcelTable({
         {
             header: 'Место',
             access: 'plan',
-            width: 200,
+            width: 10,
             ceil: (row: any)=>{
                 return (
                             <>
@@ -68,7 +68,7 @@ export default function ParcelTable({
         {
             header: 'Итого',
             access: 'summa',
-            width: 200,
+            width: 40,
             ceil: (row: any)=>{
                 return (
                             <>
@@ -80,7 +80,7 @@ export default function ParcelTable({
         {
             header: 'Статус',
             access: 'status',
-            width: 200,
+            width: 100,
             ceil: (row: any) => {
                 return row.parcelStatus.map((item:any, index: number)=>{
                    if(item.isCurrent){
@@ -95,7 +95,7 @@ export default function ParcelTable({
         {
             header: 'Дата',
             access: 'date',
-            width: 200,
+            width: 100,
             ceil: (row: any)=>{
                 return (
                             <>
