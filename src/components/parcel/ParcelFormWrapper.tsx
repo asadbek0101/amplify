@@ -194,14 +194,14 @@ export default function AddParcelFormWrapper(){
                     costDeliveryToPoint: value.parcelCost.costDeliveryToPoint,
                     costPickingUp: value.parcelCost.costPickingUp,
                     paymentMethod: paymentMethods && paymentMethods.filter((item)=>item.value === value.parcelCost.paymentMethodId)[0],
-                    senderCourierId: {
-                        label: value.senderCourier.firstName + " " + value.senderCourier.lastName + " " + value.senderCourier.phoneNumber,
-                        value: value.senderCourier.id
-                    },
-                    recipientCourierId: {
-                        label: value.recipientCourier.firstName + " " + value.recipientCourier.lastName + " " + value.recipientCourier.phoneNumber,
-                        value: value.recipientCourier.id
-                    },
+                    senderCourierId: value.senderCourier?  {
+                        label: value.senderCourier?.firstName + " " + value.senderCourier?.lastName + " " + value.senderCourier?.phoneNumber,
+                        value: value.senderCourier?.id
+                    }: labeValue,
+                    recipientCourierId: value.recipientCourier?{
+                         label: value.recipientCourier?.firstName + " " + value.recipientCourier?.lastName + " " + value.recipientCourier?.phoneNumber,
+                        value: value.recipientCourier?.id
+                    }: labeValue,
                     StateDeliveryToBranch: value.parcelCost.stateDeliveryToBranch,
                     StatePickingUp: value.parcelCost.StatePickingUp,
                     StateDeliveryToPoint: value.parcelCost.StateDeliveryToPoint,
@@ -261,7 +261,7 @@ export default function AddParcelFormWrapper(){
                 }).catch((err: any)=>toast.error(err.message))
         }else{
             if(value.paymentMethod.value === ""){
-                toast.warning("Payment Method Wass Null!")
+                toast.warning("Выберите метод платежа!")
             }else {
             const data = {
                 code: value.code,
@@ -330,7 +330,7 @@ export default function AddParcelFormWrapper(){
             myString: myString
         }
 
-        request.post('/Parcel/GetSticker',
+        request.post('/File/GetSticker',
         data,
          {
             headers: {

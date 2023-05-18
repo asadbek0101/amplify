@@ -12,7 +12,12 @@ interface BranchTableProps{
 export default function BranchTable({data, selectRow, selectRowCheckbox}:BranchTableProps){
     const headers:any = [
         {
-            header: 'Name',
+            header: '№',
+            access: 'id',
+            width: 10
+        },
+        {
+            header: 'Название',
             access: 'name',
             width: 140
         },
@@ -22,32 +27,32 @@ export default function BranchTable({data, selectRow, selectRowCheckbox}:BranchT
             width: 200
         },
         {
-            header: 'City',
+            header: 'Город',
             access: 'city',
             width: 200
         },
         {
-            header: 'Address',
+            header: 'Адрес',
             access: 'address',
-            width: 200
+            width: 1000
         },
         {
-            header: 'Country',
+            header: 'Страна',
             access: 'country',
-            width: 200
+            width: 180
         },
         {
-            header: 'Phone',
+            header: 'Контакт',
             access: 'phone',
             width: 200
         },
         {
-            header: 'Code',
+            header: 'Код',
             access: 'code',
-            width: 200
+            width: 120
         },
         {
-            header: "Edit",
+            header: "...",
             access: 'edit',
             ceil: (row: any)=>{
                 return (

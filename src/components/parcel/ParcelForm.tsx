@@ -498,7 +498,7 @@ export default function AddParcelForm({
                                             <CheckBox 
                                                 onChange={(event)=>onChangeStateDeliveryToBranch(event)} 
                                                 value={initialValues.StateDeliveryToBranch} 
-                                                name="name"/>
+                                                name="StateDeliveryToBranch"/>
                                             <InputField 
                                                 value={initialValues.costDeliveryToBranch} 
                                                 type="number" 
@@ -517,7 +517,7 @@ export default function AddParcelForm({
                                             <CheckBox 
                                                 onChange={(event)=>onChangeStateDeliveryToPoint(event)} 
                                                 value={initialValues.StateDeliveryToPoint} 
-                                                name="name"/>
+                                                name="StateDeliveryToPoint"/>
                                             <InputField 
                                                 type="number" 
                                                 value={initialValues.costDeliveryToPoint} 
@@ -536,7 +536,7 @@ export default function AddParcelForm({
                                             <CheckBox 
                                                 onChange={(event)=>onChangeStatePickingUp(event)} 
                                                 value={initialValues.StatePickingUp} 
-                                                name="name"/>
+                                                name="StatePickingUp"/>
                                             <InputField  
                                                 value={initialValues.costPickingUp} 
                                                 onChange={(event: any)=>onChangeCostPickingUp(event)} 
@@ -571,7 +571,7 @@ export default function AddParcelForm({
                                             <CheckBox 
                                                 onChange={(value: boolean)=>onChangeStateSenderCourierId(value)}
                                                 value={initialValues.StateSenderCourierId}
-                                                name="name"/>
+                                                name="StateSenderCourierId"/>
                                             <SelectPickerField 
                                                 className="w-100"
                                                 options={customers} 
@@ -588,7 +588,7 @@ export default function AddParcelForm({
                                                 name="costDeliveryToBranch"/>
                                             <CheckBox 
                                                 onChange={()=>console.log("Asadbek")} 
-                                                name="name"/>
+                                                name="Asadbek"/>
                                             <SelectPickerField 
                                                 className="w-100"
                                                 options={customers}     
@@ -620,7 +620,7 @@ export default function AddParcelForm({
                                     onChange={(value: boolean)=>onChangeSendSmsToTelegram(value)} 
                                     value={initialValues.sendSmsToTelegram}
                                     className="bg-transparent w-100" 
-                                    name="telegram" 
+                                    name="sendSmsToTelegram" 
                                     rightLabel="Telegram"/>
                             </div>
                             <div className="col-4">
@@ -628,7 +628,7 @@ export default function AddParcelForm({
                                     onChange={(value: boolean)=>onChangeSendSmsToSender(value)} 
                                     value={initialValues.sendSmsToSender}
                                     className="bg-transparent w-100" 
-                                    name="sms-sender" 
+                                    name="sendSmsToSender" 
                                     rightLabel="СМС отправителю"/>
                             </div>
                             <div className="col-4 d-flex">
@@ -636,7 +636,7 @@ export default function AddParcelForm({
                                     onChange={(value: boolean)=>onChangeSendSmsToRecipient(value)}
                                     value={initialValues.sendSmsToRecipient} 
                                     className="bg-transparent w-100" 
-                                    name="sms-receipent" 
+                                    name="sendSmsToRecipient" 
                                     rightLabel="СМС получателю"/>
                             </div>
                         </div>
