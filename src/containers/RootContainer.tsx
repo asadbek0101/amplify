@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { request } from "../api/request";
 import { set_user_profile } from "../redux/action";
@@ -17,6 +17,7 @@ export default function RootContainer(){
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const profile = useSelector((state: any) =>state.data.profile)
 
     useEffect(()=>{
         if(!localStorage.getItem("token")){
@@ -35,13 +36,24 @@ export default function RootContainer(){
                     localStorage.setItem("token", response.data.token)
                     dispatch(set_user_profile(response.data.token))
                     toast.success(response.data.message[0])
-                    navigate('/app/administrator')
+                    if(profile.role[0]==="Administrator")
+                    {
+                        navigate('/app/administrator')
+                    }
+                    else if(profile.role[0]==="Staff")
+                    {
+                        navigate('/app/parcels/all-parcels')
+                    }
+                    else if(profile.role[0]==="Manager")
+                    {
+                        navigate('/app/users')
+                    }
                     window.location.reload();
                 }else{
                     alert(response.data.message[0])
                 }
           }).catch((erro: any)=>toast.error(erro.response.data.message[0]))
-        },[request])
+        },[request, profile])
 
     return (
       <Routes>
