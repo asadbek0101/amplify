@@ -15,7 +15,7 @@ export default function AppView({
                <div className="row">
                 <div className="col-12">
                     <div className="code">
-                            <strong>Посылка</strong> - {data.code}  
+                            <strong>Посылка</strong> - Code: {data.code}// Id: {data.id}  
                         </div>
                     </div>
                </div>
