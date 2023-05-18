@@ -256,7 +256,7 @@ export default function AddParcelFormWrapper(){
             request.put("/Parcel", data ,{
                     headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
                 }).then(()=>{
-                    toast.success("Parcel had updated successfully")
+                    toast.success("Посылка успешно обновлена!")
                     navigator('/app/parcels/all-parcels')
                 }).catch((err: any)=>toast.error(err.message))
         }else{
@@ -302,7 +302,7 @@ export default function AddParcelFormWrapper(){
             request.post("/Parcel", data ,{
                     headers: {"Authorization" : `Bearer ${localStorage.getItem("token")}`}
                 }).then(()=>{
-                    toast.success("Parcel had added successfully")
+                    toast.success("Посылка успешно добавлена!")
                     navigator('/app/parcels/all-parcels')
                 }).catch((err: any)=>toast.error(err.message))
             }
