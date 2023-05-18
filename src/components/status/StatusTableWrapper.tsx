@@ -76,13 +76,13 @@ export default function StatusTableWrapper({create, selectRow}:StatusTableWrappe
                  selectRow={selectRow} 
                  data={data.items}/>
             <Modal
-                width="400px"
+                width="500px"
                 show={isDelModal}
                 closeHandler={()=>setIsDelModal(false)}
                 className="d-flex justify-content-center align-items-center"
                 >
                     <YesOrNoModal 
-                        titleText="Are you sure to delete?"
+                        titleText="Вы уверены, что хотите удалить?"
                         onClick={(value: boolean)=>{
                         if(value){
                             deletePost();
