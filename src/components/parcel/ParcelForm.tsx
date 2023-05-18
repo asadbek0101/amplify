@@ -374,13 +374,16 @@ export default function AddParcelForm({
     // ==== Image ==== //
 
     const onChangeImage = useCallback((value: any)=>{
-        let array: any = [...initialValues.images]
-        array.push({
-            imageBytes: value
-        })
+        var result = Object.keys(value).map((key) => 
+        {
+           return { imageBytes: value[key] }
+        });
+
+        console.log(result);    
+       
         setInitialValues((prev: any)=>
         update(prev, {
-            images: array,
+            images: result,
         }))
     },[setInitialValues, initialValues.images])
 

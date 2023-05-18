@@ -12,6 +12,7 @@ import { RouteContainerTabs } from "../../constants/Routes";
 import { AdministratorTabs } from "../../containers/AdministratorContainer";
 import { UserTabs } from "../../containers/UsersContainer";
 import { useSelector } from "react-redux";
+import BookIcon from "../icons/BookIcon";
 
 export default function SideBarMenu(){
 
@@ -158,6 +159,14 @@ export default function SideBarMenu(){
                     >
                     Статус посылок
                 </SideBarItem>
+                <SideBarItem
+                key="edit-parcel-second"
+                icon={
+                    <BookIcon color="white"/>
+                }
+                >
+                Накладние
+            </SideBarItem>
                 </AppMenu>
         )}
 
@@ -253,6 +262,14 @@ export default function SideBarMenu(){
                     >
                     Статус посылок
                 </SideBarItem>
+                <SideBarItem
+                key="edit-parcel"
+                icon={
+                    <EditIcon color="white"/>
+                }
+                >
+                Накладние
+            </SideBarItem>
                 </AppMenu>
         )}
 
@@ -352,6 +369,14 @@ export default function SideBarMenu(){
                 }
                 >
                 Статус посылок
+            </SideBarItem>
+            <SideBarItem
+                key="edit-parcel"
+                icon={
+                    <EditIcon color="white"/>
+                }
+                >
+                Накладние
             </SideBarItem>
             </AppMenu>
         )}

@@ -15,4 +15,5 @@ export enum RouteContainerTabs{
     ParcelsPath = "parcels/:tab?",
     AddParcelPath = "add-parcel/:tab?",
     EditParcelPath = "edit-parcel/:tab?",
+    EditParcelSecondPath = "edit-parcel-second/:tab?",
 }

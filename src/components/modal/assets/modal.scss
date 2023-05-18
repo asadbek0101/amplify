@@ -8,6 +8,7 @@
     left: 0;
     overflow: hidden;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    z-index: 10000;
 
     .modal-children{
         min-width: 100px;

@@ -4,16 +4,17 @@ import EditParcelStatusForm from "./EditParcelStatusForm";
 import { useStatusApiContext } from "../../api/status/StatusApiContext";
 import { useUserApiContext } from "../../api/user/UserApiContext";
 import { request } from "../../api/request";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function EditParcelStatusFormWrapper(){
 
     const [statuses, setStatuses] = useState<any[]>([]);
     const [curiers, setCuriers] = useState<any[]>([]);
+    const navigate = useNavigate();
 
     const [initialValues, setInitialValues] = useState({
-        parcelCode: [],
         searchText: "",
-        radioButtonValue: "",
         sendSmsToRecipient: false, 
         sendSmsToSender: false, 
         sendSmsToTelegram: false, 
@@ -50,26 +51,20 @@ export default function EditParcelStatusFormWrapper(){
 
     const sendStatus = useCallback((value: any)=>{
         
-        const array:any = [];
-        value.parcelCode && value.parcelCode.map((code: any)=>{
-            array.push(Number(code.title));
-        })
         const data = {
-            parcelCode: array,
             statusId: value.statusId.value,
             recipientCourierId: value.recipientCourierId.value,
 
             sendSmsToRecipient: value.sendSmsToRecipient, 
             sendSmsToSender: value.sendSmsToSender, 
             sendSmsToTelegram: value.sendSmsToTelegram,
-
-            getInvoice: value.radioButtonValue === "getInvoice"? true : false, 
-            getCourierList: value.radioButtonValue === "getCourierList"? true : false, 
-            getAll: value.radioButtonValue === "getAll"? true : false
         }
         request.post(`/Parcel/UpdateParcelsStatusByCode`, 
         data
-        ).then((response: any)=>console.log(response))
+        ).then((response: any)=>{
+            toast.success(response.message)
+            navigate('/app/parcels')
+        })
         .catch((error: any)=>console.log(error))
     },[request])
 
