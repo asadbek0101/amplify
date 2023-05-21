@@ -2,14 +2,13 @@ import "./assets/app-view.scss";
 
 interface Props{
     readonly data: any;
+    readonly imageIndex: number;
 }
 
 export default function AppView({
-    data
+    data,
+    imageIndex = 0
 }:Props){
-
-    console.log(data)
-
     return (
         <div className="app-view-layout">
                <div className="row">
@@ -20,10 +19,12 @@ export default function AppView({
                     </div>
                </div>
                 <div className="row">
-                    <div className="col-6">
-                        <img src="" width="100%" alt="" />
+                    <div className="col-6 p-4">
+                        {data?.parcelImage?.length > 0 && (
+                            <img src={data?.parcelImage[imageIndex]?.imageBytes} width="100%" alt="" />
+                        )}
                     </div>
-                    <div className="col-6">
+                    <div className="col-6 p-4">
                         <p><strong>Отправитель - </strong> { data.sender?.firstName} { data.sender?.lastName } { data.sender?.phoneNumber}</p>
                         <p><strong>Получатель - </strong> { data.recipient?.firstName} { data.recipient?.lastName } { data.recipient?.phoneNumber}</p>
                         <p><strong>Направление  - </strong> { data.fromBranch?.city} - { data.toBranch?.city }</p>

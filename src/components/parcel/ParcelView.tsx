@@ -1,4 +1,6 @@
+import { useState } from "react";
 import AppView from "../app/AppView";
+import ParcelViewImageList from "./ParcelViewImageList";
 
 interface Props{
     readonly data: any;
@@ -7,5 +9,18 @@ interface Props{
 export default function ParcelView({
     data
 }:Props){
-    return (<AppView data={data}/>)
+
+    const [imageIndex, setImageIndex] = useState(0);
+
+    return (
+    <div>
+        <AppView 
+            data={data}
+            imageIndex={imageIndex}
+            />
+        <ParcelViewImageList
+            images={data.parcelImage}
+            setImage={(value: any)=>setImageIndex(value)}
+            />
+    </div>)
 }
