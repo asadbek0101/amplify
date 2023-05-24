@@ -9,11 +9,19 @@ import { useSearchParams } from "react-router-dom";
 import YesOrNoModal from "../app/YesOrNoModal";
 import ParcelTable from "./ParcelTable";
 import { useParcelApiContext } from "../../api/parcel/ParcelApiContext";
+import { Form, Formik } from "formik";
+import { object, string } from "yup";
+import InputField from "../form/InputField";
+import { update } from "immupdate";
 
 interface BranchTableWrapperProps{
     readonly selectRow: (value: any) => void;
     readonly selectRowForView: (value: any) => void;
 }
+
+const validationSchema = object({
+    code: string()
+})
 
 export default function ParcelTableWrapper({
     selectRow,
@@ -27,9 +35,12 @@ export default function ParcelTableWrapper({
     const [searchParams, setSearchParams] = useSearchParams();
     const pageSize = Number(searchParams.get("pageSize") || 25);
     const pageCount = Number(searchParams.get("pageCount") || 1);
+    const [initialValues, setInitialValues] = useState({
+        code: ""
+    })
 
   useEffect(()=>{
-     ParcelApi.getAllParcel({pageNumber: pageCount, pageSize: pageSize}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+     ParcelApi.getAllParcel({pageNumber: pageCount, pageSize: pageSize, code: initialValues.code}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
   },[ParcelApi, toast, pageCount, pageSize])
 
   const deletePost = useCallback(()=>{
@@ -43,9 +54,44 @@ export default function ParcelTableWrapper({
         })
   },[ids, setIsDelModal, ParcelApi])
 
-    return (
+  const onChangeCode = useCallback((value: any)=>{
+        setInitialValues((prev: any)=>update(prev, {
+            code: value.target.value
+        }))
+  },[setInitialValues])
+
+  const onSubmit = useCallback((value: any)=>{
+        if(value.code.length === 9){
+            ParcelApi.getAllParcel({pageNumber: pageCount, pageSize: pageSize, code: value.code}).then((respon: any)=>setData(respon.data)).catch((error)=>toast.error(error.message))
+        }else {
+            toast.warning("Parcel Code Must Be 9 simble")
+        }
+},[ParcelApi])
+
+    return ( 
         <TabPage
             childrenClassName="p-2"
+            headerComponent={
+                <div className="d-flex justify-content-end s">
+                    <Formik
+                    initialValues={initialValues}
+                    onSubmit={()=>onSubmit(initialValues)}
+                    validationSchema={validationSchema}
+                    >
+                    {()=>(
+                        <Form>
+                            <InputField
+                            width={300}
+                            name="code"
+                            placeholder="Search by code..."
+                            value={initialValues.code}
+                            onChange={(value: any)=>onChangeCode(value)}
+                            />
+                        </Form>
+                    )}
+                </Formik>
+                </div>
+            }
             footerComponent={
                 <div className="d-flex justify-content-between my-3">
                 <Button className="bg-danger px-2 py-2" onClick={()=>{

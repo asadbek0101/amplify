@@ -1,11 +1,11 @@
 import { ApiContext } from "../ApiContext";
 import { IdProps } from "../AppDto";
-import { GetAllRole } from "./ParcelDto";
+import { GetAllParcel, GetAllRole } from "./ParcelDto";
 
 export class ParcelApi extends ApiContext{
     
-    public getAllParcel({pageNumber, pageSize}:GetAllRole):Promise<any>{
-        return this.get(`/Parcel/WithPagination?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    public getAllParcel({pageNumber, pageSize, code}:GetAllParcel):Promise<any>{
+        return this.get(`/Parcel/GetParcelListWithPaginationByCode?pageNumber=${pageNumber}&pageSize=${pageSize}&Code=${code}`)
     }
 
     public getParcelById({id}:IdProps):Promise<any>{
